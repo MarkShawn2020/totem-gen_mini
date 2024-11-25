@@ -47,32 +47,56 @@ const Index = () => {
       introduction: "",
     }
     let isValid = true
+    let firstErrorField = ""
 
     if (!formData.name.trim()) {
       errors.name = "请输入姓名"
       isValid = false
+      firstErrorField = firstErrorField || "name"
     }
     if (!formData.birthYear) {
       errors.birthYear = "请选择生辰年份"
       isValid = false
+      firstErrorField = firstErrorField || "birthYear"
     }
     if (!formData.gender) {
       errors.gender = "请选择性别倾向"
       isValid = false
+      firstErrorField = firstErrorField || "gender"
     }
     if (!formData.introduction.trim()) {
       errors.introduction = "请输入个人简介"
       isValid = false
+      firstErrorField = firstErrorField || "intro"
     }
 
     setFormErrors(errors)
 
-    if (!isValid) {
-      // 直接滚动到顶部进行测试
-      Taro.pageScrollTo({
-        scrollTop: 500,
-        duration: 300,
-      })
+    if (!isValid && firstErrorField) {
+      // 使用Taro的选择器API获取元素位置
+      const query = Taro.createSelectorQuery()
+      query
+        .select(`.${firstErrorField}-section`)
+        .boundingClientRect()
+        .exec(res => {
+          console.log('Error element rect:', res)
+          if (res && res[0]) {
+            const rect = res[0]
+            // 获取页面滚动位置
+            Taro.createSelectorQuery()
+              .selectViewport()
+              .scrollOffset()
+              .exec(scrollRes => {
+                if (scrollRes && scrollRes[0]) {
+                  const scrollTop = scrollRes[0].scrollTop + rect.top - 100
+                  Taro.pageScrollTo({
+                    scrollTop,
+                    duration: 300,
+                  })
+                }
+              })
+          }
+        })
     }
 
     return isValid
@@ -294,7 +318,9 @@ const Index = () => {
         <View className="input-section year-section">
           <View className="section-title">
             <Text className="title-text">
-              生辰年份 （{formData.birthYear}）<Text style={{ color: "#ff4d4f" }}>*</Text>
+              生辰年份
+               {/* （{formData.birthYear}） */}
+               <Text style={{ color: "#ff4d4f" }}>*</Text>
             </Text>
             <Text className="title-desc">你的出生年份将影响图腾的核心元素</Text>
           </View>
