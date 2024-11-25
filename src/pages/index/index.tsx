@@ -3,6 +3,7 @@ import "@nutui/nutui-react-taro/dist/style.css";
 import { Text, View, Textarea } from "@tarojs/components";
 import { useState, useEffect } from "react";
 import YearPicker from "../../components/YearPicker";
+import GenderSelector from "../../components/GenderSelector";
 import { MBTI_DIMENSIONS } from "../../utils/mbti";
 import { COLOR_THEMES, FORM_STEPS } from "../../utils/steps";
 import { themes } from "../../utils/theme";
@@ -264,17 +265,11 @@ const Index = () => {
             <Text className="title-text">性别倾向</Text>
             <Text className="title-desc">选择更适合你的性别特征，这将影响图腾的整体风格</Text>
           </View>
-          <View className="gender-options">
-            <Radio.Group 
-              value={formData.gender}
-              onChange={(val) => handleInputChange("gender", val)}
-              direction="horizontal"
-            >
-              <Radio value="masculine" style={{'--nutui-radio-label-color': currentTheme.primary}}>阳刚</Radio>
-              <Radio value="feminine" style={{'--nutui-radio-label-color': currentTheme.primary}}>阴柔</Radio>
-              <Radio value="neutral" style={{'--nutui-radio-label-color': currentTheme.primary}}>中性</Radio>
-            </Radio.Group>
-          </View>
+          <GenderSelector
+            value={formData.gender}
+            onChange={(value) => handleInputChange("gender", value)}
+            themeColors={currentTheme}
+          />
         </View>
 
         <View className="input-section intro-section">
