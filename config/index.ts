@@ -1,4 +1,5 @@
 import { defineConfig, type UserConfigExport } from "@tarojs/cli"
+import { resolve } from "path"
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 import vitePluginImp from "vite-plugin-imp"
 import devConfig from "./dev"
@@ -94,6 +95,9 @@ export default defineConfig<"vite">(async (merge, { command, mode }) => {
           enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
         },
       },
+    },
+    alias: {
+      "@": resolve(__dirname, "../src"),
     },
   }
   if (process.env.NODE_ENV === "development") {
