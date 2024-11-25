@@ -1,195 +1,365 @@
-.nutui-react-demo {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.totem-page {
+.index {
   min-height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  background: #f7f7f7;
+  position: relative;
+  overflow: hidden;
 
-  .header {
-    text-align: center;
-    margin-bottom: 30px;
-
-    .title-container {
-      .title {
-        font-size: 36px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        font-family: "STKaiti", "楷体", serif;
-      }
-
-      .subtitle {
-        font-size: 14px;
-        letter-spacing: 2px;
-      }
-    }
-  }
-
-  .content {
-    flex: 1;
+  .mbti-section {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 
-    .input-section {
-      background: #FFFFFF;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(44, 24, 16, 0.08);
+    .mbti-dimension {
+      margin-bottom: 24px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-      .section-title {
-        font-size: 18px;
-        margin-bottom: 20px;
-        font-family: "STKaiti", "楷体", serif;
-      }
+      .dimension-header {
+        margin-bottom: 16px;
 
-      .input-group {
-        .input-item {
-          margin-bottom: 24px;
+        .dimension-title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 8px;
 
-          &:last-child {
-            margin-bottom: 0;
+          Text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--nutui-black);
           }
 
-          .label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 12px;
-          }
-
-          .input {
-            width: 100%;
-            height: 44px;
-            border-radius: 8px;
-            padding: 0 12px;
-            font-size: 16px;
-
-            &::placeholder {
-              opacity: 0.6;
-            }
-          }
-
-          .mbti-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-
-            .mbti-option {
-              height: 40px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 8px;
-              font-size: 14px;
-              cursor: pointer;
-              transition: all 0.2s ease;
-
-              &:active {
-                opacity: 0.8;
-              }
-            }
-          }
-
-          .color-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-
-            .color-option {
-              padding: 12px;
-              border-radius: 8px;
-              cursor: pointer;
-              transition: all 0.2s ease;
-
-              &.selected {
-                transform: scale(1.02);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-              }
-
-              &:active {
-                opacity: 0.8;
-              }
-
-              .color-name {
-                display: block;
-                font-size: 16px;
-                margin-bottom: 4px;
-                font-family: "STKaiti", "楷体", serif;
-              }
-
-              .color-desc {
-                display: block;
-                font-size: 12px;
-              }
-            }
+          .dimension-letter {
+            font-size: 20px;
+            color: var(--nutui-primary-color);
+            font-weight: bold;
           }
         }
-      }
-    }
 
-    .preview-section {
-      background: #FFFFFF;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(44, 24, 16, 0.08);
-
-      .preview-area {
-        aspect-ratio: 1;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .placeholder-text {
+        .dimension-desc {
           font-size: 14px;
-          font-family: "STKaiti", "楷体", serif;
-          text-align: center;
+          color: var(--nutui-text-color);
+          opacity: 0.7;
+        }
+      }
+
+      .dimension-content {
+        .type-labels {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 16px;
+          gap: 12px;
+
+          .type-label {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            background: var(--nutui-gray-6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+
+            &.active {
+              background: var(--nutui-primary-color);
+
+              .type-name, .type-letter {
+                color: #fff;
+              }
+            }
+
+            .type-name {
+              font-size: 16px;
+              font-weight: 500;
+              color: var(--nutui-text-color);
+              margin-bottom: 4px;
+              display: block;
+            }
+
+            .type-letter {
+              font-size: 20px;
+              font-weight: 600;
+              color: var(--nutui-primary-color);
+              display: block;
+            }
+          }
+        }
+
+        .slider-container {
+          margin: 24px 0;
+          padding: 0 12px;
+
+          :global(.nut-range) {
+            height: 36px;
+          }
+
+          :global(.nut-range-button) {
+            width: var(--nutui-range-button-width);
+            height: var(--nutui-range-button-height);
+            background: var(--nutui-range-button-background);
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: var(--nutui-range-button-border-radius);
+          }
+
+          :global(.nut-range-bar) {
+            background: var(--nutui-range-bar-background);
+            height: var(--nutui-range-bar-height);
+          }
+        }
+
+        .traits-container {
+          display: flex;
+          gap: 16px;
+
+          .traits-column {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: var(--nutui-gray-6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+
+            &.active {
+              background: var(--nutui-primary-color-light);
+              border: 1px solid var(--nutui-primary-color);
+
+              .trait-item {
+                color: var(--nutui-primary-color);
+              }
+            }
+
+            .trait-item {
+              font-size: 14px;
+              color: var(--nutui-text-color);
+              margin-bottom: 8px;
+              padding-left: 16px;
+              position: relative;
+
+              &:before {
+                content: "•";
+                position: absolute;
+                left: 0;
+                color: var(--nutui-primary-color);
+              }
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
         }
       }
     }
 
-    .generate-btn {
-      width: 100%;
-      height: 48px;
-      border: none;
-      border-radius: 24px;
-      font-size: 16px;
-      font-family: "STKaiti", "楷体", serif;
-      letter-spacing: 2px;
+    .mbti-result {
+      margin-top: 32px;
+      padding: 16px;
+      background: #fff;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-      &:active {
-        opacity: 0.9;
+      .result-label {
+        font-size: 16px;
+        color: var(--nutui-text-color);
+        margin-right: 8px;
+      }
+
+      .result-value {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--nutui-primary-color);
       }
     }
   }
 
-  .footer {
-    margin-top: 30px;
+  .step-indicator {
     display: flex;
-    gap: 16px;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+    position: relative;
+    z-index: 2;
 
-    .action-btn {
+    .step-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border-width: 2px;
+      border-style: solid;
+      transition: all 0.3s ease;
+
+      &.active {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  .step-content {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    right: 20px;
+    bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .step-header {
+    text-align: center;
+    margin-bottom: 20px;
+
+    .step-title {
+      font-size: 24px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+
+    .input-item {
+      background: var(--nutui-input-background);
+      border: 1px solid var(--nutui-input-border-color);
+      border-radius: 8px;
+      padding: 12px;
+
+      :global {
+        .nut-input {
+          background: transparent;
+
+          &__label {
+            margin-bottom: 8px;
+            color: var(--nutui-input-label-color);
+            font-weight: bold;
+            font-size: 14px;
+          }
+
+          &__value {
+            height: 44px;
+            line-height: 44px;
+            padding: 0 15px;
+          }
+        }
+      }
+    }
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 20px;
+
+    .theme-option {
+      padding: 20px;
+      border-radius: 12px;
+      border-width: 1px;
+      border-style: solid;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: #fff;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-name {
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .theme-desc {
+        display: block;
+        font-size: 14px;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .step-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+
+    .step-button {
       flex: 1;
       height: 48px;
+      line-height: 48px;
+      text-align: center;
       border-radius: 24px;
       font-size: 16px;
-      font-family: "STKaiti", "楷体", serif;
-      letter-spacing: 2px;
+      font-weight: bold;
+      border-width: 1px;
+      border-style: solid;
+      transition: all 0.3s ease;
+      cursor: pointer;
 
-      &.save-btn {
-        background: #FFFFFF;
+      &:hover {
+        opacity: 0.9;
       }
 
       &:active {
-        opacity: 0.9;
+        transform: scale(0.98);
       }
     }
+  }
+}
+
+:root {
+  --nutui-range-button-background: var(--nutui-primary-color);
+  --nutui-range-bar-background: var(--nutui-primary-color);
+  --nutui-range-bar-background-disabled: var(--nutui-gray-6);
+  --nutui-range-bar-height: 8px;
+  --nutui-range-button-width: 28px;
+  --nutui-range-button-height: 28px;
+  --nutui-range-button-border-radius: 50%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
