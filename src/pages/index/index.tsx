@@ -1,49 +1,76 @@
-import React, { useState } from 'react'
-import { View } from '@tarojs/components'
-import { Button, ConfigProvider, TextArea, Dialog } from '@nutui/nutui-react-taro'
-import enUS from '@nutui/nutui-react-taro/dist/locales/en-US'
-import zhCN from '@nutui/nutui-react-taro/dist/locales/zh-CN'
+import { View, Text, Button, Input } from '@tarojs/components'
+import { useState } from 'react'
+import { Cell, Form, TextArea } from '@nutui/nutui-react-taro'
 import './index.scss'
-function Index() {
-  const [locale, setLocale] = useState(zhCN)
-  const localeKey = locale === zhCN ? 'zhCN' : 'enUS'
-  const [visible, setVisible] = useState(false)
-  const [translated] = useState({
-    zhCN: {
-      welcome: '欢迎使用 NutUI React 开发 Taro 多端项目。',
-      button: '使用英文',
-      open: '点击打开',
-    },
-    enUS: {
-      welcome: 'Welcome to use NutUI React to develop Taro multi-terminal projects.',
-      button: 'Use Chinese',
-      open: 'Click Me',
-    },
-  })
-  const handleSwitchLocale = () => {
-    setLocale(locale === zhCN ? enUS : zhCN)
+
+const Index = () => {
+  const [prompt, setPrompt] = useState('')
+  const [generating, setGenerating] = useState(false)
+
+  const handleGenerate = () => {
+    if (!prompt.trim()) return
+    setGenerating(true)
+    // TODO: 实现生成逻辑
+    setTimeout(() => setGenerating(false), 2000)
   }
+
   return (
-    <ConfigProvider locale={locale}>
-      <View className='nutui-react-demo'>
-        <View>{translated[localeKey].welcome}</View>
-        <View>
-          <Button type='primary' onClick={handleSwitchLocale}>
-            {translated[localeKey].button}
+    <View className='totem-page'>
+      {/* 头部区域 */}
+      <View className='header'>
+        <Text className='title'>你的图腾</Text>
+        <Text className='subtitle'>基于 AI 的个性化图腾与诗偈生成器</Text>
+      </View>
+
+      {/* 主要内容区域 */}
+      <View className='content'>
+        {/* 图腾预览区域 */}
+        <View className='preview-area'>
+          <View className='totem-preview'>
+            {/* TODO: 显示生成的图腾 */}
+            <Text className='placeholder-text'>图腾预览区域</Text>
+          </View>
+        </View>
+
+        {/* 输入区域 */}
+        <View className='input-area'>
+          <Form>
+            <Cell.Group title='创作提示'>
+              <TextArea
+                className='prompt-input'
+                placeholder='描述你想要的图腾风格和元素...'
+                value={prompt}
+                onChange={(val) => setPrompt(val)}
+                maxLength={200}
+                showCount
+              />
+            </Cell.Group>
+          </Form>
+          <Button 
+            className='generate-btn'
+            onClick={handleGenerate}
+            loading={generating}
+          >
+            生成图腾
           </Button>
-          <Button type='success' onClick={() => setVisible(true)}>
-            {translated[localeKey].open}
-          </Button>
-          <Dialog
-            visible={visible}
-            onConfirm={() => setVisible(false)}
-            onCancel={() => setVisible(false)}>
-            {translated[localeKey].welcome}
-          </Dialog>
-          <TextArea disabled showCount maxLength={20} />
+        </View>
+
+        {/* 诗偈展示区域 */}
+        <View className='poem-area'>
+          <Text className='poem-title'>配套诗偈</Text>
+          <View className='poem-content'>
+            {/* TODO: 显示生成的诗偈 */}
+            <Text className='placeholder-text'>诗偈将在生成后显示</Text>
+          </View>
         </View>
       </View>
-    </ConfigProvider>
+
+      {/* 底部操作区 */}
+      <View className='footer'>
+        <Button className='share-btn'>分享</Button>
+        <Button className='save-btn'>保存</Button>
+      </View>
+    </View>
   )
 }
 
