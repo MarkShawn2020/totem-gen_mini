@@ -288,7 +288,7 @@ const Index = () => {
         <View className="input-section name-section">
           <View className="section-title">
             <Text className="title-text">
-              姓名<Text style={{ color: "#ff4d4f" }}>*</Text>
+              姓名<Text style={{ color: currentTheme.primary }}>*</Text>
             </Text>
             <Text className="title-desc">你希望在图腾中展现的称呼</Text>
           </View>
@@ -318,9 +318,7 @@ const Index = () => {
         <View className="input-section year-section">
           <View className="section-title">
             <Text className="title-text">
-              生辰年份
-               {/* （{formData.birthYear}） */}
-               <Text style={{ color: "#ff4d4f" }}>*</Text>
+              生辰年份<Text style={{ color: currentTheme.primary }}>*</Text>
             </Text>
             <Text className="title-desc">你的出生年份将影响图腾的核心元素</Text>
           </View>
@@ -345,7 +343,7 @@ const Index = () => {
         <View className="input-section gender-section">
           <View className="section-title">
             <Text className="title-text">
-              性别倾向<Text style={{ color: "#ff4d4f" }}>*</Text>
+              性别倾向<Text style={{ color: currentTheme.primary }}>*</Text>
             </Text>
             <Text className="title-desc">选择更适合你的性别特征，这将影响图腾的整体风格</Text>
           </View>
@@ -370,7 +368,7 @@ const Index = () => {
         <View className="input-section intro-section">
           <View className="section-title">
             <Text className="title-text">
-              个人简介<Text style={{ color: "#ff4d4f" }}>*</Text>
+              个人简介<Text style={{ color: currentTheme.primary }}>*</Text>
             </Text>
             <Text className="title-desc">描述一下你的性格、爱好或期望，这些将融入你的图腾中</Text>
           </View>
