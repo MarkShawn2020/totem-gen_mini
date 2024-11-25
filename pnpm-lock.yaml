@@ -87,6 +87,9 @@ importers:
       '@cs-magic/prettier-config':
         specifier: ^0.5.0
         version: 0.5.0(prettier@3.3.3)(typescript@5.7.2)
+      '@cs-magic/ts-config':
+        specifier: ^0.4.0
+        version: 0.4.0
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.5.15
         version: 0.5.15(react-refresh@0.11.0)(type-fest@2.19.0)(webpack@5.96.1(@swc/core@1.3.96))
@@ -861,6 +864,9 @@ packages:
     resolution: {integrity: sha512-wVQgM0/1eAhMAhxL4b/ytRU308XcSOhU/xmOfc31Gkp6AZDvCrCLKE4Uf3yQ0ymBTnDhOxP/Nn9PkwnRKyHHMA==}
     peerDependencies:
       prettier: '>=3.0.0'
+
+  '@cs-magic/ts-config@0.4.0':
+    resolution: {integrity: sha512-l1ErTIa2AEyo449IwBB5wIZ6RyE6Dzg6kbpbM019jXKHXZuJdtv3fXYWR6Vevk3+8tclOkW+9uzcbj5eDiGVlQ==}
 
   '@csstools/css-parser-algorithms@3.0.4':
     resolution: {integrity: sha512-Up7rBoV77rv29d3uKHUIVubz1BTcgyUK72IvCQAbfbMv584xHcGKCKbWh7i8hPrRJ7qU4Y8IO3IY9m+iTB7P3A==}
@@ -6511,6 +6517,8 @@ snapshots:
       - prettier-plugin-svelte
       - supports-color
       - typescript
+
+  '@cs-magic/ts-config@0.4.0': {}
 
   '@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3)':
     dependencies:

@@ -1,4 +1,4 @@
-import { FormErrors } from "../types"
+import { FormErrors } from "@/types"
 
 export const validateForm = (
   name: string,

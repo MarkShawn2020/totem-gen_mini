@@ -1,4 +1,7 @@
 {
+  "extends": [
+    "@cs-magic/ts-config/dom"
+  ],
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
@@ -23,6 +26,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types", "./config"],
   "compileOnSave": false
 }

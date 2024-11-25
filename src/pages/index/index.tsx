@@ -1,5 +1,9 @@
 import "@nutui/nutui-react-taro/dist/style.css"
 
+import { View } from "@tarojs/components"
+import Taro from "@tarojs/taro"
+import { useAtom } from "jotai"
+
 import {
   birthYearAtom,
   currentStepAtom,
@@ -8,15 +12,12 @@ import {
   introductionAtom,
   nameAtom,
 } from "@/atoms"
+import BasicInfo from "@/components/BasicInfo"
+import MbtiTest from "@/components/MbtiTest"
+import StepButtons from "@/components/StepButtons"
+import ThemeSelection from "@/components/ThemeSelection"
 import { FORM_STEPS } from "@/utils/steps"
-import { View } from "@tarojs/components"
-import Taro from "@tarojs/taro"
-import { useAtom } from "jotai"
-import BasicInfo from "./components/BasicInfo"
-import MbtiTest from "./components/MbtiTest"
-import StepButtons from "./components/StepButtons"
-import ThemeSelection from "./components/ThemeSelection"
-import { validateForm } from "./utils/validation"
+import { validateForm } from "@/utils/validation"
 
 import "./index.scss"
 

@@ -1,16 +1,24 @@
-import { Text, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
-
-import { colorThemeAtom, mbtiSelectionsAtom } from "../../atoms"
-import { MBTI_DIMENSIONS } from "../../utils/mbti"
-import { FORM_STEPS } from "../../utils/steps"
+import { Text, View } from "@tarojs/components"
+import { currentThemeAtom, mbtiSelectionsAtom } from "@/atoms"
+import { MBTI_DIMENSIONS } from "@/utils/mbti"
+import { FORM_STEPS } from "@/utils/steps"
 
 const MbtiTest = () => {
+  const [currentTheme] = useAtom(currentThemeAtom)
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
-  const [currentTheme] = useAtom(colorThemeAtom)
+
+  // Ensure we always have valid selections
+  const selections = Array.isArray(mbtiSelections) ? mbtiSelections : [false, false, false, false]
+
+  const handleToggle = (index: number) => {
+    const newSelections = [...selections]
+    newSelections[index] = !newSelections[index]
+    setMbtiSelections(newSelections)
+  }
 
   const mbtiType = MBTI_DIMENSIONS.map((dim, i) =>
-    mbtiSelections[i] ? dim.right.letter : dim.left.letter,
+    selections[i] ? dim.right.letter : dim.left.letter
   ).join("")
 
   return (
@@ -20,57 +28,83 @@ const MbtiTest = () => {
         <Text className="step-desc">{FORM_STEPS[1].description}</Text>
       </View>
 
-      <View className="mbti-container">
+      <View className="mbti-section">
         {MBTI_DIMENSIONS.map((dimension, index) => (
-          <View key={dimension.title} className="mbti-dimension">
-            <Text className="dimension-title" style={{ color: currentTheme.primary }}>
-              {dimension.title}
-            </Text>
-            <View className="dimension-options">
-              <View
-                className={`option ${!mbtiSelections[index] ? "selected" : ""}`}
-                style={{
-                  backgroundColor: !mbtiSelections[index]
-                    ? currentTheme.primary
-                    : currentTheme.surface,
-                  color: !mbtiSelections[index] ? currentTheme.onPrimary : currentTheme.onSurface,
-                }}
-                onClick={() => {
-                  const newSelections = [...mbtiSelections]
-                  newSelections[index] = false
-                  setMbtiSelections(newSelections)
-                }}
-              >
-                <Text className="option-letter">{dimension.left.letter}</Text>
-                <Text className="option-desc">{dimension.left.description}</Text>
-              </View>
-              <View
-                className={`option ${mbtiSelections[index] ? "selected" : ""}`}
-                style={{
-                  backgroundColor: mbtiSelections[index]
-                    ? currentTheme.primary
-                    : currentTheme.surface,
-                  color: mbtiSelections[index] ? currentTheme.onPrimary : currentTheme.onSurface,
-                }}
-                onClick={() => {
-                  const newSelections = [...mbtiSelections]
-                  newSelections[index] = true
-                  setMbtiSelections(newSelections)
-                }}
-              >
-                <Text className="option-letter">{dimension.right.letter}</Text>
-                <Text className="option-desc">{dimension.right.description}</Text>
+          <View key={dimension.id || index} className="mbti-dimension">
+            <View className="dimension-header">
+              <Text className="dimension-title">{dimension.title}</Text>
+              <Text className="dimension-desc">{dimension.description}</Text>
+            </View>
+
+            <View className="dimension-content">
+              <View className="type-options">
+                <View
+                  className={`type-option ${!selections[index] ? "active" : ""}`}
+                  style={{
+                    background: !selections[index]
+                      ? currentTheme.surface
+                      : currentTheme.background,
+                    borderColor: !selections[index]
+                      ? currentTheme.primary
+                      : currentTheme.border,
+                    borderWidth: !selections[index] ? "2px" : "1px",
+                  }}
+                  onClick={() => handleToggle(index)}
+                >
+                  <Text
+                    className="type-letter"
+                    style={{
+                      color: !selections[index] ? currentTheme.primary : currentTheme.secondary,
+                    }}
+                  >
+                    {dimension.left.letter}
+                  </Text>
+                  <Text
+                    className="type-name"
+                    style={{
+                      color: !selections[index] ? currentTheme.primary : currentTheme.secondary,
+                    }}
+                  >
+                    {dimension.left.name}
+                  </Text>
+                </View>
+
+                <View
+                  className={`type-option ${selections[index] ? "active" : ""}`}
+                  style={{
+                    background: selections[index]
+                      ? currentTheme.surface
+                      : currentTheme.background,
+                    borderColor: selections[index] ? currentTheme.primary : currentTheme.border,
+                    borderWidth: selections[index] ? "2px" : "1px",
+                  }}
+                  onClick={() => handleToggle(index)}
+                >
+                  <Text
+                    className="type-letter"
+                    style={{
+                      color: selections[index] ? currentTheme.primary : currentTheme.secondary,
+                    }}
+                  >
+                    {dimension.right.letter}
+                  </Text>
+                  <Text
+                    className="type-name"
+                    style={{
+                      color: selections[index] ? currentTheme.primary : currentTheme.secondary,
+                    }}
+                  >
+                    {dimension.right.name}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         ))}
-      </View>
-
-      <View className="mbti-result">
-        <Text className="result-label">你的MBTI类型是：</Text>
-        <Text className="result-value" style={{ color: currentTheme.primary }}>
-          {mbtiType}
-        </Text>
+        <View className="mbti-result">
+          <Text className="result-label">你的MBTI类型：</Text>
+          <Text className="result-value">{mbtiType}</Text>
+        </View>
       </View>
     </View>
   )
