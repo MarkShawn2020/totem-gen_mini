@@ -1,20 +1,45 @@
 import { Input } from "@nutui/nutui-react-taro"
 import { Text, Textarea, View } from "@tarojs/components"
-import { FORM_STEPS } from "@/utils/steps"
+import { useAtom } from "jotai/react"
+import { birthYearAtom, formErrorsAtom, genderAtom, introductionAtom, nameAtom } from "@/atoms"
 import GenderSelector from "@/components/GenderSelector"
 import YearPicker from "@/components/YearPicker"
-import { BasicInfoProps } from "../../types"
+import { useTotemFormContext } from "@/contexts/TotemFormContext"
+import { FORM_STEPS } from "@/utils/steps"
 
-const BasicInfo: React.FC<BasicInfoProps> = ({
-  name,
-  birthYear,
-  gender,
-  introduction,
-  formErrors,
-  currentTheme,
-  onInputChange,
-  onErrorUpdate,
-}) => {
+const BasicInfo = () => {
+  const { currentTheme } = useTotemFormContext()
+  const [name, setName] = useAtom(nameAtom)
+  const [birthYear, setBirthYear] = useAtom(birthYearAtom)
+  const [gender, setGender] = useAtom(genderAtom)
+  const [introduction, setIntroduction] = useAtom(introductionAtom)
+  const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
+
+  const handleNameChange = (val: string) => {
+    setName(val)
+    if (val.trim()) {
+      setFormErrors(prev => ({ ...prev, name: "" }))
+    }
+  }
+
+  const handleBirthYearChange = (val: string) => {
+    setBirthYear(val)
+    setFormErrors(prev => ({ ...prev, birthYear: "" }))
+  }
+
+  const handleGenderChange = (value: string) => {
+    setGender(value)
+    setFormErrors(prev => ({ ...prev, gender: "" }))
+  }
+
+  const handleIntroductionChange = (e: any) => {
+    const value = e.detail.value
+    setIntroduction(value)
+    if (value.trim()) {
+      setFormErrors(prev => ({ ...prev, introduction: "" }))
+    }
+  }
+
   return (
     <View className="step-content">
       <View className="step-header">
@@ -34,12 +59,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               className={`custom-input ${formErrors.name ? "error" : ""}`}
               placeholder="请输入你的名字"
               value={name}
-              onChange={val => {
-                onInputChange("name", val)
-                if (val.trim()) {
-                  onErrorUpdate({ ...formErrors, name: "" })
-                }
-              }}
+              onChange={handleNameChange}
             />
             {formErrors.name && (
               <Text
@@ -62,10 +82,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
           <YearPicker
             themeColors={currentTheme}
             value={birthYear}
-            onChange={val => {
-              onInputChange("birthYear", val)
-              onErrorUpdate({ ...formErrors, birthYear: "" })
-            }}
+            onChange={handleBirthYearChange}
           />
           {formErrors.birthYear && (
             <Text
@@ -87,10 +104,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
           <GenderSelector
             themeColors={currentTheme}
             value={gender}
-            onChange={value => {
-              onInputChange("gender", value)
-              onErrorUpdate({ ...formErrors, gender: "" })
-            }}
+            onChange={handleGenderChange}
           />
           {formErrors.gender && (
             <Text
@@ -122,12 +136,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
                 height: "120px",
               }}
               value={introduction}
-              onInput={e => {
-                onInputChange("introduction", e.detail.value)
-                if (e.detail.value.trim()) {
-                  onErrorUpdate({ ...formErrors, introduction: "" })
-                }
-              }}
+              onInput={handleIntroductionChange}
             />
             {formErrors.introduction && (
               <Text
@@ -138,7 +147,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               </Text>
             )}
             <Text className="word-count" style={{ color: currentTheme.secondary }}>
-              {introduction.length}/200
+              {(introduction || "").length}/200
             </Text>
           </View>
         </View>

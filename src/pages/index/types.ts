@@ -9,7 +9,6 @@ export interface FormErrors {
 
 export interface ThemeSelectionProps {
   colorTheme: string
-  currentTheme: Theme
   onThemeChange: (theme: string) => void
 }
 

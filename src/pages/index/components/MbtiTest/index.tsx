@@ -1,22 +1,26 @@
+import { useAtom } from "jotai/react"
 import { Text, View } from "@tarojs/components"
+import { mbtiSelectionsAtom } from "@/atoms"
 import { MBTI_DIMENSIONS } from "@/utils/mbti"
 import { FORM_STEPS } from "@/utils/steps"
-import { MbtiTestProps } from "../../types"
+import { useTotemFormContext } from "@/contexts/TotemFormContext"
 
-const MbtiTest: React.FC<MbtiTestProps> = ({
-  mbtiSelections,
-  onMbtiChange,
-  currentTheme,
-  mbtiType,
-}) => {
+const MbtiTest = () => {
+  const { currentTheme } = useTotemFormContext()
+  const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
+
   // Ensure we always have valid selections
   const selections = Array.isArray(mbtiSelections) ? mbtiSelections : [false, false, false, false]
 
   const handleToggle = (index: number) => {
     const newSelections = [...selections]
     newSelections[index] = !newSelections[index]
-    onMbtiChange(newSelections)
+    setMbtiSelections(newSelections)
   }
+
+  const mbtiType = MBTI_DIMENSIONS.map((dim, i) =>
+    selections[i] ? dim.right.letter : dim.left.letter
+  ).join("")
 
   return (
     <View className="step-content">
@@ -24,6 +28,7 @@ const MbtiTest: React.FC<MbtiTestProps> = ({
         <Text className="step-title">{FORM_STEPS[1].title}</Text>
         <Text className="step-desc">{FORM_STEPS[1].description}</Text>
       </View>
+
       <View className="mbti-section">
         {MBTI_DIMENSIONS.map((dimension, index) => (
           <View key={dimension.id || index} className="mbti-dimension">
@@ -31,6 +36,7 @@ const MbtiTest: React.FC<MbtiTestProps> = ({
               <Text className="dimension-title">{dimension.title}</Text>
               <Text className="dimension-desc">{dimension.description}</Text>
             </View>
+
             <View className="dimension-content">
               <View className="type-options">
                 <View
@@ -63,6 +69,7 @@ const MbtiTest: React.FC<MbtiTestProps> = ({
                     {dimension.left.name}
                   </Text>
                 </View>
+
                 <View
                   className={`type-option ${selections[index] ? "active" : ""}`}
                   style={{
