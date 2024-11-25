@@ -1,19 +1,18 @@
-import React, { useEffect } from 'react'
+import { Component, PropsWithChildren } from 'react'
 import { useDidShow, useDidHide } from '@tarojs/taro'
 // 全局样式
 import './app.scss'
 
-function App(props) {
-  // 可以使用所有的 React Hooks
-  useEffect(() => {})
+class App extends Component<PropsWithChildren> {
+  componentDidMount() {}
 
-  // 对应 onShow
-  useDidShow(() => {})
+  componentDidShow() {}
 
-  // 对应 onHide
-  useDidHide(() => {})
+  componentDidHide() {}
 
-  return props.children
+  render() {
+    return this.props.children
+  }
 }
 
 export default App
