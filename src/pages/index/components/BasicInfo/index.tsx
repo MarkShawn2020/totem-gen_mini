@@ -1,14 +1,20 @@
+import {
+  birthYearAtom,
+  currentThemeAtom,
+  formErrorsAtom,
+  genderAtom,
+  introductionAtom,
+  nameAtom,
+} from "@/atoms"
+import GenderSelector from "@/components/GenderSelector"
+import YearPicker from "@/components/YearPicker"
+import { FORM_STEPS } from "@/utils/steps"
 import { Input } from "@nutui/nutui-react-taro"
 import { Text, Textarea, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
-import { birthYearAtom, formErrorsAtom, genderAtom, introductionAtom, nameAtom } from "@/atoms"
-import GenderSelector from "@/components/GenderSelector"
-import YearPicker from "@/components/YearPicker"
-import { useTotemFormContext } from "@/contexts/TotemFormContext"
-import { FORM_STEPS } from "@/utils/steps"
 
 const BasicInfo = () => {
-  const { currentTheme } = useTotemFormContext()
+  const [currentTheme] = useAtom(currentThemeAtom)
   const [name, setName] = useAtom(nameAtom)
   const [birthYear, setBirthYear] = useAtom(birthYearAtom)
   const [gender, setGender] = useAtom(genderAtom)
@@ -101,11 +107,7 @@ const BasicInfo = () => {
             </Text>
             <Text className="title-desc">选择更适合你的性别特征，这将影响图腾的整体风格</Text>
           </View>
-          <GenderSelector
-            themeColors={currentTheme}
-            value={gender}
-            onChange={handleGenderChange}
-          />
+          <GenderSelector themeColors={currentTheme} value={gender} onChange={handleGenderChange} />
           {formErrors.gender && (
             <Text
               className="error-message"

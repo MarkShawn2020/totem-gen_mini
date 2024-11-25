@@ -1,3 +1,4 @@
+import { themes } from "@/utils/theme"
 import { atom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 import { taroStorage } from "../utils/storage"
@@ -14,6 +15,12 @@ export const mbtiSelectionsAtom = atomWithStorage(
   taroStorage,
 )
 export const currentStepAtom = atomWithStorage("currentStep", 0, taroStorage)
+
+// Derived atoms
+export const currentThemeAtom = atom(get => {
+  const colorTheme = get(colorThemeAtom)
+  return themes[colorTheme]
+})
 
 // Form Errors Atom - This doesn't need persistence as it's temporary UI state
 export const formErrorsAtom = atom({

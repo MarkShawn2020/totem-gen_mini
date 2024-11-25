@@ -1,12 +1,11 @@
 import { useAtom } from "jotai/react"
 import { Text, View } from "@tarojs/components"
-import { mbtiSelectionsAtom } from "@/atoms"
+import { currentThemeAtom, mbtiSelectionsAtom } from "@/atoms"
 import { MBTI_DIMENSIONS } from "@/utils/mbti"
 import { FORM_STEPS } from "@/utils/steps"
-import { useTotemFormContext } from "@/contexts/TotemFormContext"
 
 const MbtiTest = () => {
-  const { currentTheme } = useTotemFormContext()
+  const [currentTheme] = useAtom(currentThemeAtom)
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
 
   // Ensure we always have valid selections

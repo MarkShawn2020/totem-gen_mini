@@ -1,9 +1,17 @@
 import "@nutui/nutui-react-taro/dist/style.css"
 
-import { TotemFormProvider, useTotemFormContext } from "@/contexts/TotemFormContext"
+import {
+  birthYearAtom,
+  currentStepAtom,
+  currentThemeAtom,
+  genderAtom,
+  introductionAtom,
+  nameAtom,
+} from "@/atoms"
 import { FORM_STEPS } from "@/utils/steps"
 import { View } from "@tarojs/components"
 import Taro from "@tarojs/taro"
+import { useAtom } from "jotai"
 import BasicInfo from "./components/BasicInfo"
 import MbtiTest from "./components/MbtiTest"
 import StepButtons from "./components/StepButtons"
@@ -13,15 +21,12 @@ import { validateForm } from "./utils/validation"
 import "./index.scss"
 
 const IndexContent = () => {
-  const {
-    currentStep,
-    setCurrentStep,
-    name,
-    birthYear,
-    gender,
-    introduction,
-    currentTheme,
-  } = useTotemFormContext()
+  const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
+  const [currentTheme] = useAtom(currentThemeAtom)
+  const [name] = useAtom(nameAtom)
+  const [birthYear] = useAtom(birthYearAtom)
+  const [gender] = useAtom(genderAtom)
+  const [introduction] = useAtom(introductionAtom)
 
   const handleSubmit = () => {
     const { isValid, errors, firstErrorField } = validateForm(name, birthYear, gender, introduction)
@@ -106,9 +111,9 @@ const IndexContent = () => {
 
 const Index = () => {
   return (
-    <TotemFormProvider>
+    <View className="index-container">
       <IndexContent />
-    </TotemFormProvider>
+    </View>
   )
 }
 
