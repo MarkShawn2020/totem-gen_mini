@@ -1,0 +1,135 @@
+.year-picker {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+
+  .year-scroll {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    white-space: nowrap;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .year-list {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 calc(50vw - 40px);
+    box-sizing: content-box;
+  }
+
+  .year-item {
+    flex: 0 0 80px;
+    width: 80px;
+    height: 60px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform-origin: center center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    scroll-snap-align: center;
+
+    .year-number {
+      font-size: 24px;
+      font-family: "FangSong", "仿宋", serif;
+      color: var(--theme-text);
+      opacity: 0.5;
+      transition: all 0.2s ease;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1;
+    }
+
+    .year-text {
+      font-size: 16px;
+      font-family: "KaiTi", "楷体", serif;
+      color: var(--theme-text);
+      margin-left: 0;
+      opacity: 0.3;
+      transition: all 0.2s ease;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1;
+    }
+
+    &.active {
+      transform: scale(1.15);
+      z-index: 2;
+
+      .year-number,
+      .year-text {
+        color: #000;
+        font-weight: bold;
+        opacity: 1;
+      }
+    }
+
+    &.near {
+      transform: scale(1.05);
+      z-index: 1;
+
+      .year-number,
+      .year-text {
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    &.far {
+      transform: scale(1);
+      z-index: 0;
+
+      .year-number,
+      .year-text {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  .scroll-decoration {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    pointer-events: none;
+    z-index: 3;
+
+    &.left {
+      left: 0;
+      background: linear-gradient(
+        to right,
+        rgba(var(--theme-background-rgb), 1) 0%,
+        rgba(var(--theme-background-rgb), 0.98) 30%,
+        rgba(var(--theme-background-rgb), 0) 100%
+      );
+    }
+
+    &.right {
+      right: 0;
+      background: linear-gradient(
+        to left,
+        rgba(var(--theme-background-rgb), 1) 0%,
+        rgba(var(--theme-background-rgb), 0.98) 30%,
+        rgba(var(--theme-background-rgb), 0) 100%
+      );
+    }
+  }
+}

@@ -2,6 +2,7 @@ import Taro from '@tarojs/taro'
 
 export interface ThemeColors {
   primary: string
+  primaryRgb: string
   secondary: string
   background: string
   surface: string
@@ -12,6 +13,7 @@ export interface ThemeColors {
 export const themes = {
   dark: {
     primary: '#2C1810',
+    primaryRgb: '44, 24, 16',
     secondary: '#8C6C5A',
     background: '#FCF9F2',
     surface: '#F5EDE4',
@@ -20,6 +22,7 @@ export const themes = {
   },
   blue: {
     primary: '#1B4B66',
+    primaryRgb: '27, 75, 102',
     secondary: '#5B8BA0',
     background: '#F7FBFD',
     surface: '#E8F4F8',
@@ -28,6 +31,7 @@ export const themes = {
   },
   red: {
     primary: '#8C2E2E',
+    primaryRgb: '140, 46, 46',
     secondary: '#B85959',
     background: '#FDF7F7',
     surface: '#FFE8E8',
@@ -36,6 +40,7 @@ export const themes = {
   },
   green: {
     primary: '#2E5E3E',
+    primaryRgb: '46, 94, 62',
     secondary: '#588C6B',
     background: '#F7FDF8',
     surface: '#E8F8EC',
@@ -44,6 +49,7 @@ export const themes = {
   },
   purple: {
     primary: '#4E2E8C',
+    primaryRgb: '78, 46, 140',
     secondary: '#7959B8',
     background: '#FAF7FD',
     surface: '#F2E8FF',
