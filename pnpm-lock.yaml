@@ -93,6 +93,9 @@ importers:
       '@tarojs/cli':
         specifier: 4.0.7
         version: 4.0.7
+      '@tarojs/plugin-doctor':
+        specifier: ^0.0.18
+        version: 0.0.18
       '@tarojs/test-utils-react':
         specifier: ^0.1.1
         version: 0.1.1(4unmtmjzjn4qutd2npa5bggx6i)
@@ -117,9 +120,6 @@ importers:
       postcss:
         specifier: ^8.4.18
         version: 8.4.49
-      preset:
-        specifier: link:jotai/babel/preset
-        version: link:jotai/babel/preset
       react-refresh:
         specifier: ^0.11.0
         version: 0.11.0
@@ -1748,6 +1748,12 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@tarojs/plugin-doctor-darwin-arm64@0.0.18':
+    resolution: {integrity: sha512-XsGjVjqK+VQveWTFA58MH2S8GfVxHlx+vILiojDfiOsuMurgvcu/88Tadcwf893XIQNUtxSW1jUinAAZxq04xQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
   '@tarojs/plugin-doctor-darwin-universal@0.0.13':
     resolution: {integrity: sha512-qIv94zgybce+Wq6/Bgy+Np+3BM2SYipuuKTg4LU3ALfJ+YxJetYDcbat9GPxulZqyvxKshYaYtusfwzCu+QWEw==}
     engines: {node: '>= 10'}
@@ -1755,6 +1761,12 @@ packages:
 
   '@tarojs/plugin-doctor-darwin-x64@0.0.13':
     resolution: {integrity: sha512-zjx3OGlcyOTr+VoRcFmQQcsXscwNucpynlhEYS3ZlofVe9qI0LeTMb/jbMriT/W0c1b4nlVaM8sv+HKz4NKUeA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@tarojs/plugin-doctor-darwin-x64@0.0.18':
+    resolution: {integrity: sha512-uI6mPKpO6S6+ezWOdO1kX2r6CwDB/CnhssJN4hyBjRCGyOK/5Fo1fKqaIilLrSq8BalBektK31v0zfXe6mZjiw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -1783,8 +1795,20 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@tarojs/plugin-doctor-linux-x64-gnu@0.0.18':
+    resolution: {integrity: sha512-UECeGobWSj5ab3mr/Caj4RtY7ZicAdqwhnVnDUx7ZHTJalTpEiQyLKqige5gb6vuqHaSd2T0FDh8xMlf51prcQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
   '@tarojs/plugin-doctor-linux-x64-musl@0.0.13':
     resolution: {integrity: sha512-OdIF/kFwwM0kQPDnpkanhvfWRaAI6EtDmpM9rQA/Lu2QcJq86w5d7X/WSN0U2xF1nialAUrfl79NyIaEzp4Fcw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@tarojs/plugin-doctor-linux-x64-musl@0.0.18':
+    resolution: {integrity: sha512-WuD7E2fqfNV185FgxtiBnsSGYivw9oqyaugfo8NQ39YAt+7z8bpzVraZoKiLIJXNQ3dSjBGPP/koGcqIHSa0XQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -1801,8 +1825,18 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@tarojs/plugin-doctor-win32-x64-msvc@0.0.18':
+    resolution: {integrity: sha512-Be6GGPhkbIyfHYqofPObY9VhdV/GDUG4J53OnRZ1txUTo/Hxi9Z50DrSYMAd1B6qoQUewICF2Xdg/bEJFOLHKg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
   '@tarojs/plugin-doctor@0.0.13':
     resolution: {integrity: sha512-X4aq/VS9Xr5UYkiZv5T0vSx1OycuzjYgbJDFs4YPWwJDaY1LOzn8Nlzb/rQchkBlxDPHmqUQQvejL0o6+REgbw==}
+    engines: {node: '>= 10'}
+
+  '@tarojs/plugin-doctor@0.0.18':
+    resolution: {integrity: sha512-K3iTR69BEeMAXn3Gwl6F28DsR2ZvK4G11zKMfKBIT8bD6O2QpNyq2wmG6+jFzl1L3AnrZWRK5EKe4SfB2RI5lw==}
     engines: {node: '>= 10'}
 
   '@tarojs/plugin-framework-react@4.0.7':
@@ -7229,10 +7263,16 @@ snapshots:
   '@tarojs/plugin-doctor-darwin-arm64@0.0.13':
     optional: true
 
+  '@tarojs/plugin-doctor-darwin-arm64@0.0.18':
+    optional: true
+
   '@tarojs/plugin-doctor-darwin-universal@0.0.13':
     optional: true
 
   '@tarojs/plugin-doctor-darwin-x64@0.0.13':
+    optional: true
+
+  '@tarojs/plugin-doctor-darwin-x64@0.0.18':
     optional: true
 
   '@tarojs/plugin-doctor-linux-arm-gnueabihf@0.0.13':
@@ -7247,13 +7287,22 @@ snapshots:
   '@tarojs/plugin-doctor-linux-x64-gnu@0.0.13':
     optional: true
 
+  '@tarojs/plugin-doctor-linux-x64-gnu@0.0.18':
+    optional: true
+
   '@tarojs/plugin-doctor-linux-x64-musl@0.0.13':
+    optional: true
+
+  '@tarojs/plugin-doctor-linux-x64-musl@0.0.18':
     optional: true
 
   '@tarojs/plugin-doctor-win32-ia32-msvc@0.0.13':
     optional: true
 
   '@tarojs/plugin-doctor-win32-x64-msvc@0.0.13':
+    optional: true
+
+  '@tarojs/plugin-doctor-win32-x64-msvc@0.0.18':
     optional: true
 
   '@tarojs/plugin-doctor@0.0.13':
@@ -7271,6 +7320,19 @@ snapshots:
       '@tarojs/plugin-doctor-linux-x64-musl': 0.0.13
       '@tarojs/plugin-doctor-win32-ia32-msvc': 0.0.13
       '@tarojs/plugin-doctor-win32-x64-msvc': 0.0.13
+    transitivePeerDependencies:
+      - supports-color
+
+  '@tarojs/plugin-doctor@0.0.18':
+    dependencies:
+      eslint: 8.41.0
+      glob: 10.2.6
+    optionalDependencies:
+      '@tarojs/plugin-doctor-darwin-arm64': 0.0.18
+      '@tarojs/plugin-doctor-darwin-x64': 0.0.18
+      '@tarojs/plugin-doctor-linux-x64-gnu': 0.0.18
+      '@tarojs/plugin-doctor-linux-x64-musl': 0.0.18
+      '@tarojs/plugin-doctor-win32-x64-msvc': 0.0.18
     transitivePeerDependencies:
       - supports-color
 

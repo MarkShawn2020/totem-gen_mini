@@ -41,6 +41,8 @@ export default defineConfig<"vite">(async (merge, { command, mode }) => {
       ],
     },
     mini: {
+      debugReact: true,
+
       webpackChain(chain) {
         chain.resolve.plugin("tsconfig-paths").use(TsconfigPathsPlugin)
       },

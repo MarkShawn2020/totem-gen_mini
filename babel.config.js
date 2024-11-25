@@ -10,7 +10,6 @@ module.exports = {
         compiler: "vite",
       },
     ],
-    "jotai/babel/preset",
   ],
   plugins: [
     [

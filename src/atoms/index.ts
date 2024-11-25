@@ -8,7 +8,7 @@ export const nameAtom = atom("")
 export const birthYearAtom = atom("")
 export const genderAtom = atom("")
 export const introductionAtom = atom("")
-export const colorThemeAtom = atom("")
+export const colorThemeAtom = atom("dark")
 export const mbtiSelectionsAtom = atom([false, false, false, false])
 export const currentStepAtom = atom(2)
 
