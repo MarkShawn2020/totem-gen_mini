@@ -36,7 +36,8 @@ const Index = () => {
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
   const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
 
-  const currentTheme = themes[colorTheme]
+  // Ensure we always have a valid theme by providing a default
+  const currentTheme = themes[colorTheme] || themes.dark
 
   const handleInputChange = (key: string, value: string) => {
     switch (key) {
