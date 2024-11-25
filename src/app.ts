@@ -1,7 +1,6 @@
-import { Component, PropsWithChildren } from 'react'
-import { useDidShow, useDidHide } from '@tarojs/taro'
+import { Component, type PropsWithChildren } from "react"
 // 全局样式
-import './app.scss'
+import "./app.scss"
 
 class App extends Component<PropsWithChildren> {
   componentDidMount() {}

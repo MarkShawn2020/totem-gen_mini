@@ -88,7 +88,7 @@
               }
 
               &::after {
-                content: '✓';
+                content: "✓";
                 position: absolute;
                 top: 8px;
                 right: 8px;
@@ -130,7 +130,7 @@
       overflow: hidden;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -258,7 +258,7 @@
               line-height: 44px;
               padding: 0 15px;
               font-size: 16px;
-              
+
               &::placeholder {
                 color: var(--theme-secondary);
                 opacity: 0.5;
@@ -315,7 +315,7 @@
             padding: 12px;
             background: #ffffff;
             transition: all 0.3s ease;
-            
+
             &:focus-within {
               border-color: var(--theme-primary);
               box-shadow: 0 0 0 2px rgba(var(--theme-primary-rgb), 0.1);
@@ -328,13 +328,13 @@
               line-height: 1.5;
               border: none;
               background: transparent;
-              
+
               &::placeholder {
                 color: var(--theme-secondary);
                 opacity: 0.5;
               }
             }
-            
+
             .word-count {
               position: absolute;
               right: 12px;

@@ -1,17 +1,17 @@
 export interface MBTIDimension {
-  id: string;
-  title: string;
-  description: string;
+  id: string
+  title: string
+  description: string
   left: {
-    letter: string;
-    name: string;
-    traits: string[];
-  };
+    letter: string
+    name: string
+    traits: string[]
+  }
   right: {
-    letter: string;
-    name: string;
-    traits: string[];
-  };
+    letter: string
+    name: string
+    traits: string[]
+  }
 }
 
 export const MBTI_DIMENSIONS: MBTIDimension[] = [
@@ -22,22 +22,12 @@ export const MBTI_DIMENSIONS: MBTIDimension[] = [
     left: {
       letter: "E",
       name: "外向",
-      traits: [
-        "从外部世界获取能量",
-        "享受社交互动",
-        "倾向于先说后想",
-        "喜欢群体活动",
-      ],
+      traits: ["从外部世界获取能量", "享受社交互动", "倾向于先说后想", "喜欢群体活动"],
     },
     right: {
       letter: "I",
       name: "内向",
-      traits: [
-        "从独处中获取能量",
-        "享受深度思考",
-        "倾向于先想后说",
-        "喜欢独处或小群体",
-      ],
+      traits: ["从独处中获取能量", "享受深度思考", "倾向于先想后说", "喜欢独处或小群体"],
     },
   },
   {
@@ -82,10 +72,10 @@ export const MBTI_DIMENSIONS: MBTIDimension[] = [
       traits: ["保持灵活开放", "享受自发性", "适应力强", "随机应变"],
     },
   },
-];
+]
 
 export const getMBTIType = (selections: boolean[]): string => {
   return MBTI_DIMENSIONS.map((dim, index) =>
-    selections[index] ? dim.right.letter : dim.left.letter
-  ).join("");
-};
+    selections[index] ? dim.right.letter : dim.left.letter,
+  ).join("")
+}

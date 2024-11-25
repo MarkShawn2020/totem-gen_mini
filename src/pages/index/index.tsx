@@ -1,80 +1,104 @@
-import { Input, Radio } from "@nutui/nutui-react-taro";
-import "@nutui/nutui-react-taro/dist/style.css";
-import { Text, View, Textarea } from "@tarojs/components";
-import { useState, useEffect } from "react";
-import YearPicker from "../../components/YearPicker";
-import GenderSelector from "../../components/GenderSelector";
-import { MBTI_DIMENSIONS } from "../../utils/mbti";
-import { COLOR_THEMES, FORM_STEPS } from "../../utils/steps";
-import { themes } from "../../utils/theme";
-import "./index.scss";
+import { Input } from "@nutui/nutui-react-taro"
+import "@nutui/nutui-react-taro/dist/style.css"
+import { Text, Textarea, View } from "@tarojs/components"
+import Taro from "@tarojs/taro"
+import { useEffect, useState } from "react"
+import GenderSelector from "../../components/GenderSelector"
+import YearPicker from "../../components/YearPicker"
+import { MBTI_DIMENSIONS } from "../../utils/mbti"
+import { COLOR_THEMES, FORM_STEPS } from "../../utils/steps"
+import { themes } from "../../utils/theme"
+import "./index.scss"
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(2)
   const [formData, setFormData] = useState({
     name: "",
     birthYear: new Date().getFullYear().toString(),
     gender: "neutral",
     introduction: "",
     colorTheme: "dark",
-  });
-  const [mbtiSelections, setMbtiSelections] = useState([false, false, false, false]);
-  const currentTheme = themes[formData.colorTheme];
-
-  const yearSelectorStyle = {
-    '--theme-primary': currentTheme.primary,
-    '--theme-primary-rgb': currentTheme.primaryRgb,
-    '--theme-secondary': currentTheme.secondary,
-    '--theme-background': currentTheme.background,
-    '--theme-surface': currentTheme.surface,
-    '--theme-text': currentTheme.text,
-    '--theme-border': currentTheme.border,
-    '--nutui-primary-color': currentTheme.primary,
-    '--nutui-primary-color-end': currentTheme.primary,
-  } as any;
-
-  useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty('--theme-primary', currentTheme.primary);
-    root.style.setProperty('--theme-primary-rgb', currentTheme.primaryRgb);
-    root.style.setProperty('--theme-secondary', currentTheme.secondary);
-    root.style.setProperty('--theme-background', currentTheme.background);
-    root.style.setProperty('--theme-surface', currentTheme.surface);
-    root.style.setProperty('--theme-text', currentTheme.text);
-    root.style.setProperty('--theme-border', currentTheme.border);
-    root.style.setProperty('--nutui-primary-color', currentTheme.primary);
-    root.style.setProperty('--nutui-primary-color-end', currentTheme.primary);
-  }, [currentTheme]);
+  })
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    birthYear: "",
+    gender: "",
+    introduction: "",
+  })
+  const [mbtiSelections, setMbtiSelections] = useState([false, false, false, false])
+  const currentTheme = themes[formData.colorTheme]
 
   const handleInputChange = (key: string, value: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [key]: value,
-    }));
-  };
+    }))
+  }
 
   const mbtiType = MBTI_DIMENSIONS.map((dim, i) =>
-    mbtiSelections[i] ? dim.right.letter : dim.left.letter
-  ).join("");
+    mbtiSelections[i] ? dim.right.letter : dim.left.letter,
+  ).join("")
+
+  const validateForm = () => {
+    const errors = {
+      name: "",
+      birthYear: "",
+      gender: "",
+      introduction: "",
+    }
+    let isValid = true
+
+    if (!formData.name.trim()) {
+      errors.name = "请输入姓名"
+      isValid = false
+    }
+    if (!formData.birthYear) {
+      errors.birthYear = "请选择生辰年份"
+      isValid = false
+    }
+    if (!formData.gender) {
+      errors.gender = "请选择性别倾向"
+      isValid = false
+    }
+    if (!formData.introduction.trim()) {
+      errors.introduction = "请输入个人简介"
+      isValid = false
+    }
+
+    setFormErrors(errors)
+
+    if (!isValid) {
+      // 直接滚动到顶部进行测试
+      Taro.pageScrollTo({
+        scrollTop: 500,
+        duration: 300,
+      })
+    }
+
+    return isValid
+  }
 
   const handleSubmit = () => {
+    if (!validateForm()) {
+      return
+    }
     console.log("提交数据:", {
       ...formData,
       mbtiType,
-    });
-  };
+    })
+  }
 
   const renderStepButtons = () => (
     <View className="step-buttons">
       {currentStep > 0 && (
         <View
           className="step-button prev"
-          onClick={() => setCurrentStep((prev) => prev - 1)}
           style={{
             background: currentTheme.surface,
             color: currentTheme.text,
             borderColor: currentTheme.border,
           }}
+          onClick={() => setCurrentStep(prev => prev - 1)}
         >
           上一步
         </View>
@@ -82,28 +106,28 @@ const Index = () => {
       {currentStep < FORM_STEPS.length - 1 ? (
         <View
           className="step-button next"
-          onClick={() => setCurrentStep((prev) => prev + 1)}
           style={{
             background: currentTheme.primary,
             color: "#fff",
           }}
+          onClick={() => setCurrentStep(prev => prev + 1)}
         >
           下一步
         </View>
       ) : (
         <View
           className="step-button submit"
-          onClick={handleSubmit}
           style={{
             background: currentTheme.primary,
             color: "#fff",
           }}
+          onClick={handleSubmit}
         >
           生成图腾
         </View>
       )}
     </View>
-  );
+  )
 
   const renderThemeSelection = () => (
     <View className="step-content">
@@ -112,11 +136,10 @@ const Index = () => {
         <Text className="step-desc">{FORM_STEPS[0].description}</Text>
       </View>
       <View className="theme-grid">
-        {COLOR_THEMES.map((theme) => (
+        {COLOR_THEMES.map(theme => (
           <View
             key={theme.value}
             className="theme-option"
-            onClick={() => handleInputChange("colorTheme", theme.value)}
             style={{
               background: themes[theme.value].surface,
               borderColor:
@@ -124,24 +147,19 @@ const Index = () => {
                   ? themes[theme.value].primary
                   : themes[theme.value].border,
             }}
+            onClick={() => handleInputChange("colorTheme", theme.value)}
           >
-            <Text
-              className="theme-name"
-              style={{ color: themes[theme.value].primary }}
-            >
+            <Text className="theme-name" style={{ color: themes[theme.value].primary }}>
               {theme.name}
             </Text>
-            <Text
-              className="theme-desc"
-              style={{ color: themes[theme.value].text }}
-            >
+            <Text className="theme-desc" style={{ color: themes[theme.value].text }}>
               {theme.description}
             </Text>
           </View>
         ))}
       </View>
     </View>
-  );
+  )
 
   const renderMbtiTest = () => (
     <View className="step-content">
@@ -151,64 +169,78 @@ const Index = () => {
       </View>
       <View className="mbti-section">
         {MBTI_DIMENSIONS.map((dimension, index) => (
-          <View className="mbti-dimension" key={dimension.id || index}>
+          <View key={dimension.id || index} className="mbti-dimension">
             <View className="dimension-header">
               <Text className="dimension-title">{dimension.title}</Text>
               <Text className="dimension-desc">{dimension.description}</Text>
             </View>
             <View className="dimension-content">
               <View className="type-options">
-                <View 
-                  className={`type-option ${!mbtiSelections[index] ? 'active' : ''}`}
-                  onClick={() => {
-                    const newSelections = [...mbtiSelections];
-                    newSelections[index] = false;
-                    setMbtiSelections(newSelections);
-                  }}
+                <View
+                  className={`type-option ${!mbtiSelections[index] ? "active" : ""}`}
                   style={{
-                    background: !mbtiSelections[index] ? currentTheme.surface : currentTheme.background,
-                    borderColor: !mbtiSelections[index] ? currentTheme.primary : currentTheme.border,
-                    borderWidth: !mbtiSelections[index] ? '2px' : '1px'
+                    background: !mbtiSelections[index]
+                      ? currentTheme.surface
+                      : currentTheme.background,
+                    borderColor: !mbtiSelections[index]
+                      ? currentTheme.primary
+                      : currentTheme.border,
+                    borderWidth: !mbtiSelections[index] ? "2px" : "1px",
+                  }}
+                  onClick={() => {
+                    const newSelections = [...mbtiSelections]
+                    newSelections[index] = false
+                    setMbtiSelections(newSelections)
                   }}
                 >
-                  <Text 
+                  <Text
                     className="type-letter"
-                    style={{ 
-                      color: !mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary 
+                    style={{
+                      color: !mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
-                  >{dimension.left.letter}</Text>
-                  <Text 
+                  >
+                    {dimension.left.letter}
+                  </Text>
+                  <Text
                     className="type-name"
-                    style={{ 
-                      color: !mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary 
+                    style={{
+                      color: !mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
-                  >{dimension.left.name}</Text>
+                  >
+                    {dimension.left.name}
+                  </Text>
                 </View>
-                <View 
-                  className={`type-option ${mbtiSelections[index] ? 'active' : ''}`}
-                  onClick={() => {
-                    const newSelections = [...mbtiSelections];
-                    newSelections[index] = true;
-                    setMbtiSelections(newSelections);
-                  }}
+                <View
+                  className={`type-option ${mbtiSelections[index] ? "active" : ""}`}
                   style={{
-                    background: mbtiSelections[index] ? currentTheme.surface : currentTheme.background,
+                    background: mbtiSelections[index]
+                      ? currentTheme.surface
+                      : currentTheme.background,
                     borderColor: mbtiSelections[index] ? currentTheme.primary : currentTheme.border,
-                    borderWidth: mbtiSelections[index] ? '2px' : '1px'
+                    borderWidth: mbtiSelections[index] ? "2px" : "1px",
+                  }}
+                  onClick={() => {
+                    const newSelections = [...mbtiSelections]
+                    newSelections[index] = true
+                    setMbtiSelections(newSelections)
                   }}
                 >
-                  <Text 
+                  <Text
                     className="type-letter"
-                    style={{ 
-                      color: mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary 
+                    style={{
+                      color: mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
-                  >{dimension.right.letter}</Text>
-                  <Text 
+                  >
+                    {dimension.right.letter}
+                  </Text>
+                  <Text
                     className="type-name"
-                    style={{ 
-                      color: mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary 
+                    style={{
+                      color: mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
-                  >{dimension.right.name}</Text>
+                  >
+                    {dimension.right.name}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -220,7 +252,7 @@ const Index = () => {
         </View>
       </View>
     </View>
-  );
+  )
 
   const renderBasicInfo = () => (
     <View className="step-content">
@@ -231,67 +263,119 @@ const Index = () => {
       <View className="input-group">
         <View className="input-section name-section">
           <View className="section-title">
-            <Text className="title-text">姓名</Text>
+            <Text className="title-text">
+              姓名<Text style={{ color: "#ff4d4f" }}>*</Text>
+            </Text>
             <Text className="title-desc">你希望在图腾中展现的称呼</Text>
           </View>
           <View className="input-container">
             <Input
-              className="custom-input"
+              className={`custom-input ${formErrors.name ? "error" : ""}`}
               placeholder="请输入你的名字"
               value={formData.name}
-              onChange={(val) => handleInputChange("name", val)}
+              onChange={val => {
+                handleInputChange("name", val)
+                if (val.trim()) {
+                  setFormErrors(prev => ({ ...prev, name: "" }))
+                }
+              }}
             />
+            {formErrors.name && (
+              <Text
+                className="error-message"
+                style={{ color: "#ff4d4f", fontSize: "12px", marginTop: "4px" }}
+              >
+                {formErrors.name}
+              </Text>
+            )}
           </View>
         </View>
 
         <View className="input-section year-section">
           <View className="section-title">
-            <Text className="title-text">生辰年份 （{formData.birthYear}）</Text>
+            <Text className="title-text">
+              生辰年份 （{formData.birthYear}）<Text style={{ color: "#ff4d4f" }}>*</Text>
+            </Text>
             <Text className="title-desc">你的出生年份将影响图腾的核心元素</Text>
           </View>
           <YearPicker
-            value={formData.birthYear}
-            onChange={(val) => {
-              handleInputChange("birthYear", val)
-              console.log({val});
-              
-            }}
             themeColors={currentTheme}
+            value={formData.birthYear}
+            onChange={val => {
+              handleInputChange("birthYear", val)
+              setFormErrors(prev => ({ ...prev, birthYear: "" }))
+            }}
           />
+          {formErrors.birthYear && (
+            <Text
+              className="error-message"
+              style={{ color: "#ff4d4f", fontSize: "12px", marginTop: "4px" }}
+            >
+              {formErrors.birthYear}
+            </Text>
+          )}
         </View>
 
         <View className="input-section gender-section">
           <View className="section-title">
-            <Text className="title-text">性别倾向</Text>
+            <Text className="title-text">
+              性别倾向<Text style={{ color: "#ff4d4f" }}>*</Text>
+            </Text>
             <Text className="title-desc">选择更适合你的性别特征，这将影响图腾的整体风格</Text>
           </View>
           <GenderSelector
-            value={formData.gender}
-            onChange={(value) => handleInputChange("gender", value)}
             themeColors={currentTheme}
+            value={formData.gender}
+            onChange={value => {
+              handleInputChange("gender", value)
+              setFormErrors(prev => ({ ...prev, gender: "" }))
+            }}
           />
+          {formErrors.gender && (
+            <Text
+              className="error-message"
+              style={{ color: "#ff4d4f", fontSize: "12px", marginTop: "4px" }}
+            >
+              {formErrors.gender}
+            </Text>
+          )}
         </View>
 
         <View className="input-section intro-section">
           <View className="section-title">
-            <Text className="title-text">个人简介</Text>
+            <Text className="title-text">
+              个人简介<Text style={{ color: "#ff4d4f" }}>*</Text>
+            </Text>
             <Text className="title-desc">描述一下你的性格、爱好或期望，这些将融入你的图腾中</Text>
           </View>
           <View className="textarea-container">
             <Textarea
-              className="custom-textarea"
-              value={formData.introduction}
-              onInput={(e) => handleInputChange("introduction", e.detail.value)}
-              placeholder="例如：我是一个热爱艺术的人，喜欢探索新事物..."
+              className={`custom-textarea ${formErrors.introduction ? "error" : ""}`}
               maxlength={200}
+              placeholder="例如：我是一个热爱艺术的人，喜欢探索新事物..."
               style={{
-                background: '#ffffff',
-                padding: '12px',
-                borderRadius: '8px',
-                border: `1px solid ${currentTheme.border}`,
-                height: '120px',
+                background: "#ffffff",
+                padding: "12px",
+                borderRadius: "8px",
+                border: `1px solid ${formErrors.introduction ? "#ff4d4f" : currentTheme.border}`,
+                height: "120px",
+              }}
+              value={formData.introduction}
+              onInput={e => {
+                handleInputChange("introduction", e.detail.value)
+                if (e.detail.value.trim()) {
+                  setFormErrors(prev => ({ ...prev, introduction: "" }))
+                }
               }}
             />
+            {formErrors.introduction && (
+              <Text
+                className="error-message"
+                style={{ color: "#ff4d4f", fontSize: "12px", marginTop: "4px" }}
+              >
+                {formErrors.introduction}
+              </Text>
+            )}
             <Text className="word-count" style={{ color: currentTheme.secondary }}>
               {formData.introduction.length}/200
             </Text>
@@ -299,25 +383,17 @@ const Index = () => {
         </View>
       </View>
     </View>
-  );
-
-  const getChineseZodiac = (year: number): string => {
-    const zodiacSigns = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
-    return zodiacSigns[(year - 1900) % 12];
-  };
+  )
 
   return (
     <View className="index">
       <View className="step-indicator">
-        {[0, 1, 2].map((step) => (
+        {[0, 1, 2].map(step => (
           <View
             key={step}
             className={`step-dot ${currentStep === step ? "active" : ""}`}
             style={{
-              background:
-                currentStep === step
-                  ? currentTheme.primary
-                  : currentTheme.surface,
+              background: currentStep === step ? currentTheme.primary : currentTheme.surface,
               borderColor: currentTheme.border,
             }}
           />
@@ -330,7 +406,7 @@ const Index = () => {
 
       {renderStepButtons()}
     </View>
-  );
-};
+  )
+}
 
-export default Index;
+export default Index

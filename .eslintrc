@@ -1,7 +1,18 @@
-module.exports = {
-  "extends": ["taro/react"],
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": true
+  },
+  "extends": [
+    "taro/react",
+    "@cs-magic/eslint-config/react",
+    "@cs-magic/eslint-config/typescript",
+    "@cs-magic/eslint-config/prettier"
+  ],
   "rules": {
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "no-undef": "off"
   }
 }
+

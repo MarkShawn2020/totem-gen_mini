@@ -1,7 +1,6 @@
-import { View, Text, ScrollView } from '@tarojs/components'
-import { useState, useCallback, useEffect, useRef } from 'react'
-import Taro from '@tarojs/taro'
-import "./index.scss";
+import { ScrollView, Text, View } from "@tarojs/components"
+import { useCallback, useEffect, useRef, useState } from "react"
+import "./index.scss"
 
 interface YearPickerProps {
   value: string
@@ -33,7 +32,7 @@ const YearPicker = ({
       yearsList.push(year)
     }
     setYears(yearsList)
-    
+
     // Set initial selected index based on value
     const initialIndex = yearsList.findIndex(year => year.toString() === value)
     if (initialIndex !== -1) {
@@ -51,36 +50,42 @@ const YearPicker = ({
     setIsScrolling(true)
   }, [])
 
-  const handleScroll = useCallback((e) => {
-    const { scrollLeft: newScrollLeft } = e.detail
-    lastScrollLeft.current = newScrollLeft
+  const handleScroll = useCallback(
+    e => {
+      const { scrollLeft: newScrollLeft } = e.detail
+      lastScrollLeft.current = newScrollLeft
 
-    // Clear existing timeout
-    if (scrollTimeout.current) {
-      clearTimeout(scrollTimeout.current)
-    }
-
-    // Set a new timeout
-    scrollTimeout.current = setTimeout(() => {
-      const index = Math.round(newScrollLeft / itemWidth)
-      if (index >= 0 && index < years.length && index !== selectedIndex) {
-        setSelectedIndex(index)
-        const newScrollLeft = index * itemWidth
-        setScrollLeft(newScrollLeft)
-        onChange(years[index].toString())
+      // Clear existing timeout
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current)
       }
-      setIsScrolling(false)
-    }, 150) // Debounce time
-  }, [years, onChange, selectedIndex, itemWidth])
 
-  const handleItemClick = useCallback((index: number) => {
-    if (isScrolling) return
-    setSelectedIndex(index)
-    const newScrollLeft = index * itemWidth
-    setScrollLeft(newScrollLeft)
-    lastScrollLeft.current = newScrollLeft
-    onChange(years[index].toString())
-  }, [years, onChange, isScrolling])
+      // Set a new timeout
+      scrollTimeout.current = setTimeout(() => {
+        const index = Math.round(newScrollLeft / itemWidth)
+        if (index >= 0 && index < years.length && index !== selectedIndex) {
+          setSelectedIndex(index)
+          const newScrollLeft = index * itemWidth
+          setScrollLeft(newScrollLeft)
+          onChange(years[index].toString())
+        }
+        setIsScrolling(false)
+      }, 150) // Debounce time
+    },
+    [years, onChange, selectedIndex, itemWidth],
+  )
+
+  const handleItemClick = useCallback(
+    (index: number) => {
+      if (isScrolling) return
+      setSelectedIndex(index)
+      const newScrollLeft = index * itemWidth
+      setScrollLeft(newScrollLeft)
+      lastScrollLeft.current = newScrollLeft
+      onChange(years[index].toString())
+    },
+    [years, onChange, isScrolling],
+  )
 
   useEffect(() => {
     return () => {
@@ -91,26 +96,28 @@ const YearPicker = ({
   }, [])
 
   return (
-    <View className='year-picker'>
+    <View className="year-picker">
       <ScrollView
-        className='year-picker__container'
-        scrollX
         enhanced
-        showScrollbar={false}
         scrollWithAnimation
+        scrollX
+        className="year-picker__container"
         scrollLeft={scrollLeft}
-        onScrollStart={handleScrollStart}
+        showScrollbar={false}
+        style={
+          {
+            "--theme-primary": themeColors?.primary,
+            "--theme-text": themeColors?.text,
+          } as any
+        }
         onScroll={handleScroll}
-        style={{
-          '--theme-primary': themeColors?.primary,
-          '--theme-text': themeColors?.text,
-        } as any}
+        onScrollStart={handleScrollStart}
       >
-        <View className='year-picker__items'>
+        <View className="year-picker__items">
           {years.map((year, index) => (
             <View
               key={year}
-              className={`year-picker__item ${index === selectedIndex ? 'year-picker__item--selected' : ''}`}
+              className={`year-picker__item ${index === selectedIndex ? "year-picker__item--selected" : ""}`}
               onClick={() => handleItemClick(index)}
             >
               <Text>{year}</Text>
