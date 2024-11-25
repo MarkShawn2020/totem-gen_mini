@@ -12,7 +12,9 @@
   "rules": {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "prettier/prettier": ["off", { "singleQuote": true }]
   }
 }
+
 

@@ -31,6 +31,7 @@ export const MBTI_DIMENSIONS: MBTIDimension[] = [
     },
   },
   {
+    id: "source",
     title: "信息获取",
     description: "你更倾向于关注哪种类型的信息？",
     left: {
@@ -45,6 +46,7 @@ export const MBTI_DIMENSIONS: MBTIDimension[] = [
     },
   },
   {
+    id: "decision",
     title: "决策方式",
     description: "你在做决定时更依赖什么？",
     left: {
@@ -59,6 +61,7 @@ export const MBTI_DIMENSIONS: MBTIDimension[] = [
     },
   },
   {
+    id: "lifestyle",
     title: "生活方式",
     description: "你更喜欢怎样的生活节奏？",
     left: {
@@ -73,9 +76,3 @@ export const MBTI_DIMENSIONS: MBTIDimension[] = [
     },
   },
 ]
-
-export const getMBTIType = (selections: boolean[]): string => {
-  return MBTI_DIMENSIONS.map((dim, index) =>
-    selections[index] ? dim.right.letter : dim.left.letter,
-  ).join("")
-}

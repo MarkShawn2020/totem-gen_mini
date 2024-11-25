@@ -1,13 +1,13 @@
 import { Text, View } from "@tarojs/components"
-import { useAtom } from "jotai"
-import { currentThemeAtom, mbtiSelectionsAtom } from "../../store/atoms"
+import { useAtom } from "jotai/react"
+
+import { colorThemeAtom, mbtiSelectionsAtom } from "../../atoms"
 import { MBTI_DIMENSIONS } from "../../utils/mbti"
 import { FORM_STEPS } from "../../utils/steps"
-import "./index.scss"
 
 const MbtiTest = () => {
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
-  const [currentTheme] = useAtom(currentThemeAtom)
+  const [currentTheme] = useAtom(colorThemeAtom)
 
   const mbtiType = MBTI_DIMENSIONS.map((dim, i) =>
     mbtiSelections[i] ? dim.right.letter : dim.left.letter,

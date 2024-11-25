@@ -1,38 +1,61 @@
+"use client"
+
 import { Input } from "@nutui/nutui-react-taro"
 import "@nutui/nutui-react-taro/dist/style.css"
+
 import { Text, Textarea, View } from "@tarojs/components"
 import Taro from "@tarojs/taro"
-import { useEffect, useState } from "react"
+
+import { useAtom } from "jotai/react"
+
+import {
+  birthYearAtom,
+  colorThemeAtom,
+  currentStepAtom,
+  formErrorsAtom,
+  genderAtom,
+  introductionAtom,
+  mbtiSelectionsAtom,
+  nameAtom,
+} from "../../atoms"
 import GenderSelector from "../../components/GenderSelector"
 import YearPicker from "../../components/YearPicker"
 import { MBTI_DIMENSIONS } from "../../utils/mbti"
 import { COLOR_THEMES, FORM_STEPS } from "../../utils/steps"
 import { themes } from "../../utils/theme"
+
 import "./index.scss"
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState(2)
-  const [formData, setFormData] = useState({
-    name: "",
-    birthYear: new Date().getFullYear().toString(),
-    gender: "neutral",
-    introduction: "",
-    colorTheme: "dark",
-  })
-  const [formErrors, setFormErrors] = useState({
-    name: "",
-    birthYear: "",
-    gender: "",
-    introduction: "",
-  })
-  const [mbtiSelections, setMbtiSelections] = useState([false, false, false, false])
-  const currentTheme = themes[formData.colorTheme]
+  const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
+  const [name, setName] = useAtom(nameAtom)
+  const [birthYear, setBirthYear] = useAtom(birthYearAtom)
+  const [gender, setGender] = useAtom(genderAtom)
+  const [introduction, setIntroduction] = useAtom(introductionAtom)
+  const [colorTheme, setColorTheme] = useAtom(colorThemeAtom)
+  const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
+  const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
+
+  const currentTheme = themes[colorTheme]
 
   const handleInputChange = (key: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [key]: value,
-    }))
+    switch (key) {
+      case "name":
+        setName(value)
+        break
+      case "birthYear":
+        setBirthYear(value)
+        break
+      case "gender":
+        setGender(value)
+        break
+      case "introduction":
+        setIntroduction(value)
+        break
+      case "colorTheme":
+        setColorTheme(value as any)
+        break
+    }
   }
 
   const mbtiType = MBTI_DIMENSIONS.map((dim, i) =>
@@ -49,22 +72,22 @@ const Index = () => {
     let isValid = true
     let firstErrorField = ""
 
-    if (!formData.name.trim()) {
+    if (!name.trim()) {
       errors.name = "请输入姓名"
       isValid = false
       firstErrorField = firstErrorField || "name"
     }
-    if (!formData.birthYear) {
+    if (!birthYear) {
       errors.birthYear = "请选择生辰年份"
       isValid = false
       firstErrorField = firstErrorField || "birthYear"
     }
-    if (!formData.gender) {
+    if (!gender) {
       errors.gender = "请选择性别倾向"
       isValid = false
       firstErrorField = firstErrorField || "gender"
     }
-    if (!formData.introduction.trim()) {
+    if (!introduction.trim()) {
       errors.introduction = "请输入个人简介"
       isValid = false
       firstErrorField = firstErrorField || "intro"
@@ -79,7 +102,7 @@ const Index = () => {
         .select(`.${firstErrorField}-section`)
         .boundingClientRect()
         .exec(res => {
-          console.log('Error element rect:', res)
+          console.log("Error element rect:", res)
           if (res && res[0]) {
             const rect = res[0]
             // 获取页面滚动位置
@@ -107,7 +130,10 @@ const Index = () => {
       return
     }
     console.log("提交数据:", {
-      ...formData,
+      name,
+      birthYear,
+      gender,
+      introduction,
       mbtiType,
     })
   }
@@ -167,7 +193,7 @@ const Index = () => {
             style={{
               background: themes[theme.value].surface,
               borderColor:
-                formData.colorTheme === theme.value
+                colorTheme === theme.value
                   ? themes[theme.value].primary
                   : themes[theme.value].border,
             }}
@@ -296,7 +322,7 @@ const Index = () => {
             <Input
               className={`custom-input ${formErrors.name ? "error" : ""}`}
               placeholder="请输入你的名字"
-              value={formData.name}
+              value={name}
               onChange={val => {
                 handleInputChange("name", val)
                 if (val.trim()) {
@@ -324,7 +350,7 @@ const Index = () => {
           </View>
           <YearPicker
             themeColors={currentTheme}
-            value={formData.birthYear}
+            value={birthYear}
             onChange={val => {
               handleInputChange("birthYear", val)
               setFormErrors(prev => ({ ...prev, birthYear: "" }))
@@ -349,7 +375,7 @@ const Index = () => {
           </View>
           <GenderSelector
             themeColors={currentTheme}
-            value={formData.gender}
+            value={gender}
             onChange={value => {
               handleInputChange("gender", value)
               setFormErrors(prev => ({ ...prev, gender: "" }))
@@ -384,7 +410,7 @@ const Index = () => {
                 border: `1px solid ${formErrors.introduction ? "#ff4d4f" : currentTheme.border}`,
                 height: "120px",
               }}
-              value={formData.introduction}
+              value={introduction}
               onInput={e => {
                 handleInputChange("introduction", e.detail.value)
                 if (e.detail.value.trim()) {
@@ -401,7 +427,7 @@ const Index = () => {
               </Text>
             )}
             <Text className="word-count" style={{ color: currentTheme.secondary }}>
-              {formData.introduction.length}/200
+              {introduction.length}/200
             </Text>
           </View>
         </View>
@@ -410,6 +436,7 @@ const Index = () => {
   )
 
   return (
+    // <Provider>
     <View className="index">
       <View className="step-indicator">
         {[0, 1, 2].map(step => (
@@ -430,6 +457,7 @@ const Index = () => {
 
       {renderStepButtons()}
     </View>
+    // </Provider>
   )
 }
 
