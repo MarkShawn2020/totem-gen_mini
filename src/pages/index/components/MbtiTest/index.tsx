@@ -9,6 +9,15 @@ const MbtiTest: React.FC<MbtiTestProps> = ({
   currentTheme,
   mbtiType,
 }) => {
+  // Ensure we always have valid selections
+  const selections = Array.isArray(mbtiSelections) ? mbtiSelections : [false, false, false, false]
+
+  const handleToggle = (index: number) => {
+    const newSelections = [...selections]
+    newSelections[index] = !newSelections[index]
+    onMbtiChange(newSelections)
+  }
+
   return (
     <View className="step-content">
       <View className="step-header">
@@ -25,26 +34,22 @@ const MbtiTest: React.FC<MbtiTestProps> = ({
             <View className="dimension-content">
               <View className="type-options">
                 <View
-                  className={`type-option ${!mbtiSelections[index] ? "active" : ""}`}
+                  className={`type-option ${!selections[index] ? "active" : ""}`}
                   style={{
-                    background: !mbtiSelections[index]
+                    background: !selections[index]
                       ? currentTheme.surface
                       : currentTheme.background,
-                    borderColor: !mbtiSelections[index]
+                    borderColor: !selections[index]
                       ? currentTheme.primary
                       : currentTheme.border,
-                    borderWidth: !mbtiSelections[index] ? "2px" : "1px",
+                    borderWidth: !selections[index] ? "2px" : "1px",
                   }}
-                  onClick={() => {
-                    const newSelections = [...mbtiSelections]
-                    newSelections[index] = false
-                    onMbtiChange(newSelections)
-                  }}
+                  onClick={() => handleToggle(index)}
                 >
                   <Text
                     className="type-letter"
                     style={{
-                      color: !mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: !selections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
                   >
                     {dimension.left.letter}
@@ -52,31 +57,27 @@ const MbtiTest: React.FC<MbtiTestProps> = ({
                   <Text
                     className="type-name"
                     style={{
-                      color: !mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: !selections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
                   >
                     {dimension.left.name}
                   </Text>
                 </View>
                 <View
-                  className={`type-option ${mbtiSelections[index] ? "active" : ""}`}
+                  className={`type-option ${selections[index] ? "active" : ""}`}
                   style={{
-                    background: mbtiSelections[index]
+                    background: selections[index]
                       ? currentTheme.surface
                       : currentTheme.background,
-                    borderColor: mbtiSelections[index] ? currentTheme.primary : currentTheme.border,
-                    borderWidth: mbtiSelections[index] ? "2px" : "1px",
+                    borderColor: selections[index] ? currentTheme.primary : currentTheme.border,
+                    borderWidth: selections[index] ? "2px" : "1px",
                   }}
-                  onClick={() => {
-                    const newSelections = [...mbtiSelections]
-                    newSelections[index] = true
-                    onMbtiChange(newSelections)
-                  }}
+                  onClick={() => handleToggle(index)}
                 >
                   <Text
                     className="type-letter"
                     style={{
-                      color: mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: selections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
                   >
                     {dimension.right.letter}
@@ -84,7 +85,7 @@ const MbtiTest: React.FC<MbtiTestProps> = ({
                   <Text
                     className="type-name"
                     style={{
-                      color: mbtiSelections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: selections[index] ? currentTheme.primary : currentTheme.secondary,
                     }}
                   >
                     {dimension.right.name}

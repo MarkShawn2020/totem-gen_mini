@@ -35,8 +35,17 @@ const Index = () => {
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
   const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
 
-  // Ensure we always have a valid theme by providing a default
-  const currentTheme = themes[colorTheme || "dark"]
+  // Handle default values for null states
+  const actualStep = currentStep ?? 0
+  const actualName = name ?? ""
+  const actualBirthYear = birthYear ?? ""
+  const actualGender = gender ?? "neutral"
+  const actualIntroduction = introduction ?? ""
+  const actualColorTheme = colorTheme ?? "dark"
+  const actualMbtiSelections = mbtiSelections ?? [false, false, false, false]
+
+  // Ensure we always have a valid theme
+  const currentTheme = themes[actualColorTheme]
 
   const handleInputChange = (key: string, value: string) => {
     switch (key) {
@@ -59,11 +68,11 @@ const Index = () => {
   }
 
   const mbtiType = MBTI_DIMENSIONS.map((dim, i) =>
-    mbtiSelections[i] ? dim.right.letter : dim.left.letter
+    (actualMbtiSelections || [false, false, false, false])[i] ? dim.right.letter : dim.left.letter
   ).join("")
 
   const handleSubmit = () => {
-    const { isValid, errors, firstErrorField } = validateForm(name, birthYear, gender, introduction)
+    const { isValid, errors, firstErrorField } = validateForm(actualName, actualBirthYear, actualGender, actualIntroduction)
     setFormErrors(errors)
 
     if (!isValid) {
@@ -94,27 +103,27 @@ const Index = () => {
     }
 
     console.log("提交数据:", {
-      name,
-      birthYear,
-      gender,
-      introduction,
+      name: actualName,
+      birthYear: actualBirthYear,
+      gender: actualGender,
+      introduction: actualIntroduction,
       mbtiType,
     })
   }
 
   // Debug logs
   console.log('Rendering Index component')
-  console.log('Current step:', currentStep)
-  console.log('Current theme:', colorTheme)
-  console.log('MBTI selections:', mbtiSelections)
+  console.log('Current step:', actualStep)
+  console.log('Current theme:', actualColorTheme)
+  console.log('MBTI selections:', actualMbtiSelections)
 
   // Render content based on current step
   const renderContent = () => {
-    switch (currentStep) {
+    switch (actualStep) {
       case 0:
         return (
           <ThemeSelection
-            colorTheme={colorTheme || "dark"}
+            colorTheme={actualColorTheme}
             currentTheme={currentTheme}
             onThemeChange={value => handleInputChange("colorTheme", value)}
           />
@@ -123,7 +132,7 @@ const Index = () => {
         return (
           <MbtiTest
             currentTheme={currentTheme}
-            mbtiSelections={mbtiSelections}
+            mbtiSelections={actualMbtiSelections}
             mbtiType={mbtiType}
             onMbtiChange={setMbtiSelections}
           />
@@ -131,12 +140,12 @@ const Index = () => {
       case 2:
         return (
           <BasicInfo
-            birthYear={birthYear}
+            birthYear={actualBirthYear}
             currentTheme={currentTheme}
             formErrors={formErrors}
-            gender={gender}
-            introduction={introduction}
-            name={name}
+            gender={actualGender}
+            introduction={actualIntroduction}
+            name={actualName}
             onErrorUpdate={setFormErrors}
             onInputChange={handleInputChange}
           />
@@ -152,9 +161,9 @@ const Index = () => {
         {[0, 1, 2].map(step => (
           <View
             key={step}
-            className={`step-dot ${currentStep === step ? "active" : ""}`}
+            className={`step-dot ${actualStep === step ? "active" : ""}`}
             style={{
-              background: currentStep === step ? currentTheme.primary : currentTheme.surface,
+              background: actualStep === step ? currentTheme.primary : currentTheme.surface,
               borderColor: currentTheme.border,
             }}
           />
@@ -164,7 +173,7 @@ const Index = () => {
       {renderContent()}
 
       <StepButtons
-        currentStep={currentStep || 0}
+        currentStep={actualStep}
         currentTheme={currentTheme}
         totalSteps={FORM_STEPS.length}
         onNextStep={() => setCurrentStep(prev => Math.min(prev + 1, FORM_STEPS.length - 1))}
