@@ -10,6 +10,7 @@
   flex-direction: column;
   gap: 12px;
   width: 100%;
+  box-sizing: border-box;
 
   .section-title {
     display: flex;
@@ -47,6 +48,7 @@
   .textarea-container {
     position: relative;
     width: 100%;
+    box-sizing: border-box;
 
     .word-count {
       position: absolute;

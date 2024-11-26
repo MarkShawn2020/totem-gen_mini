@@ -145,6 +145,7 @@ const BasicInfo = () => {
                 borderRadius: "8px",
                 border: `1px solid ${formErrors.introduction ? "#ff4d4f" : themeConfig.border}`,
                 height: "120px",
+                boxSizing: "border-box",
               }}
               value={introduction}
               onInput={handleIntroductionChange}
