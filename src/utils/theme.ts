@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro"
 
-export interface ThemeColors {
+export interface ThemeConfig {
   primary: string
   primaryRgb: string
   secondary: string
@@ -10,7 +10,7 @@ export interface ThemeColors {
   border: string
 }
 
-export const themes = {
+export const themes: Record<string, ThemeConfig> = {
   dark: {
     primary: "#2C1810",
     primaryRgb: "44, 24, 16",

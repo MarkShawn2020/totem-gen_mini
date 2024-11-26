@@ -1,4 +1,4 @@
-import { Theme } from "src/utils/theme"
+import { ThemeConfig } from "@/utils/theme"
 
 export interface FormErrors {
   name: string
@@ -10,7 +10,7 @@ export interface FormErrors {
 export interface StepButtonsProps {
   currentStep: number
   totalSteps: number
-  currentTheme: Theme
+  currentTheme: ThemeConfig
   onPrevStep: () => void
   onNextStep: () => void
   onSubmit: () => void
