@@ -160,17 +160,6 @@ export default {
     },
   },
   colors: {
-    categories: {
-      red: "赤系",
-      pink: "ピンク系",
-      orange: "オレンジ系",
-      yellow: "黄系",
-      green: "緑系",
-      blue: "青系",
-      purple: "紫系",
-      brown: "茶系",
-      gray: "灰系"
-    },
     schemes: {
       title: "推奨配色",
       complementary: "補色",
@@ -180,6 +169,21 @@ export default {
     colorNames: {
       chinese: "中国語名",
       english: "英語名"
+    },
+    categories: {
+      red: "赤色",
+      pink: "ピンク",
+      orange: "オレンジ",
+      yellow: "黄色",
+      green: "緑色",
+      cyan: "シアン",
+      blue: "青色",
+      purple: "紫色",
+      brown: "茶色",
+      beige: "ベージュ",
+      gray: "灰色",
+      black: "黒色",
+      white: "白色"
     }
   },
   common: {

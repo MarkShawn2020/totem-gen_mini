@@ -1,7 +1,7 @@
-import { themeColorAtom } from "@/atoms"
+import { themeColorAtom, themeConfigAtom } from "@/atoms"
 import StepLayout from "@/layouts/StepLayout"
 import { Color } from "@/types"
-import { categorizeColors, generateColorSchemes } from "@/utils/colorUtils"
+import { BASE_COLORS, categorizeColors, generateColorSchemes } from "@/utils/colorUtils"
 import { getFormSteps } from "@/utils/steps"
 import { ScrollView, Text, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
@@ -12,6 +12,7 @@ import "./index.scss"
 const ThemeSelection = () => {
   const { t } = useTranslation()
   const [colorTheme, setColorTheme] = useAtom(themeColorAtom)
+  const [themeConfig] = useAtom(themeConfigAtom)
   const steps = getFormSteps()
 
   // 状态管理
@@ -42,51 +43,71 @@ const ThemeSelection = () => {
   return (
     <StepLayout description={t(steps[0]!.description)} title={t(steps[0]!.title)}>
       <View className="theme-selection">
-        {/* 颜色分类标签栏 */}
-        <ScrollView scrollX className="category-tabs">
-          {colorSeries.map(series => (
-            <View
-              key={series.name}
-              className={`category-tab ${activeCategory === series.name ? "active" : ""}`}
-              onClick={() => setActiveCategory(series.name)}
-            >
+        <View className="selection-container">
+          {/* 左侧色系分类列表 */}
+          <ScrollView
+            scrollY
+            className="category-list"
+            enhanced
+            showScrollbar={false}
+            fastDeceleration
+          >
+            {colorSeries.map(series => (
               <View
-                className="category-preview"
-                style={{
-                  background: `linear-gradient(45deg, ${series.colors[0]?.HEX || "#fff"}, ${series.colors[Math.floor(series.colors.length / 2)]?.HEX || "#fff"})`,
-                }}
-              />
-              <Text>{t(`colors.categories.${series.name}`)}</Text>
-            </View>
-          ))}
-        </ScrollView>
-
-        {/* 颜色网格 */}
-        <ScrollView scrollY className="color-grid">
-          {currentColors.map(color => (
-            <View
-              key={color.ID}
-              className={`color-item ${selectedColor?.ID === color.ID ? "active" : ""}`}
-              onClick={() => handleColorSelect(color)}
-            >
-              <View className="color-preview" style={{ backgroundColor: color.HEX }} />
-              <View className="color-info">
-                <Text
-                  className="color-name"
-                  style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
+                key={series.name}
+                className={`category-item ${activeCategory === series.name ? "active" : ""}`}
+                onClick={() => setActiveCategory(series.name)}
+              >
+                <View
+                  className="category-preview"
+                  style={{
+                    background: `linear-gradient(45deg, ${series.colors[0]?.HEX || BASE_COLORS[series.name as keyof typeof BASE_COLORS]}, ${series.colors[Math.floor(series.colors.length / 2)]?.HEX || BASE_COLORS[series.name as keyof typeof BASE_COLORS]})`,
+                  }}
+                />
+                {/* <Text
+                  className="category-name"
+                  style={
+                    activeCategory === series.name
+                      ? {
+                          fontWeight: "bold",
+                          color: themeConfig.primary,
+                        }
+                      : undefined
+                  }
                 >
-                  {color.Chinese_Name}
-                </Text>
-                <Text
-                  className="color-name-en"
-                  style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
-                >
-                  {color.English_Name}
-                </Text>
+                  {t(`colors.categories.${series.name}`)}
+                </Text> */}
               </View>
-            </View>
-          ))}
-        </ScrollView>
+            ))}
+          </ScrollView>
+
+          {/* 右侧颜色列表 */}
+          <ScrollView scrollY className="color-list" enhanced>
+            {currentColors.map(color => (
+              <View
+                key={color.ID}
+                className={`color-item ${selectedColor?.ID === color.ID ? "active" : ""}`}
+                onClick={() => handleColorSelect(color)}
+              >
+                <View className="color-preview" style={{ backgroundColor: color.HEX }} />
+                <View className="color-info">
+                  <Text
+                    className="color-name"
+                    style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
+                  >
+                    {color.Chinese_Name}
+                  </Text>
+                  <Text
+                    className="color-name-en"
+                    style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
+                  >
+                    {color.English_Name}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
 
         {/* 配色方案展示 */}
         {showSchemes && colorSchemes && (

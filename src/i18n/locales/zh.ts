@@ -137,27 +137,31 @@ export default {
     },
   },
   colors: {
-    categories: {
-      red: "红色系",
-      pink: "粉色系",
-      orange: "橙色系",
-      yellow: "黄色系",
-      green: "绿色系",
-      blue: "蓝色系",
-      purple: "紫色系",
-      brown: "棕色系",
-      gray: "灰色系"
-    },
     schemes: {
       title: "推荐配色",
       complementary: "互补色",
       analogous: "类似色",
-      triadic: "三角色"
+      triadic: "三角色",
     },
     colorNames: {
       chinese: "中文名",
-      english: "英文名"
-    }
+      english: "英文名",
+    },
+    categories: {
+      red: "红色",
+      pink: "粉色",
+      orange: "橙色",
+      yellow: "黄色",
+      green: "绿色",
+      cyan: "青色",
+      blue: "蓝色",
+      purple: "紫色",
+      brown: "棕色",
+      beige: "米色",
+      gray: "灰色",
+      black: "黑色",
+      white: "白色",
+    },
   },
   common: {
     navigation: {

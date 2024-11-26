@@ -92,6 +92,23 @@ export const getTriadicColors = (
   return [hslToRgb((h + 120) % 360, s, l), hslToRgb((h + 240) % 360, s, l)]
 }
 
+// 色系基色定义
+export const BASE_COLORS = {
+  red: "#FF0000",
+  pink: "#FFC0CB",
+  orange: "#FFA500",
+  yellow: "#FFFF00",
+  green: "#00FF00",
+  cyan: "#00FFFF",
+  blue: "#0000FF",
+  purple: "#800080",
+  brown: "#A52A2A",
+  beige: "#F5F5DC",
+  gray: "#808080",
+  black: "#000000",
+  white: "#FFFFFF"
+} as const
+
 // 按色相对颜色进行分类
 export const categorizeColors = (): ColorSeries[] => {
   const categories: { [key: string]: Color[] } = {
@@ -100,10 +117,14 @@ export const categorizeColors = (): ColorSeries[] => {
     orange: [],
     yellow: [],
     green: [],
+    cyan: [],
     blue: [],
     purple: [],
     brown: [],
+    beige: [],
     gray: [],
+    black: [],
+    white: []
   }
 
   japanese_colors.forEach(color => {
@@ -117,29 +138,57 @@ export const categorizeColors = (): ColorSeries[] => {
       rgb: [color.R, color.G, color.B],
     }
 
-    if (s < 10 && l > 80) {
-      categories.gray!.push(colorObj)
-    } else if (s < 10) {
-      categories.gray!.push(colorObj)
-    } else {
-      if (h >= 345 || h < 10) categories.red!.push(colorObj)
-      else if (h >= 10 && h < 40) categories.orange!.push(colorObj)
-      else if (h >= 40 && h < 70) categories.yellow!.push(colorObj)
-      else if (h >= 70 && h < 150) categories.green!.push(colorObj)
-      else if (h >= 150 && h < 190) categories.blue!.push(colorObj)
-      else if (h >= 190 && h < 270) categories.blue!.push(colorObj)
-      else if (h >= 270 && h < 345) categories.purple!.push(colorObj)
+    // 特殊颜色处理
+    if (l <= 15) {
+      categories.black.push(colorObj)
+      return
     }
+    if (l >= 90 && s <= 10) {
+      categories.white.push(colorObj)
+      return
+    }
+    if (s <= 10) {
+      if (l < 30) categories.black.push(colorObj)
+      else if (l > 70) categories.white.push(colorObj)
+      else categories.gray.push(colorObj)
+      return
+    }
+
+    // 棕色特殊处理
+    if (s > 10 && l <= 40 && (h >= 0 && h <= 50)) {
+      categories.brown.push(colorObj)
+      return
+    }
+
+    // 米色特殊处理
+    if (s <= 30 && l >= 70 && (h >= 20 && h <= 50)) {
+      categories.beige.push(colorObj)
+      return
+    }
+
+    // 常规色系分类
+    if (h >= 345 || h < 10) {
+      if (l >= 70 && s <= 50) categories.pink.push(colorObj)
+      else categories.red.push(colorObj)
+    }
+    else if (h >= 10 && h < 45) categories.orange.push(colorObj)
+    else if (h >= 45 && h < 70) categories.yellow.push(colorObj)
+    else if (h >= 70 && h < 150) categories.green.push(colorObj)
+    else if (h >= 150 && h < 190) categories.cyan.push(colorObj)
+    else if (h >= 190 && h < 270) categories.blue.push(colorObj)
+    else if (h >= 270 && h < 345) categories.purple.push(colorObj)
   })
 
-  return Object.entries(categories).map(([name, colors]) => ({
-    name,
-    colors: colors.sort((a, b) => {
-      const [aH, aS, aL] = rgbToHsl(...a.rgb)
-      const [bH, bS, bL] = rgbToHsl(...b.rgb)
-      return bL - aL
-    }),
-  }))
+  return Object.entries(categories)
+    .filter(([_, colors]) => colors.length > 0)
+    .map(([name, colors]) => ({
+      name,
+      colors: colors.sort((a, b) => {
+        const [aH, aS, aL] = rgbToHsl(...a.rgb)
+        const [bH, bS, bL] = rgbToHsl(...b.rgb)
+        return bL - aL  // 按亮度排序
+      })
+    }))
 }
 
 // 为主色生成推荐的辅色方案

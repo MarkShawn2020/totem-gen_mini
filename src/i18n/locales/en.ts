@@ -180,17 +180,6 @@ export default {
     },
   },
   colors: {
-    categories: {
-      red: "Red",
-      pink: "Pink",
-      orange: "Orange",
-      yellow: "Yellow",
-      green: "Green",
-      blue: "Blue",
-      purple: "Purple",
-      brown: "Brown",
-      gray: "Gray"
-    },
     schemes: {
       title: "Recommended Color Schemes",
       complementary: "Complementary",
@@ -200,6 +189,21 @@ export default {
     colorNames: {
       chinese: "Chinese Name",
       english: "English Name"
+    },
+    categories: {
+      red: "Red",
+      pink: "Pink",
+      orange: "Orange",
+      yellow: "Yellow",
+      green: "Green",
+      cyan: "Cyan",
+      blue: "Blue",
+      purple: "Purple",
+      brown: "Brown",
+      beige: "Beige",
+      gray: "Gray",
+      black: "Black",
+      white: "White"
     }
   },
   common: {
