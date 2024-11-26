@@ -87,13 +87,13 @@ const IndexContent = () => {
   }
 
   return (
-    <View className="index">
+    <View className="index" style={{ backgroundColor: themeConfig.backgroundColor }}>
       <NavBar currentStep={step} />
       {renderContent()}
       <StepButtons
         currentStep={step}
-        totalSteps={3}
         currentTheme={themeConfig}
+        totalSteps={3}
         onNextStep={() => setStep(prev => Math.min(prev + 1, FORM_STEPS.length - 1))}
         onPrevStep={() => setStep(prev => Math.max(prev - 1, 0))}
         onSubmit={handleSubmit}

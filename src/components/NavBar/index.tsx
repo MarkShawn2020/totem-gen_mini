@@ -1,6 +1,6 @@
+import { themeConfigAtom } from "@/atoms"
 import { View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
-import { themeConfigAtom } from "@/atoms"
 import LanguageSwitcher from "../LanguageSwitcher"
 import "./index.scss"
 
@@ -13,7 +13,12 @@ const NavBar = ({ currentStep, totalSteps = 3 }: NavBarProps) => {
   const [themeConfig] = useAtom(themeConfigAtom)
 
   return (
-    <View className="nav-bar">
+    <View
+      className="nav-bar"
+      style={{
+        background: `${themeConfig.backgroundColor}cc`,
+      }}
+    >
       <View className="nav-bar-content">
         <View className="step-indicator">
           {Array.from({ length: totalSteps }).map((_, index) => (

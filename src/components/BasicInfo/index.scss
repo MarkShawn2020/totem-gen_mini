@@ -36,7 +36,7 @@
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    background: #fff;
+    background: var(--theme-background-color, var(--white));
     font-size: 14px;
 
     &.error {

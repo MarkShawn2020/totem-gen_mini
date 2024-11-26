@@ -32,3 +32,83 @@ export function rgb2cmyk(r: number, g: number, b: number): [number, number, numb
   // 转换为百分比并四舍五入到整数
   return [Math.round(c * 100), Math.round(m * 100), Math.round(y * 100), Math.round(k * 100)]
 }
+
+interface ColorAdjustment {
+  lightness?: number // -100 到 100
+  saturation?: number // -100 到 100
+  hue?: number // -360 到 360
+}
+
+export function adjustColor(color: string, adjustment: ColorAdjustment): string {
+  // 将 hex 转换为 HSL
+  const hsl = hexToHSL(color)
+
+  // 调整颜色
+  const newHSL = {
+    h: (hsl.h + (adjustment.hue || 0) + 360) % 360,
+    s: Math.max(0, Math.min(100, hsl.s + (adjustment.saturation || 0))),
+    l: Math.max(0, Math.min(100, hsl.l + (adjustment.lightness || 0))),
+  }
+
+  // 转回 hex
+  return hslToHex(newHSL)
+}
+
+interface HSL {
+  h: number
+  s: number
+  l: number
+}
+
+export function hexToHSL(hex: string): HSL {
+  // 移除 # 号
+  hex = hex.replace(/^#/, "")
+
+  // 解析 RGB 值
+  const r = parseInt(hex.substring(0, 2), 16) / 255
+  const g = parseInt(hex.substring(2, 4), 16) / 255
+  const b = parseInt(hex.substring(4, 6), 16) / 255
+
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+  let h = 0
+  let s = 0
+  const l = (max + min) / 2
+
+  if (max !== min) {
+    const d = max - min
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0)
+        break
+      case g:
+        h = (b - r) / d + 2
+        break
+      case b:
+        h = (r - g) / d + 4
+        break
+    }
+    h /= 6
+  }
+
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100),
+  }
+}
+
+export function hslToHex({ h, s, l }: HSL): string {
+  l /= 100
+  const a = (s * Math.min(l, 1 - l)) / 100
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
+    return Math.round(255 * color)
+      .toString(16)
+      .padStart(2, "0")
+  }
+  return `#${f(0)}${f(8)}${f(4)}`
+}
