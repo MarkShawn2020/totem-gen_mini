@@ -1,6 +1,7 @@
 import { ThemeConfig } from "@/utils/theme"
-import { View } from "@tarojs/components"
+import { View, Text } from "@tarojs/components"
 import { useEffect, useState } from "react"
+import { useTranslation } from 'react-i18next'
 import "./index.scss"
 
 interface GenderSelectorProps {
@@ -10,6 +11,7 @@ interface GenderSelectorProps {
 }
 
 const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeConfig }) => {
+  const { t } = useTranslation()
   const [selectedGender, setSelectedGender] = useState(value || "")
 
   useEffect(() => {
@@ -23,77 +25,44 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeC
     onChange?.(gender)
   }
 
-  const getOptionStyle = (gender: string) => {
-    const isSelected = selectedGender === gender
-    return {
-      background: isSelected ? themeConfig.background : "#FFFFFF",
-      border: isSelected ? `4rpx solid ${themeConfig.primary}` : "none",
-      padding: isSelected ? "36rpx 16rpx" : "40rpx 20rpx",
-    }
-  }
-
-  const getSymbolStyle = (gender: string) => {
-    const isSelected = selectedGender === gender
-    return {
-      color: isSelected ? themeConfig.primary : themeConfig.text,
-      transform: isSelected ? "rotate(180deg)" : "none",
-    }
-  }
-
-  const getLabelStyle = (gender: string) => {
-    const isSelected = selectedGender === gender
-    return {
-      color: isSelected ? themeConfig.primary : themeConfig.text,
-      fontWeight: isSelected ? "bold" : "normal",
-    }
-  }
-
-  const getDescriptionStyle = (gender: string) => {
-    const isSelected = selectedGender === gender
-    return {
-      color: isSelected ? themeConfig.primary : themeConfig.surface,
-    }
-  }
-
-  const genderOptions = [
+  const options = [
     {
-      value: "female",
-      symbol: "☯",
-      label: "阴",
-      description: "柔和 / 内敛 / 优雅",
+      value: 'female',
+      label: t('basicInfo.gender.options.female.label'),
+      description: t('basicInfo.gender.options.female.description'),
     },
     {
-      value: "neutral",
-      symbol: "☯",
-      label: "中",
-      description: "平衡 / 和谐 / 中庸",
+      value: 'neutral',
+      label: t('basicInfo.gender.options.neutral.label'),
+      description: t('basicInfo.gender.options.neutral.description'),
     },
     {
-      value: "male",
-      symbol: "☯",
-      label: "阳",
-      description: "坚定 / 开放 / 进取",
+      value: 'male',
+      label: t('basicInfo.gender.options.male.label'),
+      description: t('basicInfo.gender.options.male.description'),
     },
   ]
 
   return (
     <View className="gender-selector">
       <View className="gender-options">
-        {genderOptions.map(option => (
+        {options.map(option => (
           <View
             key={option.value}
-            className="gender-option"
-            style={getOptionStyle(option.value)}
+            className={`gender-option ${selectedGender === option.value ? 'selected' : ''}`}
+            style={{
+              borderColor: selectedGender === option.value ? themeConfig.primary : themeConfig.border,
+            }}
             onClick={() => handleSelect(option.value)}
           >
-            <View className="symbol" style={getSymbolStyle(option.value)}>
-              {option.symbol}
+            <View className="symbol">
+              ☯
             </View>
-            <View className="label" style={getLabelStyle(option.value)}>
-              {option.label}
+            <View className="label">
+              <Text>{option.label}</Text>
             </View>
-            <View className="description" style={getDescriptionStyle(option.value)}>
-              {option.description}
+            <View className="description">
+              <Text>{option.description}</Text>
             </View>
           </View>
         ))}

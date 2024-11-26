@@ -12,6 +12,7 @@ import { FORM_STEPS } from "@/utils/steps"
 import { Input } from "@nutui/nutui-react-taro"
 import { Text, Textarea, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
+import { useTranslation } from "react-i18next"
 
 const BasicInfo = () => {
   const [themeConfig] = useAtom(themeConfigAtom)
@@ -20,6 +21,7 @@ const BasicInfo = () => {
   const [gender, setGender] = useAtom(genderAtom)
   const [introduction, setIntroduction] = useAtom(introductionAtom)
   const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
+  const { t } = useTranslation()
 
   const handleNameChange = (val: string) => {
     setName(val)
@@ -49,21 +51,22 @@ const BasicInfo = () => {
   return (
     <View className="step-content">
       <View className="step-header">
-        <Text className="step-title">{FORM_STEPS[2]!.title}</Text>
-        <Text className="step-desc">请填写你的基本信息，这些信息将用于生成你独特的图腾</Text>
+        <Text className="step-title">{t(FORM_STEPS[2]!.title)}</Text>
+        <Text className="step-desc">{t("basicInfo.description")}</Text>
       </View>
       <View className="input-group">
         <View className="input-section name-section">
           <View className="section-title">
             <Text className="title-text">
-              姓名<Text style={{ color: themeConfig.primary }}>*</Text>
+              {t("basicInfo.name.label")}
+              <Text style={{ color: themeConfig.primary }}>{t("basicInfo.name.required")}</Text>
             </Text>
-            <Text className="title-desc">你希望在图腾中展现的称呼</Text>
+            <Text className="title-desc">{t("basicInfo.name.description")}</Text>
           </View>
           <View className="input-container">
             <Input
               className={`custom-input ${formErrors.name ? "error" : ""}`}
-              placeholder="请输入你的名字"
+              placeholder={t("basicInfo.name.placeholder")}
               value={name}
               onChange={handleNameChange}
             />
@@ -81,9 +84,12 @@ const BasicInfo = () => {
         <View className="input-section year-section">
           <View className="section-title">
             <Text className="title-text">
-              生辰年份<Text style={{ color: themeConfig.primary }}>*</Text>
+              {t("basicInfo.birthYear.label")}
+              <Text style={{ color: themeConfig.primary }}>
+                {t("basicInfo.birthYear.required")}
+              </Text>
             </Text>
-            <Text className="title-desc">你的出生年份将影响图腾的核心元素</Text>
+            <Text className="title-desc">{t("basicInfo.birthYear.description")}</Text>
           </View>
           <YearPicker
             themeColors={themeConfig}
@@ -103,9 +109,10 @@ const BasicInfo = () => {
         <View className="input-section gender-section">
           <View className="section-title">
             <Text className="title-text">
-              性别倾向<Text style={{ color: themeConfig.primary }}>*</Text>
+              {t("basicInfo.gender.label")}
+              <Text style={{ color: themeConfig.primary }}>{t("basicInfo.gender.required")}</Text>
             </Text>
-            <Text className="title-desc">选择更适合你的性别特征，这将影响图腾的整体风格</Text>
+            <Text className="title-desc">{t("basicInfo.gender.description")}</Text>
           </View>
           <GenderSelector themeConfig={themeConfig} value={gender} onChange={handleGenderChange} />
           {formErrors.gender && (
@@ -121,15 +128,16 @@ const BasicInfo = () => {
         <View className="input-section intro-section">
           <View className="section-title">
             <Text className="title-text">
-              个人简介<Text style={{ color: themeConfig.primary }}>*</Text>
+              {t("basicInfo.bio.label")}
+              <Text style={{ color: themeConfig.primary }}>{t("basicInfo.bio.required")}</Text>
             </Text>
-            <Text className="title-desc">描述一下你的性格、爱好或期望，这些将融入你的图腾中</Text>
+            <Text className="title-desc">{t("basicInfo.bio.description")}</Text>
           </View>
           <View className="textarea-container">
             <Textarea
               className={`custom-textarea ${formErrors.introduction ? "error" : ""}`}
               maxlength={200}
-              placeholder="例如：我是一个热爱艺术的人，喜欢探索新事物..."
+              placeholder={t("basicInfo.bio.placeholder")}
               style={{
                 background: "#ffffff",
                 padding: "12px",
