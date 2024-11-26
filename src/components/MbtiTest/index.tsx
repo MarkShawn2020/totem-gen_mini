@@ -1,6 +1,8 @@
-import { mbtiSelectionsAtom, themeConfigAtom } from "@/atoms"
+import { mbtiSelectionsAtom, themeColorAtom } from "@/atoms"
+import StepLayout from "@/layouts/StepLayout"
 import { getMBTIDimensions } from "@/utils/mbti"
 import { getFormSteps } from "@/utils/steps"
+import { themes } from "@/utils/theme"
 import { Text, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
 import { useTranslation } from "react-i18next"
@@ -8,16 +10,16 @@ import "./index.scss"
 
 const MbtiTest = () => {
   const { t } = useTranslation()
-  const [themeConfig] = useAtom(themeConfigAtom)
+  const [colorTheme] = useAtom(themeColorAtom)
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
   const steps = getFormSteps()
 
   // Ensure we always have valid selections
   const selections = Array.isArray(mbtiSelections) ? mbtiSelections : [false, false, false, false]
 
-  const handleToggle = (index: number) => {
+  const handleSelect = (index: number, value: boolean) => {
     const newSelections = [...selections]
-    newSelections[index] = !newSelections[index]
+    newSelections[index] = value
     setMbtiSelections(newSelections)
   }
 
@@ -27,12 +29,7 @@ const MbtiTest = () => {
     .join("")
 
   return (
-    <View className="step-content">
-      <View className="step-header">
-        <Text className="step-title">{steps[1]!.title}</Text>
-        <Text className="step-desc">{steps[1]!.description}</Text>
-      </View>
-
+    <StepLayout title={t(steps[1]!.title)} description={t(steps[1]!.description)}>
       <View className="mbti-section">
         {dimensions.map((dimension, index) => (
           <View key={dimension.id} className="mbti-dimension">
@@ -45,15 +42,15 @@ const MbtiTest = () => {
               <View
                 className={`type-option ${!selections[index] ? "active" : ""}`}
                 style={{
-                  background: !selections[index] ? themeConfig.surface : themeConfig.background,
-                  borderColor: !selections[index] ? themeConfig.primary : themeConfig.border,
+                  background: !selections[index] ? themes[colorTheme].surface : themes[colorTheme].background,
+                  borderColor: !selections[index] ? themes[colorTheme].primary : themes[colorTheme].border,
                 }}
-                onClick={() => handleToggle(index)}
+                onClick={() => handleSelect(index, false)}
               >
                 <View className="type-header">
                   <Text
                     className="type-letter"
-                    style={{ color: !selections[index] ? themeConfig.primary : themeConfig.text }}
+                    style={{ color: !selections[index] ? themes[colorTheme].primary : themes[colorTheme].text }}
                   >
                     {dimension.left.letter}
                   </Text>
@@ -61,7 +58,13 @@ const MbtiTest = () => {
                 </View>
                 <View className="type-traits">
                   {dimension.left.traits.map((trait, i) => (
-                    <Text key={i} className="trait">
+                    <Text
+                      key={i}
+                      className="trait"
+                      style={{
+                        color: !selections[index] ? themes[colorTheme].text : "rgba(0,0,0,0.5)",
+                      }}
+                    >
                       {trait}
                     </Text>
                   ))}
@@ -71,15 +74,15 @@ const MbtiTest = () => {
               <View
                 className={`type-option ${selections[index] ? "active" : ""}`}
                 style={{
-                  background: selections[index] ? themeConfig.surface : themeConfig.background,
-                  borderColor: selections[index] ? themeConfig.primary : themeConfig.border,
+                  background: selections[index] ? themes[colorTheme].surface : themes[colorTheme].background,
+                  borderColor: selections[index] ? themes[colorTheme].primary : themes[colorTheme].border,
                 }}
-                onClick={() => handleToggle(index)}
+                onClick={() => handleSelect(index, true)}
               >
                 <View className="type-header">
                   <Text
                     className="type-letter"
-                    style={{ color: selections[index] ? themeConfig.primary : themeConfig.text }}
+                    style={{ color: selections[index] ? themes[colorTheme].primary : themes[colorTheme].text }}
                   >
                     {dimension.right.letter}
                   </Text>
@@ -87,7 +90,13 @@ const MbtiTest = () => {
                 </View>
                 <View className="type-traits">
                   {dimension.right.traits.map((trait, i) => (
-                    <Text key={i} className="trait">
+                    <Text
+                      key={i}
+                      className="trait"
+                      style={{
+                        color: selections[index] ? themes[colorTheme].text : "rgba(0,0,0,0.5)",
+                      }}
+                    >
                       {trait}
                     </Text>
                   ))}
@@ -98,11 +107,19 @@ const MbtiTest = () => {
         ))}
       </View>
 
-      <View className="mbti-result">
+      <View
+        className="mbti-result"
+        style={{
+          borderColor: themes[colorTheme].primary,
+          background: themes[colorTheme].surface,
+        }}
+      >
         <Text className="result-label">{t("mbti.result")}</Text>
-        <Text className="result-value">{mbtiType}</Text>
+        <Text className="result-value" style={{ color: themes[colorTheme].primary }}>
+          {mbtiType}
+        </Text>
       </View>
-    </View>
+    </StepLayout>
   )
 }
 

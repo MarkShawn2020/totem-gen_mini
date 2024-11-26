@@ -1,9 +1,11 @@
 import { themeColorAtom } from "@/atoms"
+import StepLayout from "@/layouts/StepLayout"
 import { getFormSteps, getColorThemes } from "@/utils/steps"
 import { themes } from "@/utils/theme"
 import { Text, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
 import { useTranslation } from "react-i18next"
+import "./index.scss"
 
 const ThemeSelection = () => {
   const { t } = useTranslation()
@@ -11,37 +13,36 @@ const ThemeSelection = () => {
   const steps = getFormSteps()
   const colorThemes = getColorThemes()
 
-  return (
-    <View className="step-content">
-      <View className="step-header">
-        <Text className="step-title">{t(steps[0]!.title)}</Text>
-        <Text className="step-desc">{t(steps[0]!.description)}</Text>
-      </View>
+  const handleThemeChange = (theme: string) => {
+    setColorTheme(theme)
+  }
 
-      <View className="theme-grid">
-        {colorThemes.map(theme => (
+  return (
+    <StepLayout title={t(steps[0]!.title)} description={t(steps[0]!.description)}>
+      <View className="theme-selection">
+        <View className="theme-list">
+          {colorThemes.map(theme => (
+            <View
+              key={theme.value}
+              className={`theme-item ${colorTheme === theme.value ? "active" : ""}`}
+              style={{
+                background: themes[theme.value].primary,
+                borderColor: colorTheme === theme.value ? themes[theme.value].primary : "transparent",
+              }}
+              onClick={() => handleThemeChange(theme.value)}
+            />
+          ))}
           <View
-            key={theme.value}
-            className="theme-option"
+            className="theme-item placeholder"
             style={{
-              background: themes[theme.value].surface,
-              borderColor:
-                colorTheme === theme.value
-                  ? themes[theme.value].primary
-                  : themes[theme.value].border,
+              background: "rgba(0,0,0,0.1)",
             }}
-            onClick={() => setColorTheme(theme.value)}
           >
-            <Text className="theme-name" style={{ color: themes[theme.value].primary }}>
-              {t(theme.name)}
-            </Text>
-            <Text className="theme-desc" style={{ color: themes[theme.value].text }}>
-              {t(theme.description)}
-            </Text>
+            <Text className="placeholder-text">{t("theme.more")}</Text>
           </View>
-        ))}
+        </View>
       </View>
-    </View>
+    </StepLayout>
   )
 }
 

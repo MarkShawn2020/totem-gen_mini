@@ -1,18 +1,19 @@
 import { ThemeConfig } from "@/utils/theme"
-import { View, Text } from "@tarojs/components"
+import { Text, View } from "@tarojs/components"
 import { useEffect, useState } from "react"
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from "react-i18next"
 import "./index.scss"
 
 interface GenderSelectorProps {
-  value?: string
+  value: string
   onChange?: (value: string) => void
   themeConfig: ThemeConfig
 }
 
 const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeConfig }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [selectedGender, setSelectedGender] = useState(value || "")
+  const isVerticalLayout = i18n.language === "zh" || i18n.language === "ja"
 
   useEffect(() => {
     if (value !== selectedGender) {
@@ -27,45 +28,70 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeC
 
   const options = [
     {
-      value: 'female',
-      label: t('basicInfo.gender.options.female.label'),
-      description: t('basicInfo.gender.options.female.description'),
+      value: "yin",
+      label: t("basicInfo.gender.options.yin.label"),
+      description: t("basicInfo.gender.options.yin.description"),
     },
     {
-      value: 'neutral',
-      label: t('basicInfo.gender.options.neutral.label'),
-      description: t('basicInfo.gender.options.neutral.description'),
+      value: "neutral",
+      label: t("basicInfo.gender.options.neutral.label"),
+      description: t("basicInfo.gender.options.neutral.description"),
     },
     {
-      value: 'male',
-      label: t('basicInfo.gender.options.male.label'),
-      description: t('basicInfo.gender.options.male.description'),
+      value: "yang",
+      label: t("basicInfo.gender.options.yang.label"),
+      description: t("basicInfo.gender.options.yang.description"),
     },
   ]
 
   return (
     <View className="gender-selector">
-      <View className="gender-options">
-        {options.map(option => (
-          <View
-            key={option.value}
-            className={`gender-option ${selectedGender === option.value ? 'selected' : ''}`}
-            style={{
-              borderColor: selectedGender === option.value ? themeConfig.primary : themeConfig.border,
-            }}
-            onClick={() => handleSelect(option.value)}
-          >
-            <View className="symbol">
-              ☯
+      <View className={`gender-options ${isVerticalLayout ? "vertical" : "horizontal"}`}>
+        {options.map(option => {
+          const isSelected = selectedGender === option.value
+          const Inner = () => (
+            <>
+              <View className="label">
+                <Text style={{ color: isSelected ? themeConfig.primary : themeConfig.text }}>
+                  {option.label}
+                </Text>
+              </View>
+              <View className="description">
+                <Text style={{ color: isSelected ? themeConfig.primary : themeConfig.text }}>
+                  {option.description}
+                </Text>
+              </View>
+            </>
+          )
+
+          return (
+            <View
+              key={option.value}
+              className={`gender-option ${isSelected ? "selected" : ""}`}
+              style={{
+                borderColor: isSelected ? themeConfig.primary : themeConfig.border,
+                backgroundColor: isSelected ? themeConfig.surface : "#ffffff",
+              }}
+              onClick={() => handleSelect(option.value)}
+            >
+              <View 
+                className="symbol"
+                style={{
+                  color: isSelected ? themeConfig.primary : themeConfig.text
+                }}
+              >
+                ☯
+              </View>
+              {isVerticalLayout ? (
+                <Inner />
+              ) : (
+                <View className="content">
+                  <Inner />
+                </View>
+              )}
             </View>
-            <View className="label">
-              <Text>{option.label}</Text>
-            </View>
-            <View className="description">
-              <Text>{option.description}</Text>
-            </View>
-          </View>
-        ))}
+          )
+        })}
       </View>
     </View>
   )

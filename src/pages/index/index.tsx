@@ -75,14 +75,13 @@ const IndexContent = () => {
   // Render content based on current step
   const renderContent = () => {
     switch (step) {
-      case 0:
-        return <ThemeSelection />
       case 1:
         return <MbtiTest />
       case 2:
         return <BasicInfo />
+      case 0:
       default:
-        return null
+        return <ThemeSelection />
     }
   }
 
