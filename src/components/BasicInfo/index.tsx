@@ -26,7 +26,7 @@ const BasicInfo = () => {
   const { t } = useTranslation()
 
   const steps = getFormSteps()
-  const themeConfig = useAtom(themeConfigAtom)
+  const [themeConfig] = useAtom(themeConfigAtom)
 
   const handleNameChange = (val: string) => {
     setName(val)
