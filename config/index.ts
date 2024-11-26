@@ -46,6 +46,12 @@ export default defineConfig<"vite">(async (merge, { command, mode }) => {
 
       webpackChain(chain) {
         chain.resolve.plugin("tsconfig-paths").use(TsconfigPathsPlugin)
+
+        chain.module
+          .rule("csv")
+          .test(/\.csv$/)
+          .use("csv-loader")
+          .loader("csv-loader")
       },
       postcss: {
         pxtransform: {

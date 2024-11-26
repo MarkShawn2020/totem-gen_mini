@@ -53,6 +53,7 @@
     "@tarojs/runtime": "4.0.7",
     "@tarojs/shared": "4.0.7",
     "@tarojs/taro": "4.0.7",
+    "csv-loader": "^3.0.5",
     "embla-carousel-react": "^8.5.1",
     "i18next": "^24.0.2",
     "jotai": "^2.10.3",
