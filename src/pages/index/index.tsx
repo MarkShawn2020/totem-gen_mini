@@ -12,18 +12,19 @@ import {
   stepAtom,
   themeConfigAtom,
 } from "@/atoms"
+import { getFormSteps } from "@/utils/steps"
+import { validateForm } from "@/utils/validation"
+
 import BasicInfo from "@/components/BasicInfo"
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 import MbtiTest from "@/components/MbtiTest"
 import StepButtons from "@/components/StepButtons"
 import ThemeSelection from "@/components/ThemeSelection"
-import { validateForm } from "@/utils/validation"
 
-import LanguageSwitcher from "@/components/LanguageSwitcher"
-import { getFormSteps } from "@/utils/steps"
 import "./index.scss"
 
 const IndexContent = () => {
-  const [step, setStep] = useAtom(stepAtom)
+  const [step, setStep] = useAtom<number>(stepAtom)
   const [themeConfig] = useAtom(themeConfigAtom)
   const [name] = useAtom(nameAtom)
   const [birthYear] = useAtom(birthYearAtom)

@@ -1,12 +1,12 @@
 import { View } from "@tarojs/components"
-import { Component, PropsWithChildren } from "react"
 import Taro from "@tarojs/taro"
+import { Component, type PropsWithChildren } from "react"
 import { I18nextProvider } from "react-i18next"
-import i18n from "./i18n"
 import "./app.scss"
+import i18n from "./i18n"
 
 // 从本地存储获取上次选择的语言
-const savedLanguage = Taro.getStorageSync('language')
+const savedLanguage = Taro.getStorageSync("language")
 if (savedLanguage) {
   i18n.changeLanguage(savedLanguage)
 }

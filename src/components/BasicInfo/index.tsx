@@ -4,13 +4,13 @@ import {
   genderAtom,
   introductionAtom,
   nameAtom,
-  themeColorAtom,
+  themeConfigAtom,
 } from "@/atoms"
 import GenderSelector from "@/components/GenderSelector"
 import YearPicker from "@/components/YearPicker"
 import StepLayout from "@/layouts/StepLayout"
 import { getFormSteps } from "@/utils/steps"
-import { themes } from "@/utils/theme"
+
 import { Input } from "@nutui/nutui-react-taro"
 import { Text, Textarea, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
@@ -18,7 +18,6 @@ import { useTranslation } from "react-i18next"
 import "./index.scss"
 
 const BasicInfo = () => {
-  const [colorTheme] = useAtom(themeColorAtom)
   const [name, setName] = useAtom(nameAtom)
   const [birthYear, setBirthYear] = useAtom(birthYearAtom)
   const [gender, setGender] = useAtom(genderAtom)
@@ -27,7 +26,7 @@ const BasicInfo = () => {
   const { t } = useTranslation()
 
   const steps = getFormSteps()
-  const themeConfig = themes[colorTheme]
+  const themeConfig = useAtom(themeConfigAtom)
 
   const handleNameChange = (val: string) => {
     setName(val)
@@ -55,7 +54,7 @@ const BasicInfo = () => {
   }
 
   return (
-    <StepLayout title={t(steps[2]!.title)} description={t("basicInfo.description")}>
+    <StepLayout description={t("basicInfo.description")} title={t(steps[2]!.title)}>
       <View className="input-group">
         <View className="input-section name-section">
           <View className="section-title">

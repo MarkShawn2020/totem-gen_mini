@@ -1,8 +1,8 @@
-import { mbtiSelectionsAtom, themeColorAtom } from "@/atoms"
+import { mbtiSelectionsAtom, themeConfigAtom } from "@/atoms"
 import StepLayout from "@/layouts/StepLayout"
 import { getMBTIDimensions } from "@/utils/mbti"
 import { getFormSteps } from "@/utils/steps"
-import { themes } from "@/utils/theme"
+
 import { Text, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
 import { useTranslation } from "react-i18next"
@@ -10,14 +10,26 @@ import "./index.scss"
 
 const MbtiTest = () => {
   const { t } = useTranslation()
-  const [colorTheme] = useAtom(themeColorAtom)
+  const [themeConfig] = useAtom(themeConfigAtom)
+
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
   const steps = getFormSteps()
 
-  // Ensure we always have valid selections
-  const selections = Array.isArray(mbtiSelections) ? mbtiSelections : [false, false, false, false]
+  console.log("MBTI Selections:", mbtiSelections)
+
+  // Ensure we always have valid selections with more defensive programming
+  const selections =
+    mbtiSelections == null || !Array.isArray(mbtiSelections)
+      ? [false, false, false, false]
+      : mbtiSelections.length !== 4
+        ? [false, false, false, false]
+        : mbtiSelections
 
   const handleSelect = (index: number, value: boolean) => {
+    if (!Array.isArray(selections)) {
+      console.error("Selections is not an array:", selections)
+      return
+    }
     const newSelections = [...selections]
     newSelections[index] = value
     setMbtiSelections(newSelections)
@@ -29,7 +41,7 @@ const MbtiTest = () => {
     .join("")
 
   return (
-    <StepLayout title={t(steps[1]!.title)} description={t(steps[1]!.description)}>
+    <StepLayout description={t(steps[1]!.description)} title={t(steps[1]!.title)}>
       <View className="mbti-section">
         {dimensions.map((dimension, index) => (
           <View key={dimension.id} className="mbti-dimension">
@@ -42,15 +54,15 @@ const MbtiTest = () => {
               <View
                 className={`type-option ${!selections[index] ? "active" : ""}`}
                 style={{
-                  background: !selections[index] ? themes[colorTheme].surface : themes[colorTheme].background,
-                  borderColor: !selections[index] ? themes[colorTheme].primary : themes[colorTheme].border,
+                  background: !selections[index] ? themeConfig.surface : themeConfig.background,
+                  borderColor: !selections[index] ? themeConfig.primary : themeConfig.border,
                 }}
                 onClick={() => handleSelect(index, false)}
               >
                 <View className="type-header">
                   <Text
                     className="type-letter"
-                    style={{ color: !selections[index] ? themes[colorTheme].primary : themes[colorTheme].text }}
+                    style={{ color: !selections[index] ? themeConfig.primary : themeConfig.text }}
                   >
                     {dimension.left.letter}
                   </Text>
@@ -62,7 +74,7 @@ const MbtiTest = () => {
                       key={i}
                       className="trait"
                       style={{
-                        color: !selections[index] ? themes[colorTheme].text : "rgba(0,0,0,0.5)",
+                        color: !selections[index] ? themeConfig.text : "rgba(0,0,0,0.5)",
                       }}
                     >
                       {trait}
@@ -74,15 +86,15 @@ const MbtiTest = () => {
               <View
                 className={`type-option ${selections[index] ? "active" : ""}`}
                 style={{
-                  background: selections[index] ? themes[colorTheme].surface : themes[colorTheme].background,
-                  borderColor: selections[index] ? themes[colorTheme].primary : themes[colorTheme].border,
+                  background: selections[index] ? themeConfig.surface : themeConfig.background,
+                  borderColor: selections[index] ? themeConfig.primary : themeConfig.border,
                 }}
                 onClick={() => handleSelect(index, true)}
               >
                 <View className="type-header">
                   <Text
                     className="type-letter"
-                    style={{ color: selections[index] ? themes[colorTheme].primary : themes[colorTheme].text }}
+                    style={{ color: selections[index] ? themeConfig.primary : themeConfig.text }}
                   >
                     {dimension.right.letter}
                   </Text>
@@ -94,7 +106,7 @@ const MbtiTest = () => {
                       key={i}
                       className="trait"
                       style={{
-                        color: selections[index] ? themes[colorTheme].text : "rgba(0,0,0,0.5)",
+                        color: selections[index] ? themeConfig.text : "rgba(0,0,0,0.5)",
                       }}
                     >
                       {trait}
@@ -110,12 +122,12 @@ const MbtiTest = () => {
       <View
         className="mbti-result"
         style={{
-          borderColor: themes[colorTheme].primary,
-          background: themes[colorTheme].surface,
+          borderColor: themeConfig.primary,
+          background: themeConfig.surface,
         }}
       >
         <Text className="result-label">{t("mbti.result")}</Text>
-        <Text className="result-value" style={{ color: themes[colorTheme].primary }}>
+        <Text className="result-value" style={{ color: themeConfig.primary }}>
           {mbtiType}
         </Text>
       </View>

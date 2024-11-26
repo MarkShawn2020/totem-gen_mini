@@ -1,4 +1,4 @@
-import { ThemeConfig } from "@/utils/theme"
+import type { ThemeConfig } from "@/utils/theme"
 import { Text, View } from "@tarojs/components"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -74,10 +74,10 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeC
               }}
               onClick={() => handleSelect(option.value)}
             >
-              <View 
+              <View
                 className="symbol"
                 style={{
-                  color: isSelected ? themeConfig.primary : themeConfig.text
+                  color: isSelected ? themeConfig.primary : themeConfig.text,
                 }}
               >
                 ☯

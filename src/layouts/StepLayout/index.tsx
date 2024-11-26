@@ -1,8 +1,7 @@
-import { themeColorAtom } from "@/atoms"
-import { themes } from "@/utils/theme"
+import { themeConfigAtom } from "@/atoms"
 import { Text, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 import "./index.scss"
 
 interface StepLayoutProps {
@@ -12,12 +11,12 @@ interface StepLayoutProps {
 }
 
 const StepLayout = ({ title, description, children }: StepLayoutProps) => {
-  const [colorTheme] = useAtom(themeColorAtom)
+  const [themeConfig] = useAtom(themeConfigAtom)
 
   return (
     <View className="step-content">
       <View className="step-header">
-        <Text className="step-title" style={{ color: themes[colorTheme].primary }}>
+        <Text className="step-title" style={{ color: themeConfig.primary }}>
           {title}
         </Text>
         <Text className="step-desc">{description}</Text>

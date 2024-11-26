@@ -1,7 +1,11 @@
 .theme-selection {
   width: 100%;
   box-sizing: border-box;
-  padding: 0 20px;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .theme-list {
@@ -49,4 +53,186 @@
       width: max-content;
     }
   }
+}
+
+.category-tabs {
+  white-space: nowrap;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  .category-tab {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-right: 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    position: relative;
+
+    &.active {
+      background: var(--primary-color);
+      color: white;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -11px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--primary-color);
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.color-grid {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 10px 0;
+  height: 400px;
+
+  .color-item {
+    width: calc(50% - 8px);
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    &.active {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+      .color-preview {
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+
+    .color-preview {
+      height: 120px;
+      position: relative;
+
+      &::after {
+        content: "✓";
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+    }
+
+    .color-info {
+      padding: 12px;
+
+      .chinese-name {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      .english-name {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
+        display: block;
+      }
+    }
+  }
+}
+
+.color-schemes {
+  padding: 20px 0;
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .schemes-scroll {
+    white-space: nowrap;
+
+    .scheme-card {
+      display: inline-block;
+      margin-right: 15px;
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .scheme-name {
+        font-size: 14px;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .scheme-colors {
+        display: flex;
+        gap: 8px;
+
+        .main-color,
+        .scheme-color {
+          width: 40px;
+          height: 40px;
+          border-radius: 8px;
+          position: relative;
+        }
+
+        .main-color {
+          &::after {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 添加波纹动画
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
 }

@@ -1,4 +1,4 @@
-import { StepButtonsProps } from "@/types"
+import type { StepButtonsProps } from "@/types"
 import { View } from "@tarojs/components"
 
 const StepButtons: React.FC<StepButtonsProps> = ({

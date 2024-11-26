@@ -1,4 +1,6 @@
+import { JapaneseColor } from "@/types"
 import Taro from "@tarojs/taro"
+import { generateColorSchemes } from "./colorUtils"
 
 export interface ThemeConfig {
   primary: string
@@ -10,73 +12,69 @@ export interface ThemeConfig {
   border: string
 }
 
-export type ThemeType = "dark" | "blue" | "green" | "red" | "purple"
-export const themes: Record<ThemeType, ThemeConfig> = {
-  dark: {
-    primary: "#2C1810",
-    primaryRgb: "44, 24, 16",
-    secondary: "#8C6C5A",
-    background: "#FCF9F2",
-    surface: "#F5EDE4",
-    text: "#2C1810",
-    border: "rgba(44, 24, 16, 0.2)",
-  },
-  blue: {
-    primary: "#1B4B66",
-    primaryRgb: "27, 75, 102",
-    secondary: "#5B8BA0",
-    background: "#F7FBFD",
-    surface: "#E8F4F8",
-    text: "#1B4B66",
-    border: "rgba(27, 75, 102, 0.2)",
-  },
-  red: {
-    primary: "#8C2E2E",
-    primaryRgb: "140, 46, 46",
-    secondary: "#B85959",
-    background: "#FDF7F7",
-    surface: "#FFE8E8",
-    text: "#8C2E2E",
-    border: "rgba(140, 46, 46, 0.2)",
-  },
-  green: {
-    primary: "#2E5E3E",
-    primaryRgb: "46, 94, 62",
-    secondary: "#588C6B",
-    background: "#F7FDF8",
-    surface: "#E8F8EC",
-    text: "#2E5E3E",
-    border: "rgba(46, 94, 62, 0.2)",
-  },
-  purple: {
-    primary: "#4E2E8C",
-    primaryRgb: "78, 46, 140",
-    secondary: "#7959B8",
-    background: "#FAF7FD",
-    surface: "#F2E8FF",
-    text: "#4E2E8C",
-    border: "rgba(78, 46, 140, 0.2)",
-  },
-} as const
-
-const THEME_STORAGE_KEY = "totem_theme"
-
-export const getStoredTheme = (): ThemeType => {
-  const stored = Taro.getStorageSync(THEME_STORAGE_KEY)
-  return (stored as ThemeType) || "dark"
+// 将 RGB 数组转换为 CSS rgb 字符串
+const rgbToString = (rgb: [number, number, number]): string => {
+  return rgb.join(", ")
 }
 
-export const setStoredTheme = (theme: ThemeType) => {
-  Taro.setStorageSync(THEME_STORAGE_KEY, theme)
+// 根据主色生成主题配置
+export const generateThemeConfig = (color: JapaneseColor): ThemeConfig => {
+  const rgb = [color.R, color.G, color.B] as [number, number, number]
+  const [r, g, b] = rgb
+  const schemes = generateColorSchemes(rgb)
+
+  // 计算是否为深色
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000
+  const isDark = brightness < 128
+
+  // 生成次要颜色
+  const secondaryRgb = schemes.analogous.colors[0] as [number, number, number]
+
+  // 为深色主题和浅色主题生成不同的配色
+  if (isDark) {
+    return {
+      primary: color.HEX,
+      primaryRgb: rgbToString(rgb),
+      secondary: `rgb(${rgbToString(secondaryRgb)})`,
+      background: "#FCF9F2",
+      surface: "#F5EDE4",
+      text: color.HEX,
+      border: `rgba(${rgbToString(rgb)}, 0.2)`,
+    }
+  } else {
+    return {
+      primary: color.HEX,
+      primaryRgb: rgbToString(rgb),
+      secondary: `rgb(${rgbToString(secondaryRgb)})`,
+      background: `rgba(${rgbToString(rgb)}, 0.03)`,
+      surface: `rgba(${rgbToString(rgb)}, 0.08)`,
+      text: color.HEX,
+      border: `rgba(${rgbToString(rgb)}, 0.2)`,
+    }
+  }
 }
 
-export const getCssVars = (theme: ThemeType): Record<string, string> => {
-  const themeColors = themes[theme]
-  return Object.entries(themeColors).reduce(
-    (acc, [key, value]) => {
-      acc[`--theme-${key}`] = value
-      return acc
-    },
-    {} as Record<string, string>,
-  )
+const THEME_STORAGE_KEY = "theme_color"
+
+// 从存储中获取主题颜色
+export const getStoredTheme = (): string => {
+  return Taro.getStorageSync(THEME_STORAGE_KEY) || "#2C1810"
+}
+
+// 将主题颜色保存到存储
+export const setStoredTheme = (colorHex: string) => {
+  Taro.setStorageSync(THEME_STORAGE_KEY, colorHex)
+}
+
+// 生成 CSS 变量
+export const getCssVars = (config: ThemeConfig): Record<string, string> => {
+  return {
+    "--primary-color": config.primary,
+    "--primary-rgb": config.primaryRgb,
+    "--secondary-color": config.secondary,
+    "--background-color": config.background,
+    "--surface-color": config.surface,
+    "--text-color": config.text,
+    "--border-color": config.border,
+  }
 }

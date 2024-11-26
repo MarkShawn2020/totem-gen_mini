@@ -1,9 +1,9 @@
 import { themeConfigAtom } from "@/atoms"
-import { Picker, View, Text } from "@tarojs/components"
+import { Picker, Text, View } from "@tarojs/components"
 import Taro from "@tarojs/taro"
 import { useAtom } from "jotai/react"
-import { useTranslation } from "react-i18next"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import "./index.scss"
 
 const LanguageSwitcher = () => {
@@ -25,9 +25,9 @@ const LanguageSwitcher = () => {
 
   const handleLanguageChange = e => {
     const index = parseInt(e.detail.value)
-    const newLang = languages[index].value
+    const newLang = languages[index]!.value
     // 保存语言选择到本地存储
-    Taro.setStorageSync('language', newLang)
+    Taro.setStorageSync("language", newLang)
     i18n.changeLanguage(newLang).then(() => {
       // 强制组件树重新渲染
       setForceUpdate({})
@@ -40,8 +40,8 @@ const LanguageSwitcher = () => {
         mode="selector"
         range={languages}
         rangeKey="label"
-        onChange={handleLanguageChange}
         value={getCurrentIndex()}
+        onChange={handleLanguageChange}
       >
         <View
           className="language-button"

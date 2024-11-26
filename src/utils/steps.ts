@@ -1,4 +1,3 @@
-import { ThemeType } from "@/utils/theme"
 import i18next from "i18next"
 
 export interface Step {
@@ -31,7 +30,7 @@ export const getFormSteps = (): Step[] => {
 export interface ThemeOption {
   name: string
   description: string
-  value: ThemeType
+  value: string
 }
 
 export const getColorThemes = (): ThemeOption[] => {
