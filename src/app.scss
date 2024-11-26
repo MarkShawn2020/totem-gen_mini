@@ -16,6 +16,28 @@ page {
 
   background-color: var(--white);
   color: var(--gray-900);
+
+  // 增加选择器权重和更完整的选择器覆盖
+  view,
+  text,
+  button,
+  input,
+  textarea,
+  scroll-view,
+  swiper,
+  navigator {
+    box-sizing: border-box;
+  }
+
+  // 通配符选择器作为补充
+  * {
+    box-sizing: border-box;
+  }
+
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
 }
 
 .language-switcher-container {

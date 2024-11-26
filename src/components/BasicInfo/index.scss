@@ -1,71 +1,73 @@
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-}
-
-.input-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  box-sizing: border-box;
-
-  .section-title {
+page {
+  .input-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 24px;
+    width: 100%;
+  }
 
-    .title-text {
-      font-size: 16px;
-      font-weight: bold;
+  .input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    // box-sizing 由全局样式处理
+
+    .section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .title-text {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .title-desc {
+        font-size: 14px;
+        opacity: 0.7;
+      }
     }
 
-    .title-desc {
+    .input-container {
+      width: 100%;
+    }
+
+    .custom-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: var(--theme-background-color, var(--white));
       font-size: 14px;
-      opacity: 0.7;
+
+      &.error {
+        border-color: #ff4d4f;
+      }
     }
-  }
 
-  .input-container {
-    width: 100%;
-  }
+    .textarea-container {
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
 
-  .custom-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    background: var(--theme-background-color, var(--white));
-    font-size: 14px;
-
-    &.error {
-      border-color: #ff4d4f;
+      .word-count {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        font-size: 12px;
+        opacity: 0.7;
+      }
     }
-  }
 
-  .textarea-container {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
+    .custom-textarea {
+      width: 100%;
+      resize: none;
+      font-size: 14px;
 
-    .word-count {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      font-size: 12px;
-      opacity: 0.7;
-    }
-  }
-
-  .custom-textarea {
-    width: 100%;
-    resize: none;
-    font-size: 14px;
-
-    &.error {
-      border-color: #ff4d4f;
+      &.error {
+        border-color: #ff4d4f;
+      }
     }
   }
 }
