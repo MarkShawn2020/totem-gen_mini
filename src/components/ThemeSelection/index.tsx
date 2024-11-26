@@ -14,8 +14,10 @@ const ThemeSelection = () => {
   const [colorTheme, setColorTheme] = useAtom(themeColorAtom)
   const steps = getFormSteps()
 
+  // 状态管理
   const [selectedColor, setSelectedColor] = useState<Color | null>(null)
   const [activeCategory, setActiveCategory] = useState<string>("red")
+  const [showSchemes, setShowSchemes] = useState(false)
 
   // 获取分类后的颜色
   const colorSeries = useMemo(() => categorizeColors(), [])
@@ -26,15 +28,21 @@ const ThemeSelection = () => {
     return generateColorSchemes(selectedColor.rgb)
   }, [selectedColor])
 
+  // 获取当前分类的颜色
+  const currentColors = useMemo(() => {
+    return colorSeries.find(series => series.name === activeCategory)?.colors || []
+  }, [colorSeries, activeCategory])
+
   const handleColorSelect = (color: Color) => {
     setSelectedColor(color)
-    setColorTheme({ ...color, R: color.rgb[0], G: color.rgb[1], B: color.rgb[2] })
+    setColorTheme(color)
+    setShowSchemes(true)
   }
 
   return (
     <StepLayout description={t(steps[0]!.description)} title={t(steps[0]!.title)}>
       <View className="theme-selection">
-        {/* 颜色分类标签 */}
+        {/* 颜色分类标签栏 */}
         <ScrollView scrollX className="category-tabs">
           {colorSeries.map(series => (
             <View
@@ -42,53 +50,84 @@ const ThemeSelection = () => {
               className={`category-tab ${activeCategory === series.name ? "active" : ""}`}
               onClick={() => setActiveCategory(series.name)}
             >
+              <View
+                className="category-preview"
+                style={{
+                  background: `linear-gradient(45deg, ${series.colors[0]?.HEX || "#fff"}, ${series.colors[Math.floor(series.colors.length / 2)]?.HEX || "#fff"})`,
+                }}
+              />
               <Text>{t(`colors.categories.${series.name}`)}</Text>
             </View>
           ))}
         </ScrollView>
 
-        {/* 主色展示区域 */}
+        {/* 颜色网格 */}
         <ScrollView scrollY className="color-grid">
-          {colorSeries
-            .find(series => series.name === activeCategory)
-            ?.colors.map(color => (
-              <View
-                key={color.ID}
-                className={`color-item ${selectedColor?.ID === color.ID ? "active" : ""}`}
-                onClick={() => handleColorSelect(color)}
-              >
-                <View className="color-preview" style={{ background: color.HEX }} />
-                <View className="color-info">
-                  <Text className="chinese-name">{color.Chinese_Name}</Text>
-                  <Text className="english-name">{color.English_Name}</Text>
-                </View>
+          {currentColors.map(color => (
+            <View
+              key={color.ID}
+              className={`color-item ${selectedColor?.ID === color.ID ? "active" : ""}`}
+              onClick={() => handleColorSelect(color)}
+            >
+              <View className="color-preview" style={{ backgroundColor: color.HEX }} />
+              <View className="color-info">
+                <Text
+                  className="color-name"
+                  style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
+                >
+                  {color.Chinese_Name}
+                </Text>
+                <Text
+                  className="color-name-en"
+                  style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
+                >
+                  {color.English_Name}
+                </Text>
               </View>
-            ))}
+            </View>
+          ))}
         </ScrollView>
 
-        {/* 配色方案展示区域 */}
-        {selectedColor && colorSchemes && (
+        {/* 配色方案展示 */}
+        {showSchemes && colorSchemes && (
           <View className="color-schemes">
-            <Text className="section-title">{t("colors.schemes.title")}</Text>
-            <ScrollView scrollX className="schemes-scroll">
-              {Object.entries(colorSchemes).map(([key, scheme]) => (
-                <View key={key} className="scheme-card">
-                  <Text className="scheme-name">{scheme.name}</Text>
-                  <View className="scheme-colors">
-                    <View className="main-color" style={{ background: selectedColor.HEX }} />
-                    {scheme.colors.map((rgb, index) => (
-                      <View
-                        key={index}
-                        className="scheme-color"
-                        style={{
-                          background: `rgb(${rgb.join(",")})`,
-                        }}
-                      />
-                    ))}
-                  </View>
-                </View>
-              ))}
-            </ScrollView>
+            <View className="scheme-section">
+              <Text className="scheme-title">{t("colors.schemes.complementary")}</Text>
+              <View className="scheme-colors">
+                <View
+                  className="scheme-color"
+                  style={{
+                    backgroundColor: `rgb(${colorSchemes.complementary.colors.join(",")})`,
+                  }}
+                />
+              </View>
+            </View>
+
+            <View className="scheme-section">
+              <Text className="scheme-title">{t("colors.schemes.analogous")}</Text>
+              <View className="scheme-colors">
+                {colorSchemes.analogous.colors.map((rgb, index) => (
+                  <View
+                    key={index}
+                    className="scheme-color"
+                    style={{ backgroundColor: `rgb(${rgb.join(",")})` }}
+                  />
+                ))}
+              </View>
+            </View>
+
+            <View className="scheme-section">
+              <Text className="scheme-title">{t("colors.schemes.triadic")}</Text>
+              <View className="scheme-colors">
+                {colorSchemes.triadic.colors.map((rgb, index) => (
+                  <View
+                    key={index}
+                    className="scheme-color"
+                    style={{ backgroundColor: `rgb(${rgb.join(",")})` }}
+                  />
+                ))}
+              </View>
+            </View>
           </View>
         )}
       </View>
