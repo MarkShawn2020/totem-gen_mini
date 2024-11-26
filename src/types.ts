@@ -27,9 +27,10 @@ export interface Color {
 
 export interface JapaneseColor {
   ID: string
+  HEX: string
+  // Japanese_Name: string
   Chinese_Name: string
   English_Name: string
-  HEX: string
   R: number
   G: number
   B: number

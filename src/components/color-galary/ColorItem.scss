@@ -1,45 +1,103 @@
 .color-item {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  margin-bottom: 12px;
+  height: 120px;
+  width: 100%;
+  //   background: #fff;
   border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  //   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  padding: 16rpx;
+  //   margin: 16rpx;
 
-  &:active {
-    opacity: 0.8;
+  .color-strip {
+    width: 16rpx;
+    height: 100%;
+    flex-shrink: 0;
   }
 
-  &:last-child {
-    margin-bottom: 0;
+  .middle-column {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .id-name-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      .numeric-id {
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      .chinese-name {
+        font-size: 16px;
+      }
+    }
+
+    .cmyk-rings {
+      display: flex;
+      gap: 12px;
+
+      .ring {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .ring-center {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: white;
+        }
+      }
+    }
+  }
+
+  .right-column {
+    width: 160px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .english-name {
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .rgb-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .bar-container {
+        height: 2px;
+        background: #eee;
+
+        .bar {
+          height: 100%;
+          transition: width 0.3s ease;
+        }
+      }
+    }
+
+    .hex-value {
+      font-family: monospace;
+      font-size: 14px;
+      text-align: right;
+    }
   }
 
   &.selected {
-    border: 2px solid var(--theme-primary);
-    background: rgba(var(--theme-primary-rgb), 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-}
-
-.color-block {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  margin-right: 12px;
-}
-
-.color-info {
-  flex: 1;
-}
-
-.color-name {
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 4px;
-}
-
-.color-name-en {
-  font-size: 14px;
-  color: #666;
 }
