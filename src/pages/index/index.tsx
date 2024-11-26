@@ -16,8 +16,8 @@ import { getFormSteps } from "@/utils/steps"
 import { validateForm } from "@/utils/validation"
 
 import BasicInfo from "@/components/BasicInfo"
-import LanguageSwitcher from "@/components/LanguageSwitcher"
 import MbtiTest from "@/components/MbtiTest"
+import NavBar from "@/components/NavBar"
 import StepButtons from "@/components/StepButtons"
 import ThemeSelection from "@/components/ThemeSelection"
 
@@ -88,29 +88,12 @@ const IndexContent = () => {
 
   return (
     <View className="index">
-      <View className="language-switcher-container">
-        <LanguageSwitcher />
-      </View>
-
-      <View className="step-indicator">
-        {[0, 1, 2].map(_ => (
-          <View
-            key={_}
-            className={`step-dot ${_ === step ? "active" : ""}`}
-            style={{
-              background: _ === step ? themeConfig.primary : themeConfig.surface,
-              borderColor: themeConfig.border,
-            }}
-          />
-        ))}
-      </View>
-
+      <NavBar currentStep={step} />
       {renderContent()}
-
       <StepButtons
         currentStep={step}
+        totalSteps={3}
         currentTheme={themeConfig}
-        totalSteps={FORM_STEPS.length}
         onNextStep={() => setStep(prev => Math.min(prev + 1, FORM_STEPS.length - 1))}
         onPrevStep={() => setStep(prev => Math.max(prev - 1, 0))}
         onSubmit={handleSubmit}
