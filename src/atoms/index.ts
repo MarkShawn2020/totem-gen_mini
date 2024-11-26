@@ -1,25 +1,26 @@
-import { themes } from "@/utils/theme"
+import { atomWithTaroStorage } from "@/utils/atom-helpers"
+import { themes, ThemeType } from "@/utils/theme"
 import { atom } from "jotai"
-import { atomWithStorage } from "jotai/utils"
-import { taroStorage } from "../utils/storage"
 
-// Form Data Atoms with persistence
-export const nameAtom = atomWithStorage("userName", "", taroStorage)
-export const birthYearAtom = atomWithStorage("userBirthYear", "", taroStorage)
-export const genderAtom = atomWithStorage("userGender", "neutral", taroStorage)
-export const introductionAtom = atomWithStorage("userIntroduction", "", taroStorage)
-export const colorThemeAtom = atomWithStorage("colorTheme", "dark", taroStorage)
-export const mbtiSelectionsAtom = atomWithStorage(
-  "mbtiSelections",
-  [false, false, false, false],
-  taroStorage,
-)
-export const currentStepAtom = atomWithStorage("currentStep", 0, taroStorage)
+export const nameAtom = atomWithTaroStorage("userName", "")
+export const birthYearAtom = atomWithTaroStorage("userBirthYear", "2024")
+export const genderAtom = atomWithTaroStorage("userGender", "neutral")
+export const introductionAtom = atomWithTaroStorage("userIntroduction", "")
+export const themeColorAtom = atomWithTaroStorage<ThemeType>("themeColor", "dark")
+export const mbtiSelectionsAtom = atomWithTaroStorage("mbtiSelections", [
+  false,
+  false,
+  false,
+  false,
+])
+
+export const stepAtom = atomWithTaroStorage("step", 0)
+export const step2Atom = atomWithTaroStorage("step", 0)
 
 // Derived atoms
-export const currentThemeAtom = atom(get => {
-  const colorTheme = get(colorThemeAtom)
-  return themes[colorTheme]
+export const themeConfigAtom = atom(get => {
+  const themeColor = get(themeColorAtom)
+  return themes[themeColor]
 })
 
 // Form Errors Atom - This doesn't need persistence as it's temporary UI state

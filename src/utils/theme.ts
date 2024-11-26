@@ -10,7 +10,8 @@ export interface ThemeConfig {
   border: string
 }
 
-export const themes: Record<string, ThemeConfig> = {
+export type ThemeType = "dark" | "blue" | "green" | "red" | "purple"
+export const themes: Record<ThemeType, ThemeConfig> = {
   dark: {
     primary: "#2C1810",
     primaryRgb: "44, 24, 16",
@@ -57,8 +58,6 @@ export const themes: Record<string, ThemeConfig> = {
     border: "rgba(78, 46, 140, 0.2)",
   },
 } as const
-
-export type ThemeType = keyof typeof themes
 
 const THEME_STORAGE_KEY = "totem_theme"
 

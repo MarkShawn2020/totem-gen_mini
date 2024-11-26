@@ -1,23 +1,23 @@
-import { useAtom } from "jotai/react"
 import {
   birthYearAtom,
-  colorThemeAtom,
-  currentStepAtom,
   formErrorsAtom,
   genderAtom,
   introductionAtom,
   mbtiSelectionsAtom,
   nameAtom,
+  stepAtom,
+  themeColorAtom,
 } from "@/atoms"
 import { themes } from "@/utils/theme"
+import { useAtom } from "jotai/react"
 
 export const useTotemForm = () => {
-  const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
+  const [currentStep, setCurrentStep] = useAtom(stepAtom)
   const [name, setName] = useAtom(nameAtom)
   const [birthYear, setBirthYear] = useAtom(birthYearAtom)
   const [gender, setGender] = useAtom(genderAtom)
   const [introduction, setIntroduction] = useAtom(introductionAtom)
-  const [colorTheme, setColorTheme] = useAtom(colorThemeAtom)
+  const [colorTheme, setColorTheme] = useAtom(themeColorAtom)
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
   const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
 

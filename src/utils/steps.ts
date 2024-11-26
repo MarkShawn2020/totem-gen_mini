@@ -1,3 +1,5 @@
+import { ThemeType } from "@/utils/theme"
+
 export interface Step {
   title: string
   description: string
@@ -22,7 +24,7 @@ export const FORM_STEPS: Step[] = [
   },
 ]
 
-export const COLOR_THEMES = [
+export const COLOR_THEMES: { name: string; description: string; value: ThemeType }[] = [
   {
     name: "墨玉",
     description: "沉稳内敛",

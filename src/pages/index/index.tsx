@@ -6,11 +6,11 @@ import { useAtom } from "jotai"
 
 import {
   birthYearAtom,
-  currentStepAtom,
-  currentThemeAtom,
   genderAtom,
   introductionAtom,
   nameAtom,
+  stepAtom,
+  themeConfigAtom,
 } from "@/atoms"
 import BasicInfo from "@/components/BasicInfo"
 import MbtiTest from "@/components/MbtiTest"
@@ -22,12 +22,14 @@ import { validateForm } from "@/utils/validation"
 import "./index.scss"
 
 const IndexContent = () => {
-  const [currentStep, setCurrentStep] = useAtom(currentStepAtom)
-  const [currentTheme] = useAtom(currentThemeAtom)
+  const [step, setStep] = useAtom(stepAtom)
+  const [themeConfig] = useAtom(themeConfigAtom)
   const [name] = useAtom(nameAtom)
   const [birthYear] = useAtom(birthYearAtom)
   const [gender] = useAtom(genderAtom)
   const [introduction] = useAtom(introductionAtom)
+
+  console.log({ step, themeConfig, name, birthYear, gender, introduction })
 
   const handleSubmit = () => {
     const { isValid, errors, firstErrorField } = validateForm(name, birthYear, gender, introduction)
@@ -69,7 +71,7 @@ const IndexContent = () => {
 
   // Render content based on current step
   const renderContent = () => {
-    switch (currentStep) {
+    switch (step) {
       case 0:
         return <ThemeSelection />
       case 1:
@@ -84,13 +86,13 @@ const IndexContent = () => {
   return (
     <View className="index">
       <View className="step-indicator">
-        {[0, 1, 2].map(step => (
+        {[0, 1, 2].map(_ => (
           <View
-            key={step}
-            className={`step-dot ${currentStep === step ? "active" : ""}`}
+            key={_}
+            className={`step-dot ${_ === step ? "active" : ""}`}
             style={{
-              background: currentStep === step ? currentTheme.primary : currentTheme.surface,
-              borderColor: currentTheme.border,
+              background: _ === step ? themeConfig.primary : themeConfig.surface,
+              borderColor: themeConfig.border,
             }}
           />
         ))}
@@ -99,11 +101,11 @@ const IndexContent = () => {
       {renderContent()}
 
       <StepButtons
-        currentStep={currentStep}
-        currentTheme={currentTheme}
+        currentStep={step}
+        currentTheme={themeConfig}
         totalSteps={FORM_STEPS.length}
-        onNextStep={() => setCurrentStep(prev => Math.min(prev + 1, FORM_STEPS.length - 1))}
-        onPrevStep={() => setCurrentStep(prev => Math.max(prev - 1, 0))}
+        onNextStep={() => setStep(prev => Math.min(prev + 1, FORM_STEPS.length - 1))}
+        onPrevStep={() => setStep(prev => Math.max(prev - 1, 0))}
         onSubmit={handleSubmit}
       />
     </View>

@@ -1,32 +1,15 @@
+import { ThemeConfig } from "@/utils/theme"
 import { View } from "@tarojs/components"
 import { useEffect, useState } from "react"
 import "./index.scss"
 
-interface ThemeColors {
-  primary: string
-  background: string
-  text: string
-  description: string
-}
-
 interface GenderSelectorProps {
   value?: string
   onChange?: (value: string) => void
-  themeColors?: ThemeColors
+  themeConfig: ThemeConfig
 }
 
-const defaultTheme: ThemeColors = {
-  primary: "#333333",
-  background: "#FFFFFF",
-  text: "#333333",
-  description: "#666666",
-}
-
-const GenderSelector: React.FC<GenderSelectorProps> = ({
-  value,
-  onChange,
-  themeColors = defaultTheme,
-}) => {
+const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeConfig }) => {
   const [selectedGender, setSelectedGender] = useState(value || "")
 
   useEffect(() => {
@@ -40,13 +23,11 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
     onChange?.(gender)
   }
 
-  console.log({ themeColors })
-
   const getOptionStyle = (gender: string) => {
     const isSelected = selectedGender === gender
     return {
-      background: isSelected ? themeColors.background : "#FFFFFF",
-      border: isSelected ? `4rpx solid ${themeColors.primary}` : "none",
+      background: isSelected ? themeConfig.background : "#FFFFFF",
+      border: isSelected ? `4rpx solid ${themeConfig.primary}` : "none",
       padding: isSelected ? "36rpx 16rpx" : "40rpx 20rpx",
     }
   }
@@ -54,7 +35,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
   const getSymbolStyle = (gender: string) => {
     const isSelected = selectedGender === gender
     return {
-      color: isSelected ? themeColors.primary : themeColors.text,
+      color: isSelected ? themeConfig.primary : themeConfig.text,
       transform: isSelected ? "rotate(180deg)" : "none",
     }
   }
@@ -62,7 +43,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
   const getLabelStyle = (gender: string) => {
     const isSelected = selectedGender === gender
     return {
-      color: isSelected ? themeColors.primary : themeColors.text,
+      color: isSelected ? themeConfig.primary : themeConfig.text,
       fontWeight: isSelected ? "bold" : "normal",
     }
   }
@@ -70,7 +51,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
   const getDescriptionStyle = (gender: string) => {
     const isSelected = selectedGender === gender
     return {
-      color: isSelected ? themeColors.primary : themeColors.description,
+      color: isSelected ? themeConfig.primary : themeConfig.surface,
     }
   }
 

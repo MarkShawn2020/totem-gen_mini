@@ -1,11 +1,11 @@
-import { useAtom } from "jotai/react"
-import { Text, View } from "@tarojs/components"
-import { currentThemeAtom, mbtiSelectionsAtom } from "@/atoms"
+import { mbtiSelectionsAtom, themeConfigAtom } from "@/atoms"
 import { MBTI_DIMENSIONS } from "@/utils/mbti"
 import { FORM_STEPS } from "@/utils/steps"
+import { Text, View } from "@tarojs/components"
+import { useAtom } from "jotai/react"
 
 const MbtiTest = () => {
-  const [currentTheme] = useAtom(currentThemeAtom)
+  const [themeConfig] = useAtom(themeConfigAtom)
   const [mbtiSelections, setMbtiSelections] = useAtom(mbtiSelectionsAtom)
 
   // Ensure we always have valid selections
@@ -18,14 +18,14 @@ const MbtiTest = () => {
   }
 
   const mbtiType = MBTI_DIMENSIONS.map((dim, i) =>
-    selections[i] ? dim.right.letter : dim.left.letter
+    selections[i] ? dim.right.letter : dim.left.letter,
   ).join("")
 
   return (
     <View className="step-content">
       <View className="step-header">
-        <Text className="step-title">{FORM_STEPS[1].title}</Text>
-        <Text className="step-desc">{FORM_STEPS[1].description}</Text>
+        <Text className="step-title">{FORM_STEPS[1]!.title}</Text>
+        <Text className="step-desc">{FORM_STEPS[1]!.description}</Text>
       </View>
 
       <View className="mbti-section">
@@ -41,12 +41,8 @@ const MbtiTest = () => {
                 <View
                   className={`type-option ${!selections[index] ? "active" : ""}`}
                   style={{
-                    background: !selections[index]
-                      ? currentTheme.surface
-                      : currentTheme.background,
-                    borderColor: !selections[index]
-                      ? currentTheme.primary
-                      : currentTheme.border,
+                    background: !selections[index] ? themeConfig.surface : themeConfig.background,
+                    borderColor: !selections[index] ? themeConfig.primary : themeConfig.border,
                     borderWidth: !selections[index] ? "2px" : "1px",
                   }}
                   onClick={() => handleToggle(index)}
@@ -54,7 +50,7 @@ const MbtiTest = () => {
                   <Text
                     className="type-letter"
                     style={{
-                      color: !selections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: !selections[index] ? themeConfig.primary : themeConfig.secondary,
                     }}
                   >
                     {dimension.left.letter}
@@ -62,7 +58,7 @@ const MbtiTest = () => {
                   <Text
                     className="type-name"
                     style={{
-                      color: !selections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: !selections[index] ? themeConfig.primary : themeConfig.secondary,
                     }}
                   >
                     {dimension.left.name}
@@ -72,10 +68,8 @@ const MbtiTest = () => {
                 <View
                   className={`type-option ${selections[index] ? "active" : ""}`}
                   style={{
-                    background: selections[index]
-                      ? currentTheme.surface
-                      : currentTheme.background,
-                    borderColor: selections[index] ? currentTheme.primary : currentTheme.border,
+                    background: selections[index] ? themeConfig.surface : themeConfig.background,
+                    borderColor: selections[index] ? themeConfig.primary : themeConfig.border,
                     borderWidth: selections[index] ? "2px" : "1px",
                   }}
                   onClick={() => handleToggle(index)}
@@ -83,7 +77,7 @@ const MbtiTest = () => {
                   <Text
                     className="type-letter"
                     style={{
-                      color: selections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: selections[index] ? themeConfig.primary : themeConfig.secondary,
                     }}
                   >
                     {dimension.right.letter}
@@ -91,7 +85,7 @@ const MbtiTest = () => {
                   <Text
                     className="type-name"
                     style={{
-                      color: selections[index] ? currentTheme.primary : currentTheme.secondary,
+                      color: selections[index] ? themeConfig.primary : themeConfig.secondary,
                     }}
                   >
                     {dimension.right.name}
