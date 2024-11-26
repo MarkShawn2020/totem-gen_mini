@@ -1,0 +1,29 @@
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  height: 12px;
+}
+
+.language-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+  cursor: pointer;
+
+  .icon {
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  &:active {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}

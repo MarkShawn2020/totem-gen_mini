@@ -19,6 +19,7 @@ import ThemeSelection from "@/components/ThemeSelection"
 import { FORM_STEPS } from "@/utils/steps"
 import { validateForm } from "@/utils/validation"
 
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 import "./index.scss"
 
 const IndexContent = () => {
@@ -85,6 +86,10 @@ const IndexContent = () => {
 
   return (
     <View className="index">
+      <View className="language-switcher-container">
+        <LanguageSwitcher />
+      </View>
+
       <View className="step-indicator">
         {[0, 1, 2].map(_ => (
           <View
