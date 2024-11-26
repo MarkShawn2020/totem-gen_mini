@@ -16,29 +16,85 @@ export interface MBTIDimension {
   }
 }
 
-const getDimensionTranslation = (dimensionId: string) => {
+const getDimensionTranslation = (dimensionId: string): MBTIDimension => {
   const t = i18next.t;
+  const dimension = t(`mbti.dimensions.${dimensionId}`, { returnObjects: true }) || {};
+  const options = dimension.options || {};
+  
+  // 定义默认值
+  const defaultTraits = ['...', '...', '...', '...'];
+  
+  const getLeftOptions = () => {
+    switch(dimensionId) {
+      case 'energySource':
+        return {
+          letter: 'E',
+          name: options.extrovert?.name || 'Extrovert',
+          traits: options.extrovert?.traits || defaultTraits,
+        };
+      case 'informationGathering':
+        return {
+          letter: 'S',
+          name: options.sensing?.name || 'Sensing',
+          traits: options.sensing?.traits || defaultTraits,
+        };
+      case 'decisionMaking':
+        return {
+          letter: 'T',
+          name: options.thinking?.name || 'Thinking',
+          traits: options.thinking?.traits || defaultTraits,
+        };
+      default:
+        return {
+          letter: 'J',
+          name: options.judging?.name || 'Judging',
+          traits: options.judging?.traits || defaultTraits,
+        };
+    }
+  };
+
+  const getRightOptions = () => {
+    switch(dimensionId) {
+      case 'energySource':
+        return {
+          letter: 'I',
+          name: options.introvert?.name || 'Introvert',
+          traits: options.introvert?.traits || defaultTraits,
+        };
+      case 'informationGathering':
+        return {
+          letter: 'N',
+          name: options.intuition?.name || 'Intuition',
+          traits: options.intuition?.traits || defaultTraits,
+        };
+      case 'decisionMaking':
+        return {
+          letter: 'F',
+          name: options.feeling?.name || 'Feeling',
+          traits: options.feeling?.traits || defaultTraits,
+        };
+      default:
+        return {
+          letter: 'P',
+          name: options.perceiving?.name || 'Perceiving',
+          traits: options.perceiving?.traits || defaultTraits,
+        };
+    }
+  };
+
   return {
     id: dimensionId,
-    title: t(`mbti.dimensions.${dimensionId}.title`),
-    description: t(`mbti.dimensions.${dimensionId}.description`),
-    left: {
-      letter: t(`mbti.dimensions.${dimensionId}.left.letter`),
-      name: t(`mbti.dimensions.${dimensionId}.left.name`),
-      traits: t(`mbti.dimensions.${dimensionId}.left.traits`, { returnObjects: true }),
-    },
-    right: {
-      letter: t(`mbti.dimensions.${dimensionId}.right.letter`),
-      name: t(`mbti.dimensions.${dimensionId}.right.name`),
-      traits: t(`mbti.dimensions.${dimensionId}.right.traits`, { returnObjects: true }),
-    },
+    title: dimension.title || dimensionId,
+    description: dimension.description || '',
+    left: getLeftOptions(),
+    right: getRightOptions(),
   };
 };
 
 export const getMBTIDimensions = (): MBTIDimension[] => [
-  getDimensionTranslation('energy'),
-  getDimensionTranslation('source'),
-  getDimensionTranslation('decision'),
+  getDimensionTranslation('energySource'),
+  getDimensionTranslation('informationGathering'),
+  getDimensionTranslation('decisionMaking'),
   getDimensionTranslation('lifestyle'),
 ];
 
