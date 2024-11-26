@@ -8,7 +8,7 @@ import {
 } from "@/atoms"
 import GenderSelector from "@/components/GenderSelector"
 import YearPicker from "@/components/YearPicker"
-import { FORM_STEPS } from "@/utils/steps"
+import { getFormSteps } from "@/utils/steps"
 import { Input } from "@nutui/nutui-react-taro"
 import { Text, Textarea, View } from "@tarojs/components"
 import { useAtom } from "jotai/react"
@@ -22,6 +22,8 @@ const BasicInfo = () => {
   const [introduction, setIntroduction] = useAtom(introductionAtom)
   const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
   const { t } = useTranslation()
+
+  const FORM_STEPS = getFormSteps()
 
   const handleNameChange = (val: string) => {
     setName(val)

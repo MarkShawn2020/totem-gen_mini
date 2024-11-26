@@ -140,6 +140,42 @@ export default {
       }
     }
   },
+  steps: {
+    theme: {
+      title: "Theme Selection",
+      description: "Choose your preferred color style"
+    },
+    mbti: {
+      title: "Personality Test",
+      description: "Discover your MBTI personality type"
+    },
+    basic: {
+      title: "Basic Information",
+      description: "Tell us your name and birth year"
+    }
+  },
+  themes: {
+    dark: {
+      name: "Ink Jade",
+      description: "Steady and Reserved"
+    },
+    blue: {
+      name: "Celadon",
+      description: "Pure and Elegant"
+    },
+    red: {
+      name: "Cinnabar",
+      description: "Passionate and Dynamic"
+    },
+    green: {
+      name: "Emerald",
+      description: "Vibrant and Lively"
+    },
+    purple: {
+      name: "Amethyst",
+      description: "Noble and Classic"
+    }
+  },
   common: {
     navigation: {
       prev: 'Previous',

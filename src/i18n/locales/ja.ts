@@ -140,6 +140,42 @@ export default {
       }
     }
   },
+  steps: {
+    theme: {
+      title: "テーマ選択",
+      description: "お好みの色調を選んでください"
+    },
+    mbti: {
+      title: "性格診断",
+      description: "あなたのMBTI性格タイプを見つけましょう"
+    },
+    basic: {
+      title: "基本情報",
+      description: "お名前と生年をお聞かせください"
+    }
+  },
+  themes: {
+    dark: {
+      name: "墨玉",
+      description: "落ち着きと内向"
+    },
+    blue: {
+      name: "青磁",
+      description: "清らかと優美"
+    },
+    red: {
+      name: "朱砂",
+      description: "情熱と活力"
+    },
+    green: {
+      name: "翡翠",
+      description: "生命力と躍動"
+    },
+    purple: {
+      name: "紫玉",
+      description: "高貴と典雅"
+    }
+  },
   common: {
     navigation: {
       prev: '前へ',

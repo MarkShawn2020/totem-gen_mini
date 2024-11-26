@@ -16,10 +16,10 @@ import BasicInfo from "@/components/BasicInfo"
 import MbtiTest from "@/components/MbtiTest"
 import StepButtons from "@/components/StepButtons"
 import ThemeSelection from "@/components/ThemeSelection"
-import { FORM_STEPS } from "@/utils/steps"
 import { validateForm } from "@/utils/validation"
 
 import LanguageSwitcher from "@/components/LanguageSwitcher"
+import { getFormSteps } from "@/utils/steps"
 import "./index.scss"
 
 const IndexContent = () => {
@@ -29,6 +29,8 @@ const IndexContent = () => {
   const [birthYear] = useAtom(birthYearAtom)
   const [gender] = useAtom(genderAtom)
   const [introduction] = useAtom(introductionAtom)
+
+  const FORM_STEPS = getFormSteps()
 
   console.log({ step, themeConfig, name, birthYear, gender, introduction })
 
