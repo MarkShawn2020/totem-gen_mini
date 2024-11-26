@@ -85,10 +85,10 @@ const ThemeSelection = () => {
     },
     interaction: {
       longPressDelay: 200,
-      stopDuration: 500,
+      stopDuration: 200,
     },
     alignment: {
-      smoothing: 0.5,
+      smoothing: 0.8,
     },
   })
 
