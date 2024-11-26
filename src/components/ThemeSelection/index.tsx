@@ -44,66 +44,53 @@ const ThemeSelection = () => {
     <StepLayout description={t(steps[0]!.description)} title={t(steps[0]!.title)}>
       <View className="theme-selection">
         <View className="selection-container">
-          {/* 左侧色系分类列表 */}
-          <ScrollView
-            scrollY
-            className="category-list"
-            enhanced
-            showScrollbar={false}
-            fastDeceleration
-          >
-            {colorSeries.map(series => (
-              <View
-                key={series.name}
-                className={`category-item ${activeCategory === series.name ? "active" : ""}`}
-                onClick={() => setActiveCategory(series.name)}
-              >
+          {/* 上方主色系旋转选择器 */}
+          <View className="primary-color-wheel">
+            <View className="wheel-container">
+              {colorSeries.map((series, index) => (
                 <View
-                  className="category-preview"
+                  key={series.name}
+                  className={`wheel-item ${activeCategory === series.name ? "active" : ""}`}
                   style={{
-                    background: `linear-gradient(45deg, ${series.colors[0]?.HEX || BASE_COLORS[series.name as keyof typeof BASE_COLORS]}, ${series.colors[Math.floor(series.colors.length / 2)]?.HEX || BASE_COLORS[series.name as keyof typeof BASE_COLORS]})`,
+                    transform: `rotate(${(index * 360) / colorSeries.length}deg) translateX(120px)`,
                   }}
-                />
-                {/* <Text
-                  className="category-name"
-                  style={
-                    activeCategory === series.name
-                      ? {
-                          fontWeight: "bold",
-                          color: themeConfig.primary,
-                        }
-                      : undefined
-                  }
+                  onClick={() => setActiveCategory(series.name)}
                 >
-                  {t(`colors.categories.${series.name}`)}
-                </Text> */}
+                  <View
+                    className="color-preview"
+                    style={{
+                      background: `linear-gradient(45deg, ${series.colors[0]?.HEX || BASE_COLORS[series.name as keyof typeof BASE_COLORS]}, ${series.colors[Math.floor(series.colors.length / 2)]?.HEX || BASE_COLORS[series.name as keyof typeof BASE_COLORS]})`,
+                      transform: `rotate(-${(index * 360) / colorSeries.length}deg)`,
+                    }}
+                  />
+                </View>
+              ))}
+              <View className="wheel-center">
+                {selectedColor && (
+                  <View 
+                    className="selected-color"
+                    style={{ backgroundColor: selectedColor.HEX }}
+                  />
+                )}
               </View>
-            ))}
-          </ScrollView>
+            </View>
+          </View>
 
-          {/* 右侧颜色列表 */}
+          {/* 下方颜色列表 */}
           <ScrollView scrollY className="color-list" enhanced>
             {currentColors.map(color => (
               <View
                 key={color.ID}
                 className={`color-item ${selectedColor?.ID === color.ID ? "active" : ""}`}
                 onClick={() => handleColorSelect(color)}
+                style={{ backgroundColor: color.HEX }}
               >
-                <View className="color-preview" style={{ backgroundColor: color.HEX }} />
-                <View className="color-info">
-                  <Text
-                    className="color-name"
-                    style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
-                  >
-                    {color.Chinese_Name}
-                  </Text>
-                  <Text
-                    className="color-name-en"
-                    style={selectedColor?.ID === color.ID ? { color: color.HEX } : undefined}
-                  >
-                    {color.English_Name}
-                  </Text>
-                </View>
+                <Text className="color-name" style={{ color: "#fff" }}>
+                  {color.Chinese_Name}
+                </Text>
+                <Text className="color-name-en" style={{ color: "#fff" }}>
+                  {color.English_Name}
+                </Text>
               </View>
             ))}
           </ScrollView>
