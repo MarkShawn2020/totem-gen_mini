@@ -14,14 +14,16 @@ const StepLayout = ({ title, description, children }: StepLayoutProps) => {
   const [themeConfig] = useAtom(themeConfigAtom)
 
   return (
-    <View className="step-content">
-      <View className="step-header">
-        <Text className="step-title" style={{ color: themeConfig.primary }}>
-          {title}
-        </Text>
-        <Text className="step-desc">{description}</Text>
+    <View className="step-layout">
+      <View className="step-content">
+        <View className="step-header">
+          <Text className="step-title" style={{ color: themeConfig.primary }}>
+            {title}
+          </Text>
+          <Text className="step-desc">{description}</Text>
+        </View>
+        {children}
       </View>
-      {children}
     </View>
   )
 }
