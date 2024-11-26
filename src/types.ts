@@ -33,8 +33,8 @@ export interface JapaneseColor {
   R: number
   G: number
   B: number
-  C?: number
-  M?: number
-  Y?: number
-  K?: number
+  C: number
+  M: number
+  Y: number
+  K: number
 }
