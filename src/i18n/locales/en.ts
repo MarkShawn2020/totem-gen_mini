@@ -179,6 +179,29 @@ export default {
       description: "Noble and Classic",
     },
   },
+  colors: {
+    categories: {
+      red: "Red",
+      pink: "Pink",
+      orange: "Orange",
+      yellow: "Yellow",
+      green: "Green",
+      blue: "Blue",
+      purple: "Purple",
+      brown: "Brown",
+      gray: "Gray"
+    },
+    schemes: {
+      title: "Recommended Color Schemes",
+      complementary: "Complementary",
+      analogous: "Analogous",
+      triadic: "Triadic"
+    },
+    colorNames: {
+      chinese: "Chinese Name",
+      english: "English Name"
+    }
+  },
   common: {
     navigation: {
       prev: "Previous",

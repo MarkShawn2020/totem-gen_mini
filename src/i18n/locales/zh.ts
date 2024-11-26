@@ -136,6 +136,29 @@ export default {
       description: "高贵典雅",
     },
   },
+  colors: {
+    categories: {
+      red: "红色系",
+      pink: "粉色系",
+      orange: "橙色系",
+      yellow: "黄色系",
+      green: "绿色系",
+      blue: "蓝色系",
+      purple: "紫色系",
+      brown: "棕色系",
+      gray: "灰色系"
+    },
+    schemes: {
+      title: "推荐配色",
+      complementary: "互补色",
+      analogous: "类似色",
+      triadic: "三角色"
+    },
+    colorNames: {
+      chinese: "中文名",
+      english: "英文名"
+    }
+  },
   common: {
     navigation: {
       prev: "上一步",
