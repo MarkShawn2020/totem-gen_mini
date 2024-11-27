@@ -66,7 +66,7 @@ export const ColorItem = ({ color }: ColorItemProps) => {
           ))}
         </View>
         <View className="hex-value" style={{ color: color.HEX }}>
-          #{color.ID.toUpperCase()}
+          {color.HEX.toUpperCase()}
         </View>
       </View>
     </View>

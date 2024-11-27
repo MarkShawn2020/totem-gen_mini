@@ -1,4 +1,16 @@
-
+// @font-face {
+//   font-family: "SourceHanSerifHK";
+//   src:
+//   // url("/Volumes/homes/cs-magic/cs-magic-inner/assets/fonts/16_SourceHanSerifHK/SubsetOTF/HK/SourceHanSerifHK-Bold.otf") format("otf");
+//   // url("./assets/fonts/SourceHanSerifHK-Heavy.ttf") format("ttf"),
+//   // url("./assets/fonts/SourceHanSerifHK-Bold.ttf") format("ttf"),
+//   // url("./assets/fonts/SourceHanSerifHK-Light.ttf") format("ttf"),
+//   // url("./assets/fonts/SourceHanSerifHK-Regular.ttf") format("ttf"),
+//   // url("./assets/fonts/SourceHanSerifHK-Medium.ttf") format("ttf"),
+//   // url("./assets/fonts/SourceHanSerifHK-ExtraLight.ttf") format("ttf"),
+//   // url("./assets/fonts/SourceHanSerifHK-SemiBold.ttf") format("ttf")
+//     // url("./assets/fonts/SourceHanSerifHK-Heavy.otf") format("otf");
+// }
 
 page {
   // 1. 基础变量定义
@@ -16,7 +28,6 @@ page {
   --gray-700: #374151;
   --gray-800: #1f2937;
   --gray-900: #111827;
-
 
   // 2. 主题变量 - 这些变量会被 JavaScript 动态修改
   --primary-color: #007aff;

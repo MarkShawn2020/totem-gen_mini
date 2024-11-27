@@ -24,10 +24,10 @@ export default defineConfig<"vite">(async (merge, { command, mode }) => {
     copy: {
       patterns: [
         // load fonts
-        {
-          from: "src/assets/",
-          to: "dist/assets/",
-        },
+        // {
+        //   from: "src/assets/",
+        //   to: "dist/assets/",
+        // },
       ],
       options: {},
     },
