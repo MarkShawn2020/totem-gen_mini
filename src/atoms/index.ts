@@ -1,6 +1,6 @@
-import { japanese_colors } from "@/assets/data/japanese_colors"
 import { atomWithTaroStorage } from "@/utils/atom-helpers"
 import { hexToHSL, hslToHex } from "@/utils/color"
+import { japanese_colors } from "@/utils/japanese_colors"
 import { generateThemeConfig } from "@/utils/theme"
 import { atom } from "jotai"
 

@@ -1,5 +1,5 @@
-import { japanese_colors } from "@/assets/data/japanese_colors"
 import { Color } from "@/types"
+import { japanese_colors } from "@/utils/japanese_colors"
 
 // 定义颜色系列
 export interface ColorSeries {
@@ -106,7 +106,7 @@ export const BASE_COLORS = {
   beige: "#F5F5DC",
   gray: "#808080",
   black: "#000000",
-  white: "#FFFFFF"
+  white: "#FFFFFF",
 } as const
 
 // 按色相对颜色进行分类
@@ -124,7 +124,7 @@ export const categorizeColors = (): ColorSeries[] => {
     beige: [],
     gray: [],
     black: [],
-    white: []
+    white: [],
   }
 
   japanese_colors.forEach(color => {
@@ -155,13 +155,13 @@ export const categorizeColors = (): ColorSeries[] => {
     }
 
     // 棕色特殊处理
-    if (s > 10 && l <= 40 && (h >= 0 && h <= 50)) {
+    if (s > 10 && l <= 40 && h >= 0 && h <= 50) {
       categories.brown.push(colorObj)
       return
     }
 
     // 米色特殊处理
-    if (s <= 30 && l >= 70 && (h >= 20 && h <= 50)) {
+    if (s <= 30 && l >= 70 && h >= 20 && h <= 50) {
       categories.beige.push(colorObj)
       return
     }
@@ -170,8 +170,7 @@ export const categorizeColors = (): ColorSeries[] => {
     if (h >= 345 || h < 10) {
       if (l >= 70 && s <= 50) categories.pink.push(colorObj)
       else categories.red.push(colorObj)
-    }
-    else if (h >= 10 && h < 45) categories.orange.push(colorObj)
+    } else if (h >= 10 && h < 45) categories.orange.push(colorObj)
     else if (h >= 45 && h < 70) categories.yellow.push(colorObj)
     else if (h >= 70 && h < 150) categories.green.push(colorObj)
     else if (h >= 150 && h < 190) categories.cyan.push(colorObj)
@@ -186,8 +185,8 @@ export const categorizeColors = (): ColorSeries[] => {
       colors: colors.sort((a, b) => {
         const [aH, aS, aL] = rgbToHsl(...a.rgb)
         const [bH, bS, bL] = rgbToHsl(...b.rgb)
-        return bL - aL  // 按亮度排序
-      })
+        return bL - aL // 按亮度排序
+      }),
     }))
 }
 

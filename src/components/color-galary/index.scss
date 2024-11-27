@@ -1,3 +1,20 @@
+@font-face {
+  font-family: "SourceHanSerifHK";
+  src:
+    url("../../assets/fonts/SourceHanSerifHK-Heavy.woff2") format("woff2") font-weight-heavy,
+    url("../../assets/fonts/SourceHanSerifHK-Bold.woff2") format("woff2") font-weight-bold,
+    url("../../assets/fonts/SourceHanSerifHK-Light.woff2") format("woff2") font-weight-light;
+}
+
+@font-face {
+  font-family: "Source Han Serif SC VF";
+  src: url("https://cdn.jsdelivr.net/npm/cn-fontsource-source-han-serif-sc-vf-regular/font.css")
+    format("otf");
+  font-weight: normal;
+  font-style: auto;
+  font-display: swap;
+}
+
 .color-galary {
   position: fixed;
   top: 120rpx;
@@ -33,19 +50,27 @@
 
 .color-info-detail {
   .color-title {
-    margin-bottom: 12px;
+    margin-bottom: 24rpx;
     text-align: center;
+    color: var(--text-color);
 
     .chinese {
+      // ref: https://cdn.jsdelivr.net/npm/cn-fontsource-source-han-serif-sc-vf-regular/font.css
+      // font-family: Roboto, "Source Han Serif SC VF", sans-serif;
+      font-family: "SourceHanSerifHK";
+      font-size: 64rpx;
+      // todo: why font-weight not work
+      font-weight: heavy;
+
       display: block;
-      font-size: 18px;
-      font-weight: 600;
       margin-bottom: 4px;
+      letter-spacing: 8rpx;
     }
 
     .english {
       display: block;
-      font-size: 14px;
+      font-size: 32rpx;
+      letter-spacing: 4rpx;
     }
   }
 }

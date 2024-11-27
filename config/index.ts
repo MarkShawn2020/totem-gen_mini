@@ -22,7 +22,13 @@ export default defineConfig<"vite">(async (merge, { command, mode }) => {
     plugins: ["@tarojs/plugin-html"],
     defineConstants: {},
     copy: {
-      patterns: [],
+      patterns: [
+        // load fonts
+        {
+          from: "src/assets/",
+          to: "dist/assets/",
+        },
+      ],
       options: {},
     },
     framework: "react",

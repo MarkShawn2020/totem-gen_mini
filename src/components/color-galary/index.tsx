@@ -1,5 +1,5 @@
-import { japanese_colors } from "@/assets/data/japanese_colors"
 import { themeColorAtom, themeConfigAtom } from "@/atoms"
+import { japanese_colors } from "@/utils/japanese_colors"
 import { Text, View } from "@tarojs/components"
 import { useAtomValue } from "jotai"
 import { ColorItem } from "./ColorItem"
@@ -12,12 +12,10 @@ export const ColorGalary = () => {
   return (
     <View className="color-galary" style={{ background: themeConfig.backgroundColor }}>
       <View className="color-detail" style={{ background: themeConfig.backgroundColor }}>
-        <View className="color-preview" style={{ backgroundColor: themeColor.HEX }} />
+        {/*<View className="color-preview" style={{ backgroundColor: themeColor.HEX }} />*/}
         <View className="color-info-detail">
           <View className="color-title">
-            <Text className="chinese" style={{ color: themeConfig.text }}>
-              {themeColor.Chinese_Name}
-            </Text>
+            <Text className="chinese">{themeColor.Chinese_Name}</Text>
             <Text className="english" style={{ color: themeConfig.secondaryText }}>
               {themeColor.English_Name}
             </Text>
