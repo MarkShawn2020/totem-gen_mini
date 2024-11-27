@@ -52,12 +52,20 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeC
           const Inner = () => (
             <>
               <View className="label">
-                <Text style={{ color: isSelected ? themeConfig.primary : themeConfig.text }}>
+                <Text
+                  style={{
+                    color: `var(--theme-${isSelected ? "primary" : "text"}-color)`,
+                  }}
+                >
                   {option.label}
                 </Text>
               </View>
               <View className="description">
-                <Text style={{ color: isSelected ? themeConfig.primary : themeConfig.text }}>
+                <Text
+                  style={{
+                    color: `var(--theme-${isSelected ? "primary" : "text"}-color)`,
+                  }}
+                >
                   {option.description}
                 </Text>
               </View>
@@ -69,15 +77,15 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeC
               key={option.value}
               className={`gender-option ${isSelected ? "selected" : ""}`}
               style={{
-                borderColor: isSelected ? themeConfig.primary : themeConfig.border,
-                backgroundColor: isSelected ? themeConfig.surface : "#ffffff",
+                borderColor: `var(--theme-${isSelected ? "primary" : "border"}-color)`,
+                backgroundColor: isSelected ? "var(--theme-surface-color)" : "#ffffff",
               }}
               onClick={() => handleSelect(option.value)}
             >
               <View
                 className="symbol"
                 style={{
-                  color: isSelected ? themeConfig.primary : themeConfig.text,
+                  color: `var(--theme-${isSelected ? "primary" : "text"}-color)`,
                 }}
               >
                 ☯

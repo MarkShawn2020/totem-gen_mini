@@ -5,7 +5,7 @@
   right: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
-  background: rgba(var(--theme-background-color), 0.8);
+  background: var(--theme-background-color-alpha);
 
   .nav-bar-content {
     display: flex;
@@ -28,9 +28,11 @@
         border-width: 2px;
         border-style: solid;
         transition: all 0.3s ease;
+        border-color: var(--theme-border-color);
+        background: var(--theme-surface-color);
 
         &.active {
-          transform: scale(1.2);
+          background: var(--theme-primary-color);
         }
       }
     }

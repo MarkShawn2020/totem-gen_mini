@@ -1,3 +1,4 @@
+
 .index {
   min-height: 100vh;
   display: flex;
@@ -21,45 +22,23 @@
         margin-bottom: 0;
       }
 
-      .section-title {
-        margin-bottom: 16px;
+      // .section-title {
+      //   margin-bottom: 16px;
 
-        .title-text {
-          font-size: 16px;
-          font-weight: 500;
-          color: var(--theme-primary);
-          margin-bottom: 4px;
-          display: block;
-        }
+      //   .title-text {
+      //     font-size: 16px;
+      //     font-weight: 500;
+      //     color: var(--theme-primary);
+      //     margin-bottom: 4px;
+      //     display: block;
+      //   }
 
-        .title-desc {
-          font-size: 12px;
-          color: var(--theme-secondary);
-          opacity: 0.8;
-        }
-      }
-
-      .input-container {
-        .nut-input {
-          background: #ffffff;
-          border: 1px solid var(--theme-border);
-          border-radius: 8px;
-          padding: 0;
-          width: 100%;
-
-          .nut-input__value {
-            height: 44px;
-            line-height: 44px;
-            padding: 0 15px;
-            font-size: 16px;
-
-            &::placeholder {
-              color: var(--theme-secondary);
-              opacity: 0.5;
-            }
-          }
-        }
-      }
+      //   .title-desc {
+      //     font-size: 12px;
+      //     color: var(--theme-secondary);
+      //     opacity: 0.8;
+      //   }
+      // }
 
       &.gender-section {
         .gender-options {
@@ -97,47 +76,6 @@
               border-color: var(--theme-primary);
               background: var(--theme-primary);
             }
-          }
-        }
-      }
-
-      &.intro-section {
-        .textarea-container {
-          position: relative;
-          border: 1px solid var(--theme-border);
-          border-radius: 8px;
-          padding: 12px;
-          background: #ffffff;
-          transition: all 0.3s ease;
-
-          &:focus-within {
-            border-color: var(--theme-primary);
-            box-shadow: 0 0 0 2px rgba(var(--theme-primary-rgb), 0.1);
-          }
-
-          .custom-textarea {
-            width: 100%;
-            resize: none;
-            font-size: 14px;
-            line-height: 1.5;
-            border: none;
-            background: transparent;
-
-            &::placeholder {
-              color: var(--theme-secondary);
-              opacity: 0.5;
-            }
-          }
-
-          .word-count {
-            position: absolute;
-            right: 12px;
-            bottom: 12px;
-            font-size: 12px;
-            opacity: 0.5;
-            background: #ffffff;
-            padding: 2px 6px;
-            border-radius: 4px;
           }
         }
       }

@@ -21,6 +21,12 @@ page {
       .title-text {
         font-size: 16px;
         font-weight: bold;
+        // color: var(--theme-primary-color); // black
+        // color: var(--theme-border-color); // black
+        // color: var(--theme-secondary); // black
+        // color: var(--secondary-color); // black
+        // color: var(--primary-color); // blue
+        // color: var(--theme-primary); // blue
       }
 
       .title-desc {
@@ -31,18 +37,20 @@ page {
 
     .input-container {
       width: 100%;
-    }
+      border-bottom: 1px solid var(--theme-border-color);
+      background: var(--theme-surface-color);
 
-    .custom-input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      background: var(--theme-background-color, var(--white));
-      font-size: 14px;
+      .custom-input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--theme-border-color);
+        background: var(--theme-background-color);
+        font-size: 14px;
 
-      &.error {
-        border-color: #ff4d4f;
+        &.error {
+          border-color: var(--theme-error-color, #ff4d4f);
+        }
       }
     }
 
@@ -50,23 +58,26 @@ page {
       position: relative;
       width: 100%;
       box-sizing: border-box;
+      padding: 0px !important;
+      border: none !important;
+
+      .custom-textarea {
+        width: 100%;
+        resize: none;
+        font-size: 14px;
+
+        &.error {
+          border-color: var(--theme-error-color, #ff4d4f);
+        }
+      }
 
       .word-count {
         position: absolute;
-        bottom: 8px;
-        right: 8px;
+        bottom: 12rpx;
+        right: 24rpx;
         font-size: 12px;
         opacity: 0.7;
-      }
-    }
-
-    .custom-textarea {
-      width: 100%;
-      resize: none;
-      font-size: 14px;
-
-      &.error {
-        border-color: #ff4d4f;
+        color: var(--theme-secondary-text-color);
       }
     }
   }

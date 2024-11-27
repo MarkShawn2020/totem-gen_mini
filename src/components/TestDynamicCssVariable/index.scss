@@ -1,0 +1,14 @@
+.test-color {
+  position: fixed;
+  left: 24rpx;
+  top: 24rpx;
+  z-index: 10000;
+
+  .test-1 {
+    color: var(--primary-color);
+  }
+
+  .test-2 {
+    color: var(--theme-primary);
+  }
+}

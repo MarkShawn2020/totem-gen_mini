@@ -1,4 +1,6 @@
+
 page {
+  // 1. 基础变量定义
   // 基础颜色
   --white: #ffffff;
   --black: #000000;
@@ -14,10 +16,42 @@ page {
   --gray-800: #1f2937;
   --gray-900: #111827;
 
-  background-color: var(--white);
-  color: var(--gray-900);
 
-  // 增加选择器权重和更完整的选择器覆盖
+  // 2. 主题变量 - 这些变量会被 JavaScript 动态修改
+  --primary-color: #007aff;
+  --background-color: #ffffff;
+  --surface-color: #ffffff;
+  --text-color: #111827;
+  --secondary-text-color: #6b7280;
+  --border-color: #e5e7eb;
+  --error-color: #ff4d4f;
+
+  // 3. 语义化变量 - 使用主题变量
+  --theme-primary: var(--primary-color);
+  --theme-bg: var(--background-color);
+  --theme-surface: var(--surface-color);
+  --theme-text: var(--text-color);
+  --theme-text-secondary: var(--secondary-text-color);
+  --theme-border: var(--border-color);
+  --theme-error: var(--error-color);
+
+  // 4. 透明度变体
+  --theme-bg-alpha-80: rgba(var(--background-color-rgb), 0.8);
+  --theme-primary-alpha-10: rgba(var(--primary-color-rgb), 0.1);
+  --theme-primary-alpha-20: rgba(var(--primary-color-rgb), 0.2);
+
+  // 5. 应用基础样式
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-text) !important;
+
+  // 6. 全局盒模型设置
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  // 7. 常用组件默认样式
   view,
   text,
   button,
@@ -28,16 +62,31 @@ page {
   navigator {
     box-sizing: border-box;
   }
+}
 
-  // 通配符选择器作为补充
-  * {
-    box-sizing: border-box;
-  }
+// 7. 常用组件默认样式
+.nut-button {
+  --nut-button-primary-background-color: var(--theme-primary);
+  --nut-button-primary-border-color: var(--theme-primary);
+}
 
-  *::before,
-  *::after {
-    box-sizing: inherit;
-  }
+.nut-input {
+  --nut-input-border-color: var(--theme-border);
+  --nut-input-text-color: var(--theme-text);
+  --nut-input-padding: 16px !important;
+}
+
+// 8. 通用工具类
+.text-primary {
+  color: var(--theme-primary);
+}
+
+.bg-primary {
+  background-color: var(--theme-primary);
+}
+
+.border-color {
+  border-color: var(--theme-border);
 }
 
 .language-switcher-container {

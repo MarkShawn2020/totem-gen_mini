@@ -8,6 +8,10 @@
   display: flex;
   justify-content: space-between;
   gap: 15px;
+  background: var(--theme-background-color);
+  border-top: 1px solid var(--theme-border-color);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
 
   .step-button {
     flex: 1;

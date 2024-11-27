@@ -33,27 +33,6 @@ export function rgb2cmyk(r: number, g: number, b: number): [number, number, numb
   return [Math.round(c * 100), Math.round(m * 100), Math.round(y * 100), Math.round(k * 100)]
 }
 
-interface ColorAdjustment {
-  lightness?: number // -100 到 100
-  saturation?: number // -100 到 100
-  hue?: number // -360 到 360
-}
-
-export function adjustColor(color: string, adjustment: ColorAdjustment): string {
-  // 将 hex 转换为 HSL
-  const hsl = hexToHSL(color)
-
-  // 调整颜色
-  const newHSL = {
-    h: (hsl.h + (adjustment.hue || 0) + 360) % 360,
-    s: Math.max(0, Math.min(100, hsl.s + (adjustment.saturation || 0))),
-    l: Math.max(0, Math.min(100, hsl.l + (adjustment.lightness || 0))),
-  }
-
-  // 转回 hex
-  return hslToHex(newHSL)
-}
-
 interface HSL {
   h: number
   s: number
@@ -111,4 +90,12 @@ export function hslToHex({ h, s, l }: HSL): string {
       .padStart(2, "0")
   }
   return `#${f(0)}${f(8)}${f(4)}`
+}
+
+// 转换颜色为 RGB 格式的辅助函数
+export const hexToRgb = (hex: string) => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  return result
+    ? `${parseInt(result[1]!, 16)},${parseInt(result[2]!, 16)},${parseInt(result[3]!, 16)}`
+    : null
 }

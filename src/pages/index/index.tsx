@@ -1,3 +1,4 @@
+import { DynamicCssVariableWrapper } from "@/layouts/dynamic-css-variable-wrapper"
 import "@nutui/nutui-react-taro/dist/style.css"
 
 import { View } from "@tarojs/components"
@@ -88,7 +89,10 @@ const IndexContent = () => {
 
   return (
     <View className="index" style={{ backgroundColor: themeConfig.backgroundColor }}>
+      {/*<TestDynamicCssVariable />*/}
+
       <NavBar currentStep={step} />
+
       {renderContent()}
       <StepButtons
         currentStep={step}
@@ -102,11 +106,16 @@ const IndexContent = () => {
   )
 }
 
+/**
+ * todo: 为什么 AppWrapper 在 app.tsx 里不奏效，但是在 pages 里就可以呢？
+ */
 const Index = () => {
   return (
-    <View className="index-container">
-      <IndexContent />
-    </View>
+    <DynamicCssVariableWrapper>
+      <View className="index-container">
+        <IndexContent />
+      </View>
+    </DynamicCssVariableWrapper>
   )
 }
 

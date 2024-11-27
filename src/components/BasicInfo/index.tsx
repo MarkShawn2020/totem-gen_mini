@@ -59,7 +59,15 @@ const BasicInfo = () => {
         <View className="input-section name-section">
           <View className="section-title">
             <Text className="title-text">
-              {t("basicInfo.name.label")}
+              <Text
+                style={
+                  {
+                    // color: themeConfig.primary
+                  }
+                }
+              >
+                {t("basicInfo.name.label")}
+              </Text>
               <Text style={{ color: themeConfig.primary }}>{t("basicInfo.name.required")}</Text>
             </Text>
             <Text className="title-desc">{t("basicInfo.name.description")}</Text>
