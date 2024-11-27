@@ -13,14 +13,15 @@ class App extends Component<PropsWithChildren> {
       i18n.changeLanguage(savedLanguage)
     }
 
-    void Taro.loadFontFace({
-      // global: true,
-      family: "SourceHanSerifHK-Bold",
-      source: 'url("assets/fonts/SourceHanSerifHK-Bold.woff2")',
-      complete: e => {
-        console.log("Loaded font: ", e)
-      },
-    })
+    // taro/微信 不支持基于 API 的本地字体的加载，得用 css
+    // void Taro.loadFontFace({
+    //   // global: true,
+    //   family: "SourceHanSerifHK-Bold",
+    //   source: 'url("assets/fonts/SourceHanSerifHK-Bold.woff2")',
+    //   complete: e => {
+    //     console.log("Loaded font: ", e)
+    //   },
+    // })
   }
 
   override render() {

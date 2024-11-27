@@ -78,7 +78,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({ value, onChange, themeC
               className={`gender-option ${isSelected ? "selected" : ""}`}
               style={{
                 borderColor: `var(--theme-${isSelected ? "primary" : "border"}-color)`,
-                backgroundColor: isSelected ? "var(--theme-surface-color)" : "#ffffff",
+                // backgroundColor: isSelected ? "var(--theme-surface-color)" : "#ffffff",
               }}
               onClick={() => handleSelect(option.value)}
             >
